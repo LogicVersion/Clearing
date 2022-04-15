@@ -1,0 +1,46 @@
+{{numOfChars}}
+<div class="container">
+  <form [formGroup]="empLogin" (ngSubmit)="save()">
+
+    <div [ngClass]="{'has-error': pageErrors.fullName} ">
+      <label for="fullName">FullName</label>
+      <input type="text" formControlName="fullName" (blur)="logValidationErrors()" />
+
+      <span class="help-block" *ngIf="pageErrors.fullName">
+        {{pageErrors.fullName}}
+      </span>
+    </div>
+
+     <div [ngClass]="{'has-error': pageErrors.email} ">
+      <label for="email">email</label>
+      <input type="text" formControlName="email" (blur)="logValidationErrors()" />
+
+      <span class="help-block" *ngIf="pageErrors.email">
+        {{pageErrors.email}}
+      </span>
+    </div>
+
+    <div formGroupName="skills">
+      <label for="skillName">SkillName</label>
+      <input type="text" formControlName="skillName" />
+
+      <label for="Experience">YrsOfExperience</label>
+      <input type="text" formControlName="experience" />
+
+      <div>
+        <label>Proficiency
+            <input type="radio" value="Beginner" formControlName="proficiency">Beginner
+            <input type="radio" value="Senior" formControlName="proficiency" >Senior
+            <input type="radio" value="Advanced" formControlName="proficiency">Advanced
+        </label>
+      </div>
+
+    </div>
+    <button class="btn btn-primary" type="submit">save</button>
+    <div>
+       <button class="btn btn-warning" (click)="onClickLoadData()" type="button">save</button>
+    </div>
+      <!-- <p>{{empLogin | json}}</p> -->
+  </form>
+
+</div>

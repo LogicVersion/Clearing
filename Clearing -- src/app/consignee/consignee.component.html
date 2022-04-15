@@ -1,0 +1,56 @@
+
+<!-- <p>{{custGroups | json}}</p> -->
+        <div class="row">
+          <div class="col-md-6  col-md-offset-3 mx-auto">
+            <form [formGroup]="this.customerService.form" (ngSubmit)="onSubmit()">
+              <input type="hidden" formControlName="SNo">
+
+                <div class="form-group mb-3">
+                <label>ConsigneeCode</label>
+                <input formControlName="ConsigneeCode" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['ConsigneeCode'].errors}">
+                <div class="invalid-feedback" *ngIf="submitted && formControls['ConsigneeCode'].errors">
+                  <label *ngIf="formControls['ConsigneeCode'].errors['required']">This field is required.</label>
+                  <label *ngIf="formControls['ConsigneeCode'].errors['maxlength']">At Most 5 Characters .</label>
+                </div>
+              </div>
+
+              <div class="form-group mb-3">
+                <label>ConsigneeName</label>
+                <input formControlName="ConsigneeName" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['ConsigneeName'].errors}">
+                <div class="invalid-feedback" *ngIf="submitted && formControls['ConsigneeName'].errors">
+                  Invalid ConsigneeName.</div>
+              </div>
+
+              <div class="form-group mb-3">
+                  <label>GroupName</label>
+                  <select  formControlName="GroupName" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['GroupName'].errors}" >
+                    <option value="0" >--Select--</option>
+                    <!-- <option *ngFor="let custGroup of custGroups" value="{{custGroup.ID}}" > {{custGroup.GroupName}} </option> -->
+                    <option *ngFor="let item of itemList" value="{{item.GroupName}}">{{item.GroupName}}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="submitted && formControls['GroupName'].errors">
+                    <label *ngIf="formControls['GroupName'].errors['required']">This field is required.</label>
+                  </div>
+              </div>
+
+              <div class="form-group mb-3 ">
+                <label>ConsigneeAddress</label>
+                <input formControlName="ConsigneeAddress" class="form-control">
+              </div>
+              <div class="form-group mb-3">
+                <input type="submit" class="btn btn-primary" value="Submit">
+              </div>
+            </form>
+            <div class="alert alert-info"  *ngIf="showSuccessMessage">
+              Submitted successfully.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1 mx-auto">
+            <app-consignee-list></app-consignee-list>
+          </div>
+        </div>
+
