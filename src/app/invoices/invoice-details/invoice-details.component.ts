@@ -8,6 +8,7 @@ import { InvoiceListComponent } from '../invoice-list/invoice-list.component';
 import { UtilityService } from '../../shared/utility.service';
 import { Invoice } from '../invoice.model';
 import { ClearingItemService } from 'src/app/shared/bill-item.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-invoice-details',
@@ -19,7 +20,8 @@ export class InvoiceDetailsComponent implements OnInit {
     public utilSvc: UtilityService,
     public service: InvoiceService,
     private itemService: ClearingItemService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialogRef: MatDialogRef<InvoiceDetailsComponent>
   ) {}
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
@@ -172,6 +174,13 @@ export class InvoiceDetailsComponent implements OnInit {
     this.utilSvc.setButtons(false);
     this.service.enableFields(true);
   }
+
+  onClose(){
+    this.service.form.reset();
+    this.service.clearFields();
+    this.dialogRef.close();
+  }
+
 }
 
 

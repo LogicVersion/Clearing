@@ -7,6 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 import { InvoiceListComponent } from '../invoice-list/invoice-list.component';
 import { UtilityService } from '../../shared/utility.service';
 import { Invoice } from '../invoice.model';
+import { MatDialog ,MatDialogConfig} from '@angular/material/dialog';
+import { InvoiceDetailsComponent } from '../invoice-details/invoice-details.component';
 
 @Component({
   selector: 'app-invoice',
@@ -18,7 +20,9 @@ export class InvoiceComponent implements OnInit {
     public utilSvc: UtilityService,
     public service: InvoiceService,
     private customerService: ConsigneeService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialog: MatDialog
+
   ) {}
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
@@ -172,6 +176,16 @@ export class InvoiceComponent implements OnInit {
     this.utilSvc.setButtons(false);
     this.service.enableFields(true);
   }
+AddToBill(){
+  const dialogConfig= new MatDialogConfig();
+  dialogConfig.disableClose=true;
+  dialogConfig.autoFocus=true;
+  dialogConfig.width = '70%';
+  dialogConfig.height = '70%';
+  this.dialog.open(InvoiceDetailsComponent, dialogConfig);
+}
+
+
 }
 
 

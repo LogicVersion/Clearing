@@ -67,8 +67,9 @@ import { InvoiceDetailsComponent } from './invoices/invoice-details/invoice-deta
     ConsigneeService,
     ConsigneeGroupService,
     { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
-    UtilityService
+    UtilityService,
   ],
+  entryComponents: [InvoiceDetailsComponent],
   bootstrap: [AppComponent, LoadingService],
 })
 export class AppModule {}
