@@ -26,6 +26,7 @@ import { DisabledDirective } from './disabled.directive';
 import { UtilityService } from './shared/utility.service';
 import { InvoiceComponent } from './invoices/invoice/invoice.component';
 import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
+import { InvoiceDetailsComponent } from './invoices/invoice-details/invoice-details.component';
 
 
 
@@ -46,6 +47,7 @@ import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.compo
     DisabledDirective,
     InvoiceComponent,
     InvoiceListComponent,
+    InvoiceDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,37 +12,37 @@
   <mat-table [dataSource]="dataSource" matSort >
     <!-- PK_SNo Column -->
     <ng-container matColumnDef="PK_SNo">
-      <mat-header-cell *matHeaderCellDef>       PK_SNo. </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>SNo</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.PK_SNo}} </mat-cell>
     </ng-container>
 
     <!-- dtDate Column -->
     <ng-container matColumnDef="dtDate">
-      <mat-header-cell *matHeaderCellDef> dtDate </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.dtDate}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dtDate | date}} </mat-cell>
     </ng-container>
 
     <!-- ConsigeeName Column -->
     <ng-container matColumnDef="JobCode">
-      <mat-header-cell mat-sort-header *matHeaderCellDef> JobCode </mat-header-cell>
+      <mat-header-cell mat-sort-header *matHeaderCellDef > JobCode </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.JobCode}} </mat-cell>
     </ng-container>
 
     <!-- billNO Column -->
     <ng-container matColumnDef="billNO">
-      <mat-header-cell mat-sort-header *matHeaderCellDef> billNO </mat-header-cell>
+      <mat-header-cell mat-sort-header *matHeaderCellDef>BillNO</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.billNO}} </mat-cell>
     </ng-container>
 
     <!-- drgName Column -->
     <ng-container matColumnDef="drgName">
-      <mat-header-cell mat-sort-header *matHeaderCellDef> drgName </mat-header-cell>
+      <mat-header-cell mat-sort-header *matHeaderCellDef> ItemName </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.drgName}} </mat-cell>
     </ng-container>
     <!-- subTotal Column -->
     <ng-container matColumnDef="subTotal">
-      <mat-header-cell *matHeaderCellDef> subTotal </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.subTotal}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef> SubTotal </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.subTotal | number: '1.2-2'}} </mat-cell>
     </ng-container>
 
     <!-- VAT Column -->
@@ -56,6 +56,13 @@
       <mat-header-cell *matHeaderCellDef> Interest </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.Interest}} </mat-cell>
     </ng-container>
+
+    <!-- AmountPaid Column -->
+    <ng-container matColumnDef="AmountPaid">
+      <mat-header-cell *matHeaderCellDef> AmountPaid </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.AmountPaid}} </mat-cell>
+    </ng-container>
+
 
     <!-- Total Column -->
     <ng-container matColumnDef="Total">

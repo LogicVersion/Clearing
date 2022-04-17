@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.model';
-import { Invoice } from './invoice.model';
+import { Invoice, InvoiceDetails, InvoiceList } from './invoice.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,6 @@ export class InvoiceService {
 
   //form: Invoice = new Invoice();
 
-
   form = this.fb.group({
     ID: [0],
     bDate: [new Date(), [Validators.required]],
@@ -27,13 +26,14 @@ export class InvoiceService {
     billType: ['', [Validators.required]],
     JobNature: ['', [Validators.required]],
     pNo: ['', [Validators.required]],
+    ConsigneeCode: ['', [Validators.required]],
     AmountBilledInWord: ['', [Validators.required]],
     IssuedBy: ['', [Validators.required]],
     GoodsDescription: ['', [Validators.required]],
     BLNo: ['', [Validators.required]],
     CheckedBy: ['', [Validators.required]],
     Carrier: ['', [Validators.required]],
-    Weight: [0, [Validators.required]],
+    Weight: [0], //[Validators.required]],
     JobStartDate: [new Date(), [Validators.required]],
     JobEndDate: [new Date(), [Validators.required]],
     NoOf20Ft: [0, [Validators.required]],
@@ -80,18 +80,6 @@ export class InvoiceService {
   //             confirmPassword: ['', this.isAddMode ? Validators.required : Validators.nullValidator]
 
   clearFields() {
-
-    // this.form.setValue({
-    //   SNo: 0,
-    //   ConsigneeCode: '',
-    //   ConsigneeName: '',
-    //   GroupName: '--Select--',
-    //   ConsigneeAddress: '',
-    // });
-  }
-
-  FormData(cust: Invoice): void {
-    //this.service.FormData = Object.assign({}, bItem);
     this.form.setValue({
       ID: [0],
       bDate: [new Date()],
@@ -100,6 +88,7 @@ export class InvoiceService {
       billType: [''],
       JobNature: [''],
       pNo: [''],
+      ConsigneeCode: [''],
       AmountBilledInWord: [''],
       IssuedBy: [''],
       GoodsDescription: [''],
@@ -116,13 +105,47 @@ export class InvoiceService {
     });
   }
 
-  invoiceList: Invoice[] = [];
+  FormData(inv: Invoice): void {
+    this.form.setValue({
+      ID: 0, //inv.ID,
+      bDate: inv.bDate,
+      billNO: inv.billNO,
+      JobCode: inv.JobCode,
+      billType: inv.billType,
+      JobNature: inv.JobNature,
+      pNo: inv.pNo,
+      ConsigneeCode: inv.ConsigneeCode,
+      AmountBilledInWord: inv.AmountBilledInWord,
+      IssuedBy: inv.IssuedBy,
+      GoodsDescription: inv.GoodsDescription,
+      BLNo: inv.BLNo,
+      CheckedBy: inv.CheckedBy,
+      Carrier: inv.Carrier,
+      Weight: 0, //inv.Weight,
+      JobStartDate: inv.JobStartDate,
+      JobEndDate: inv.JobEndDate,
+      NoOf20Ft: inv.NoOf20Ft,
+      NoOf40Ft: inv.NoOf40Ft,
+      Content: inv.Content,
+      Voy: inv.Voy,
+    });
+  }
 
-  readonly rootURL = environment.appURL + '/consignees';
+  invoiceList: InvoiceList[] = [];
+  invoiceMasterArr: Invoice[] = [];
+  invoiceDetailsArr: InvoiceDetails[] = [];
+
+  readonly appURL = environment.appURL + '/billings';
+
+  // getListCombo() {
+  //   return this.http.get(this.appURL).toPromise();
+  //   //.then((res) => (this.invoiceMasterArr = res as Invoice[]));
+  //   //console.log(this.customerGroupList);
+  // }
 
   getList() {
-    return this.http.get(this.rootURL);
-    // this.http.get(this.rootURL);
+    return this.http.get(this.appURL);
+    // this.http.get(this.appURL);
     // .toPromise()
     // .then((res) => (this.InvoiceList = res as Invoice[]));
     // console.log(this.InvoiceList);
@@ -135,7 +158,7 @@ export class InvoiceService {
 
   insertRecord(formData: Invoice) {
     // console.log(formData);
-    return this.http.post(this.rootURL, formData);
+    return this.http.post(this.appURL, formData);
   }
 
   // insertInvoice(Invoice) {
@@ -148,11 +171,11 @@ export class InvoiceService {
   // }
 
   updateRecord(formData: Invoice) {
-    return this.http.put(this.rootURL + '/' + formData.ConsigneeCode, formData);
+    return this.http.put(this.appURL + '/' + formData.ConsigneeCode, formData);
   }
 
   deleteRecord(id: string) {
-    return this.http.delete(this.rootURL + '/' + id);
+    return this.http.delete(this.appURL + '/' + id);
   }
 
   // updateInvoice(Invoice: ) {

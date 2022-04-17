@@ -11,7 +11,7 @@ import { identity } from 'rxjs';
 import { DatatableDataSource, DatatableItem } from 'src/app/datatable/datatable-datasource';
 import { UtilityService } from 'src/app/shared/utility.service';
 import { InvoiceService } from '../invoice.service';
-import { Invoice } from '../invoice.model';
+import { Invoice, InvoiceList } from '../invoice.model';
 
 @Component({
   selector: 'app-invoice-list',
@@ -28,6 +28,7 @@ export class InvoiceListComponent implements OnInit {
     'subTotal',
     'VAT',
     'Interest',
+    'AmountPaid',
     'Total',
     'actions',
   ];
@@ -57,7 +58,7 @@ export class InvoiceListComponent implements OnInit {
 
   reLoadData(): void {
     this.service.getList().subscribe((res) => {
-      this.service.invoiceList = res as Invoice[];
+      this.service.invoiceList = res as InvoiceList[];
       this.dataSource = new MatTableDataSource(this.service.invoiceList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -119,7 +120,7 @@ export class InvoiceListComponent implements OnInit {
     let rowCopy;
     rowCopy = Object.assign({}, row);
     this.service.FormData(rowCopy);
-    this.service.key = row.ConsigneeCode; //strParam
+    this.service.key = row.billNO; //strParam
   }
 
   onDelete(row: Customer) {

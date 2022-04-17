@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { InvoiceService } from '../invoice.service';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ConsigneeService } from '../../shared/consignee.service';
@@ -7,17 +7,18 @@ import { ToastrService } from 'ngx-toastr';
 import { InvoiceListComponent } from '../invoice-list/invoice-list.component';
 import { UtilityService } from '../../shared/utility.service';
 import { Invoice } from '../invoice.model';
+import { ClearingItemService } from 'src/app/shared/bill-item.service';
 
 @Component({
-  selector: 'app-invoice',
-  templateUrl: './invoice.component.html',
-  styleUrls: ['./invoice.component.css'],
+  selector: 'app-invoice-details',
+  templateUrl: './invoice-details.component.html',
+  styleUrls: ['./invoice-details.component.css'],
 })
-export class InvoiceComponent implements OnInit {
+export class InvoiceDetailsComponent implements OnInit {
   constructor(
     public utilSvc: UtilityService,
     public service: InvoiceService,
-    private customerService: ConsigneeService,
+    private itemService: ClearingItemService,
     private toastr: ToastrService
   ) {}
   submitted: boolean = false;
@@ -30,7 +31,7 @@ export class InvoiceComponent implements OnInit {
   ngOnInit() {
     //this.reloadData
     this.utilSvc.setButtons(true);
-    this.customerService
+    this.itemService
       .getListCombo()
       .then((res) => (this.itemList = res as Customer[]));
   }
@@ -158,7 +159,6 @@ export class InvoiceComponent implements OnInit {
     //   Voy: [''],
     // });
   }
-
 
   cancelEntry() {
     this.service.flgEdit = false;

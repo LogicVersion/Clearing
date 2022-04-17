@@ -35,10 +35,10 @@ export class ClearingItemService {
   list: ClearingItem[] = [];
   formData!: ClearingItem;
   readonly rootURL = environment.appURL + '/ClearingItems';
-  corsHeaders: HttpHeaders  = new HttpHeaders({
+  corsHeaders: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'Access-Control-Allow-Origin': 'http://localhost:4200'
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
   });
 
   constructor(private http: HttpClient) {}
@@ -47,8 +47,14 @@ export class ClearingItemService {
     return this.http.post(this.rootURL, formData);
   }
 
+  getListCombo() {
+    return this.http.get(this.rootURL).toPromise();
+    //.then((res) => (this.invoiceMasterArr = res as Invoice[]));
+    //console.log(this.customerGroupList);
+  }
+
   reloadList() {
-    return this.http.get(this.rootURL);//, {headers: this.corsHeaders}
+    return this.http.get(this.rootURL); //, {headers: this.corsHeaders}
     // .subscribe((res) => (this.list = res as ClearingItem[]));
     // .toPromise()
     // .then((res) => (this.list = res as ClearingItem[]));
