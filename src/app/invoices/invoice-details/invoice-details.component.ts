@@ -131,7 +131,7 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   resetForm() {
-    if (this.service.form) this.service.form.reset();
+    if (this.service.form.valid) this.service.form.reset();
 
     //this.service.form= new Invoice();
     this.service.flgEdit = false;
