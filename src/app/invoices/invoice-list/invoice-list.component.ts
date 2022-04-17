@@ -57,8 +57,8 @@ export class InvoiceListComponent implements OnInit {
 
   reLoadData(): void {
     this.service.getList().subscribe((res) => {
-      this.service.customerList = res as Invoice[];
-      this.dataSource = new MatTableDataSource(this.service.customerList); //ELEMENT_DATA;
+      this.service.invoiceList = res as Invoice[];
+      this.dataSource = new MatTableDataSource(this.service.invoiceList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     });
@@ -111,7 +111,7 @@ export class InvoiceListComponent implements OnInit {
     this.dataSource.filter = filterText.trim().toLowerCase();
   }
 
-  populateForm(row: Customer) {
+  populateForm(row: Invoice) {
     //this.service.FormData = Object.assign({}, row);
     this.service.flgEdit = true;
     this.service.enableFields(true);

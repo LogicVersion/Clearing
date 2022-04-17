@@ -90,18 +90,33 @@ export class InvoiceService {
     // });
   }
 
-  FormData(cust: Customer): void {
+  FormData(cust: Invoice): void {
     //this.service.FormData = Object.assign({}, bItem);
     this.form.setValue({
-      SNo: cust.SNo,
-      ConsigneeCode: cust.ConsigneeCode,
-      ConsigneeName: cust.ConsigneeName,
-      GroupName: cust.GroupName,
-      ConsigneeAddress: cust.ConsigneeAddress,
+      ID: [0],
+      bDate: [new Date()],
+      billNO: ['***'],
+      JobCode: [''],
+      billType: [''],
+      JobNature: [''],
+      pNo: [''],
+      AmountBilledInWord: [''],
+      IssuedBy: [''],
+      GoodsDescription: [''],
+      BLNo: [''],
+      CheckedBy: [''],
+      Carrier: [''],
+      Weight: [0],
+      JobStartDate: [new Date()],
+      JobEndDate: [new Date()],
+      NoOf20Ft: [0],
+      NoOf40Ft: [0],
+      Content: [''],
+      Voy: [''],
     });
   }
 
-  customerList: Customer[] = [];
+  invoiceList: Invoice[] = [];
 
   readonly rootURL = environment.appURL + '/consignees';
 
@@ -109,8 +124,8 @@ export class InvoiceService {
     return this.http.get(this.rootURL);
     // this.http.get(this.rootURL);
     // .toPromise()
-    // .then((res) => (this.customerList = res as Customer[]));
-    // console.log(this.customerList);
+    // .then((res) => (this.InvoiceList = res as Invoice[]));
+    // console.log(this.InvoiceList);
   }
 
   // getListFirebase() {
@@ -118,21 +133,21 @@ export class InvoiceService {
   //   return this.employeeList.snapshotChanges();
   // }
 
-  insertRecord(formData: Customer) {
+  insertRecord(formData: Invoice) {
     // console.log(formData);
     return this.http.post(this.rootURL, formData);
   }
 
-  // insertCustomer(customer) {
-  //   this.customerList.push({
-  //     fullName: customer.fullName,
-  //     email: customer.email,
-  //     mobile: customer.mobile,
-  //     location: customer.location,
+  // insertInvoice(Invoice) {
+  //   this.InvoiceList.push({
+  //     fullName: Invoice.fullName,
+  //     email: Invoice.email,
+  //     mobile: Invoice.mobile,
+  //     location: Invoice.location,
   //   });
   // }
 
-  updateRecord(formData: Customer) {
+  updateRecord(formData: Invoice) {
     return this.http.put(this.rootURL + '/' + formData.ConsigneeCode, formData);
   }
 
@@ -140,16 +155,16 @@ export class InvoiceService {
     return this.http.delete(this.rootURL + '/' + id);
   }
 
-  // updateCustomer(customer: ) {
-  //   this.customerList.update(customer.$key, {
-  //     fullName: customer.fullName,
-  //     email: customer.email,
-  //     mobile: customer.mobile,
-  //     location: customer.location,
+  // updateInvoice(Invoice: ) {
+  //   this.InvoiceList.update(Invoice.$key, {
+  //     fullName: Invoice.fullName,
+  //     email: Invoice.email,
+  //     mobile: Invoice.mobile,
+  //     location: Invoice.location,
   //   });
   // }
 
-  // deleteCustomer($key: string) {
-  //   this.customerList.remove($key);
+  // deleteInvoice($key: string) {
+  //   this.InvoiceList.remove($key);
   // }
 }
