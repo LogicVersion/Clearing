@@ -9,6 +9,7 @@ import { UtilityService } from '../../shared/utility.service';
 import { Invoice } from '../invoice.model';
 import { ClearingItemService } from 'src/app/shared/bill-item.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ClearingItem } from 'src/app/shared/bill-item.model';
 
 @Component({
   selector: 'app-invoice-details',
@@ -26,7 +27,7 @@ export class InvoiceDetailsComponent implements OnInit {
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
   public formControls = this.service.form.controls;
-  itemList: Customer[] = []; //=this.customerGroupService.customerGroupList;
+  itemList: ClearingItem[] = []; //=this.customerGroupService.customerGroupList;
   // snoVal = this.service.form.get('SNo')?.value;
   messages: any[] = [];
 
@@ -35,7 +36,7 @@ export class InvoiceDetailsComponent implements OnInit {
     this.utilSvc.setButtons(true);
     this.itemService
       .getListCombo()
-      .then((res) => (this.itemList = res as Customer[]));
+      .then((res) => (this.itemList = res as ClearingItem[]));
   }
 
   @ViewChild(InvoiceListComponent) childRef?: InvoiceListComponent;
