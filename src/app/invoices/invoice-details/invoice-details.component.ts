@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  Inject,
+} from '@angular/core';
 import { InvoiceService } from '../invoice.service';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ConsigneeService } from '../../shared/consignee.service';
@@ -8,7 +14,7 @@ import { InvoiceListComponent } from '../invoice-list/invoice-list.component';
 import { UtilityService } from '../../shared/utility.service';
 import { Invoice } from '../invoice.model';
 import { ClearingItemService } from 'src/app/shared/bill-item.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClearingItem } from 'src/app/shared/bill-item.model';
 
 @Component({
@@ -22,8 +28,10 @@ export class InvoiceDetailsComponent implements OnInit {
     public service: InvoiceService,
     private itemService: ClearingItemService,
     private toastr: ToastrService,
-    private dialogRef: MatDialogRef<InvoiceDetailsComponent>
+    private dialogRef: MatDialogRef<InvoiceDetailsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
   public formControls = this.service.form.controls;
@@ -176,12 +184,20 @@ export class InvoiceDetailsComponent implements OnInit {
     this.service.enableFields(true);
   }
 
-  onClose(){
+  onClose() {
     this.service.form.reset();
     this.service.clearFields();
     this.dialogRef.close();
   }
 
+  addToGrid() {
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = true;
+    // dialogConfig.autoFocus = true;
+    // dialogConfig.width = '70%';
+    // dialogConfig.height = '70%';
+    // this.dialog.open(InvoiceDetailsComponent, dialogConfig);
+  }
 }
 
 

@@ -22,7 +22,6 @@ export class InvoiceComponent implements OnInit {
     private customerService: ConsigneeService,
     private toastr: ToastrService,
     private dialog: MatDialog
-
   ) {}
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
@@ -31,8 +30,29 @@ export class InvoiceComponent implements OnInit {
   // snoVal = this.service.form.get('SNo')?.value;
   messages: any[] = [];
 
+  today: String=''; //<- note String
+  date: Date = new Date();
+
+  // // today: String=''; //<- note String
+  // // date: Date = new Date();
+  //  today: Date = new Date(); // Date = new Date();
+  // dateStr: String = ''; //String=''; //<- note String
+
   ngOnInit() {
     //this.reloadData
+    this.today = this.date.toISOString().substr(0, 10);
+    //this.today = new Date().toLocaleDateString();
+    // console.log(today)
+
+    // this.today =
+    //   this.date.getFullYear() +
+    //   '-' +
+    //   (this.date.getMonth() + 1) +
+    //   '-' +
+    //   this.date.getDate();
+    // console.log(today)
+    // // output 2021-7-9
+
     this.utilSvc.setButtons(true);
     this.customerService
       .getListCombo()
@@ -163,7 +183,6 @@ export class InvoiceComponent implements OnInit {
     // });
   }
 
-
   cancelEntry() {
     this.service.flgEdit = false;
     this.utilSvc.setButtons(true);
@@ -176,16 +195,18 @@ export class InvoiceComponent implements OnInit {
     this.utilSvc.setButtons(false);
     this.service.enableFields(true);
   }
-AddToBill(){
-  const dialogConfig= new MatDialogConfig();
-  dialogConfig.disableClose=true;
-  dialogConfig.autoFocus=true;
-  dialogConfig.width = '70%';
-  dialogConfig.height = '70%';
-  this.dialog.open(InvoiceDetailsComponent, dialogConfig);
-}
-
-
+  AddToBill() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '70%';
+    dialogConfig.height = '70%';
+    dialogConfig.data = {
+      billNO: this.service.billNoVal,
+      bDate: this.service.bDateVal,
+    };
+    this.dialog.open(InvoiceDetailsComponent, dialogConfig);
+  }
 }
 
 

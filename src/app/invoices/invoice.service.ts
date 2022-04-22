@@ -20,12 +20,12 @@ export class InvoiceService {
 
   form = this.fb.group({
     ID: [0],
-    bDate: [new Date(), [Validators.required]],
+    bDate: [new Date().toISOString().substr(0, 10), [Validators.required]],
     billNO: ['***', [Validators.required]],
     JobCode: ['', [Validators.required]],
     billType: ['', [Validators.required]],
     JobNature: ['', [Validators.required]],
-    pNo: ['', [Validators.required]],
+    pNo: ['0', [Validators.required]],
     ConsigneeCode: ['', [Validators.required]],
     AmountBilledInWord: ['', [Validators.required]],
     IssuedBy: ['', [Validators.required]],
@@ -44,6 +44,8 @@ export class InvoiceService {
 
   flgEdit = false;
   key: string = '';
+  billNoVal: string = '';
+  bDateVal: Date = new Date();
 
   enableFields(blnVal = true) {
     if (blnVal) {
@@ -82,12 +84,12 @@ export class InvoiceService {
   clearFields() {
     this.form.setValue({
       ID: [0],
-      bDate: [new Date()],
+      bDate: [new Date().toISOString().substr(0, 10)],
       billNO: ['***'],
       JobCode: [''],
       billType: [''],
       JobNature: [''],
-      pNo: [''],
+      pNo: ['0'],
       ConsigneeCode: [''],
       AmountBilledInWord: [''],
       IssuedBy: [''],
@@ -108,7 +110,7 @@ export class InvoiceService {
   FormData(inv: Invoice): void {
     this.form.setValue({
       ID: 0, //inv.ID,
-      bDate: inv.bDate,
+      bDate: inv.bDate.toISOString().substr(0, 10), //.toISOString().substr(0, 10)
       billNO: inv.billNO,
       JobCode: inv.JobCode,
       billType: inv.billType,

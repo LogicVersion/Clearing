@@ -10,6 +10,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
  import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -23,6 +24,7 @@ const MaterialComponents = [
   MatPaginatorModule,
   MatDialogModule,
   MatToolbarModule,
+  MatDatepickerModule
 ];
 
 @NgModule({

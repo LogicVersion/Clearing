@@ -100,6 +100,16 @@ mat-footer-row mat-footer-cell{
 
  */
 
+.form-control,
+.input-group-text {
+  border: 1px solid #0080ff;
+}
+
+table.table-hover tbody tr:hover {
+  cursor: pointer;
+}
+
+
  @media all and (min-width: 992px) {
 	.dropdown-menu li{ position: relative; 	}
 	.nav-item .submenu{
@@ -141,7 +151,7 @@ mat-footer-row mat-footer-cell{
 
 
 .form-group>input{
-    font-weight: bolder;
+    font-weight: lighter;
 }
 .form-group>label{
     font-weight: lighter;

@@ -12,7 +12,7 @@ import { DatatableDataSource, DatatableItem } from 'src/app/datatable/datatable-
 import { UtilityService } from 'src/app/shared/utility.service';
 import { InvoiceService } from '../invoice.service';
 import { Invoice, InvoiceList } from '../invoice.model';
-
+//import { DateFormatPipe } from 'src/app/shared/utility.service';
 @Component({
   selector: 'app-invoice-list',
   templateUrl: './invoice-list.component.html',
@@ -20,16 +20,12 @@ import { Invoice, InvoiceList } from '../invoice.model';
 })
 export class InvoiceListComponent implements OnInit {
   displayedColumns: string[] = [
-    'PK_SNo',
-    'dtDate',
+    'ID',
+    'bDate',
     'JobCode',
     'billNO',
-    'drgName',
-    'subTotal',
-    'VAT',
-    'Interest',
-    'AmountPaid',
-    'Total',
+    'billType',
+    'JobNature',
     'actions',
   ];
 
@@ -121,6 +117,9 @@ export class InvoiceListComponent implements OnInit {
     rowCopy = Object.assign({}, row);
     this.service.FormData(rowCopy);
     this.service.key = row.billNO; //strParam
+
+    this.service.billNoVal = row.billNO;
+    this.service.bDateVal = row.bDate;
   }
 
   onDelete(row: Customer) {

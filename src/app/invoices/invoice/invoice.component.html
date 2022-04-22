@@ -90,12 +90,10 @@
         </div>
       </div>
 
+
       <div class="form-group col-md-5 mb-3 mt-3 ">
         <label for="bDate">InvoiceDate</label>
         <input type="date"
-          data-date-inline-picker="true"
-          data-date-format="dd-MMM-yy"
-          placeholder="dd-mmm-yy"
           id="bDate"
           formControlName="bDate"
           class="form-control" [ngClass]="{'is-invalid':submitted && formControls['bDate'].errors}">
@@ -146,7 +144,7 @@
               <select id="pNo" formControlName="pNo"
                 class="form-control" [ngClass]="{'is-invalid': submitted && formControls['pNo'].errors}">
                 <option value="0">--Select--</option>
-                <option *ngFor="let item of itemList" value="{{item.ConsigneeCode}}">{{item.ConsigneeName}}</option>
+                <option *ngFor="let item of itemList" [value]="item.ConsigneeCode">{{item.ConsigneeName}}</option>
               </select>
         <div class="invalid-feedback" *ngIf="submitted && formControls['pNo'].errors" >
           <label *ngIf="formControls['pNo'].errors['required']" >This field is required.</label>
@@ -185,7 +183,7 @@
           </div>
         </div> -->
 
-        <div class="form-group col-md-2 mb-3 ">
+        <div class="form-group col-md-4 mb-3 ">
           <label for="Voy">Voy</label>
           <input id="Voy"  formControlName="Voy" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Voy'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Voy'].errors">

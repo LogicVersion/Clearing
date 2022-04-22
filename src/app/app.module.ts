@@ -27,7 +27,8 @@ import { UtilityService } from './shared/utility.service';
 import { InvoiceComponent } from './invoices/invoice/invoice.component';
 import { InvoiceListComponent } from './invoices/invoice-list/invoice-list.component';
 import { InvoiceDetailsComponent } from './invoices/invoice-details/invoice-details.component';
-
+import { DateFormatPipe } from './shared/date-format.pipe';
+import {BsDatepickerModule} from 'ngx-bootstrap/datepicker'
 
 
 
@@ -48,6 +49,7 @@ import { InvoiceDetailsComponent } from './invoices/invoice-details/invoice-deta
     InvoiceComponent,
     InvoiceListComponent,
     InvoiceDetailsComponent,
+    DateFormatPipe,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +63,7 @@ import { InvoiceDetailsComponent } from './invoices/invoice-details/invoice-deta
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    BsDatepickerModule.forRoot(),
   ],
   providers: [
     ClearingItemService,
