@@ -5,6 +5,7 @@ export class Invoice {
   billNO: string = '***';
   JobCode: string = '';
   billType: string = '--Select--';
+  JobNature: string = '--Select--';
   pNo: string = '';
   clientID: string = '';
   AmountBilled: number = 0;
@@ -33,10 +34,9 @@ export class Invoice {
   NoOf20Ft: number = 0;
   NoOf40Ft: number = 0;
   Content: string = '';
-  JobNature: string = '--Select--';
   Address: string = '';
   Voy: string = '';
-  //invoiceDetails: InvoiceDetails[] = [];
+  invoiceDetails: InvoiceDetails[] = [];
 }
 
 export class InvoiceDetails {

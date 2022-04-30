@@ -6,7 +6,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.model';
 import { Invoice, InvoiceDetails, InvoiceList } from './invoice.model';
@@ -34,29 +33,13 @@ export class InvoiceService {
     BLNo: ['', [Validators.required]],
     CheckedBy: ['', [Validators.required]],
     Carrier: ['', [Validators.required]],
-    Weight: [0],
+    Weight: [0], //[Validators.required]],
     JobStartDate: [new Date(), [Validators.required]],
     JobEndDate: [new Date(), [Validators.required]],
     NoOf20Ft: [0, [Validators.required]],
     NoOf40Ft: [0, [Validators.required]],
     Content: ['', [Validators.required]],
     Voy: ['', [Validators.required]],
-    clientID: [''],
-    AmountBilled: [0],
-    profFee: [0],
-    AmtBF: [0],
-    AmountPaid: [0],
-    BillingMonth: [''],
-    BillingYear: [0],
-    diagnosis: [''],
-    isPaid: [false],
-    CoyFullName: [''],
-    CoyAddress: [''],
-    PORder: [''],
-    JPCNo: [''],
-    Curr: [''],
-    Address: [''],
-    consultDate: [new Date()],
   });
 
   flgEdit = false;
@@ -124,17 +107,18 @@ export class InvoiceService {
     });
   }
 
-  formatDate(dateVal: any): Date {
-    const d = new Date(dateVal);
-    const dayNum: number = d.getDate() + 1; //+ ('0' + inv.bDate.getDate()).slice(-2);
-    const mthNum: number = d.getMonth(); //+ ('0' + (inv.bDate.getMonth() + 1)).slice(-2);
-    const yrNum: number = d.getFullYear();
+  formatDate(dateVal: any) : Date{
+     const d = new Date(dateVal);
+     const dayNum: number = d.getDate() + 1; //+ ('0' + inv.bDate.getDate()).slice(-2);
+     const mthNum: number = d.getMonth(); //+ ('0' + (inv.bDate.getMonth() + 1)).slice(-2);
+     const yrNum: number = d.getFullYear();
     return new Date(yrNum, mthNum, dayNum);
-  }
+    }
 
   FormData(inv: Invoice): void {
-    //const bDate: Date = this.formatDate(inv.bDate);
-    //const bDate: Date = new Date("2011-09-24T00:00:00".replace(/-/g, '\/').replace(/T.+/, ''));
+
+  //const bDate: Date = this.formatDate(inv.bDate);
+  //const bDate: Date = new Date("2011-09-24T00:00:00".replace(/-/g, '\/').replace(/T.+/, ''));
 
     this.form.setValue({
       ID: 0, //inv.ID,
@@ -166,7 +150,7 @@ export class InvoiceService {
   invoiceDetailsArr: InvoiceDetails[] = [];
 
   readonly appURL = environment.appURL + '/invoices';
-  //readonly appURL ='http://localhost:8081/api/invoices'
+  //readonly appURL ='https://localhost:7118/api/billings'
 
   // getListCombo() {
   //   return this.http.get(this.appURL).toPromise();
@@ -185,6 +169,7 @@ export class InvoiceService {
     // 'content-type: 'application/json',
     // 'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
     // }) })
+
   }
 
   // getListFirebase() {
@@ -192,7 +177,7 @@ export class InvoiceService {
   //   return this.employeeList.snapshotChanges();
   // }
 
-  insertRecord(formData: Invoice): Observable<Invoice> {
+  insertRecord(formData: Invoice) {
     // console.log(formData);
     //let body = JSON.stringify({ formData });
     //let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -203,14 +188,14 @@ export class InvoiceService {
     // console.log(headers);
     //let options = new RequestOptions ({ headers: headers });
     let body = JSON.stringify(formData);
-
-    // let headers = new HttpHeaders({
-    //   'Access-Control-Allow-Origin': '*',
-    //   'content-type': 'application/json',
-    // });
-
-    //console.log(headers);
-    //let options = { headers };
+    
+    let headers = new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
+      'content-type': 'application/json'} )
+    
+    
+      console.log(headers)
+    let options = { headers };
     // let options = {
     //   headers: new HttpHeaders({
     //     'Content-Type': 'application/json'
@@ -218,20 +203,7 @@ export class InvoiceService {
     //   }),
     // };
     //return this.http.post(this.appURL, body, options);
-    return this.http
-      .post<Invoice>(this.appURL, formData, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      })
-      .pipe(catchError((error) => this.handleError(error))); //this.handleError(error)
-  }
-
-  handleError(error: any) {
-    // console.log('Caught in CatchError. Throwing error')
-    // throw new Error(error)  //js syntax
-    //return throwError(() => new error(error.messages || 'server error'))
-    return throwError(() => console.log(error));
+    return this.http.post(this.appURL, formData, options);
   }
 
   // insertInvoice(Invoice) {

@@ -1,0 +1,259 @@
+<mat-toolbar>
+  <!-- <span>{{service.form.controls['$key'].value?"Modify Employee":"New Employee"}}</span> -->
+  <span>Add / Modify Bill Items</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+
+<form [formGroup]="this.service.form" (ngSubmit)="onSubmit()">
+
+  <div class="row">
+    <div class="col-md-5 mx-auto ">
+      <!-- *ngIf="utilSvc.addButtVisible" -->
+        <!-- <div  class="form-group mb-3 mt-3 ">
+          <button mat-raised-button (click)="addNew()" >
+            <mat-icon>add</mat-icon>Add
+          </button>
+        </div> -->
+    </div>
+
+    <div class="col-md-5 mx-auto ">
+        <!-- <div *ngIf="utilSvc.addButtVisible" class="form-group mb-3 mt-3 ">
+          <button mat-raised-button (click)="addNew()" >
+            <mat-icon>add</mat-icon>Add
+          </button>
+        </div> -->
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-5 mx-auto ">
+
+      <input type="hidden" formControlName="ID">
+
+      <div class="row">
+        <div class="form-group col-md-10 mb-3 mt-3 ">
+          <label for="drgName">Bill Item</label>
+                <select id="drgName" formControlName="drgName"
+                  class="form-control" [ngClass]="{'is-invalid': submitted && formControls['drgName'].errors}">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let item of itemList" value="{{item.BillItem}}">{{item.BillItem}}</option>
+                </select>
+          <div class="invalid-feedback" *ngIf="submitted && formControls['drgName'].errors" >
+            <label *ngIf="formControls['drgName'].errors['required']" >This field is required.</label>
+          </div>
+        </div>
+
+        <!-- <div class="form-group col-md-5 mb-3 mt-3">
+          <label for="JobNature">JobNature</label>
+                <select id="JobNature" formControlName="JobNature" class="form-control"
+                  [ngClass]="{'is-invalid': submitted && formControls['JobNature'].errors}">
+                  <option value="0">--Select--</option>
+                  <option value="BOND">BOND</option>
+                  <option value="NORMAL">NORMAL</option>
+                  <option value="PRE-RELEASE">PRE-RELEASE</option>
+                  <option value="AIRPORT">AIRPORT</option>
+
+                </select>
+          <div class="invalid-feedback" *ngIf="submitted && formControls['JobNature'].errors" >
+            <label *ngIf="formControls['JobNature'].errors['required']" >This field is required.</label>
+          </div>
+        </div> -->
+
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-2 mb-3">
+          <label for="Qty">Qty</label>
+          <input id="Qty" formControlName="Qty" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['Qty'].errors">
+            <label *ngIf="formControls['Qty'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="Price">Rate</label>
+          <input id="Price" formControlName="Price" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['Price'].errors">
+            <label *ngIf="formControls['Price'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="AmountPaid">AmountPaid</label>
+          <input id="AmountPaid" formControlName="AmountPaid" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountPaid'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['AmountPaid'].errors">
+            <label *ngIf="formControls['AmountPaid'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+   <div class="col-md-5 mx-auto ">
+
+    <div class="row">
+      <div class="form-group col-md-5 mb-3 mt-3">
+        <label for="billNO">InvoiceNo</label>
+        <input readonly id="billNO" formControlName="billNO" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['billNO'].errors}">
+        <div class="invalid-feedback" *ngIf="submitted && formControls['billNO'].errors">
+          <label *ngIf="formControls['billNO'].errors['required']">This field is required.</label>
+        </div>
+      </div>
+
+      <div class="form-group col-md-5 mb-3 mt-3 ">
+        <label for="bDate">InvoiceDate</label>
+        <input type="date"
+          data-date-inline-picker="true"
+          data-date-format="dd-MMM-yy"
+          placeholder="dd-mmm-yy"
+          id="bDate"
+          formControlName="bDate"
+          class="form-control" [ngClass]="{'is-invalid':submitted && formControls['bDate'].errors}">
+        <div class="invalid-feedback" *ngIf="submitted && formControls['bDate'].errors">
+          Invalid InvoiceDate.</div>
+      </div>
+
+    </div>
+
+      <div class="row">
+        <div class="form-group col-md-4 mb-3">
+          <label for="MarkUp">MarkUp (%)</label>
+          <input id="MarkUp" formControlName="MarkUp" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['MarkUp'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['MarkUp'].errors">
+            <label *ngIf="formControls['MarkUp'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="VAT">VAT</label>
+          <input id="VAT" formControlName="VAT" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['VAT'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['VAT'].errors">
+            <label *ngIf="formControls['VAT'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="Serial">Serial</label>
+          <input id="Serial" formControlName="Serial" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Serial'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['Serial'].errors">
+            <label *ngIf="formControls['Serial'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-5 mx-auto ">
+
+      <div class="row">
+        <div class="form-group col-md-6 mb-3">
+          <label for="subTotal">SubTotal</label>
+          <input readonly  id="subTotal" formControlName="subTotal" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['subTotal'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['subTotal'].errors">
+            <label *ngIf="formControls['subTotal'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-6 mb-3">
+          <label for="Total">Total</label>
+          <input  readonly id="Total" formControlName="Total" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Total'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['Total'].errors">
+            <label *ngIf="formControls['Total'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-5 mx-auto ">
+
+
+      <div class="row">
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="Interest">Interest</label>
+          <input id="Interest" formControlName="Interest" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Interest'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['Interest'].errors">
+            <label *ngIf="formControls['Interest'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="BillCategory">Expense Cat</label>
+          <input readonly  id="BillCategory" formControlName="BillCategory" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillCategory'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['BillCategory'].errors">
+            <label *ngIf="formControls['BillCategory'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-4 mb-3">
+          <label for="BillStatus">Item Status</label>
+          <input readonly  id="BillStatus" formControlName="BillStatus" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillStatus'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['BillStatus'].errors">
+            <label *ngIf="formControls['BillStatus'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-5 mx-auto ">
+      <!-- *ngIf="utilSvc.saveButtVisible" -->
+      <div class="form-group mb-3 ">
+        <input type="button" class="btn btn-link " value="Add to Grid" (click)="addToGrid()">
+        <!-- <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" class="btn btn-secondary">Secondary</button>
+        <button type="button" class="btn btn-success">Success</button>
+        <button type="button" class="btn btn-danger">Danger</button>
+        <button type="button" class="btn btn-warning">Warning</button>
+        <button type="button" class="btn btn-info">Info</button>
+        <button type="button" class="btn btn-light">Light</button>
+        <button type="button" class="btn btn-dark">Dark</button>
+        <button type="button" class="btn btn-link">Link</button> -->
+      </div>
+
+      <!-- <div class="alert alert-info"  *ngIf="showSuccessMessage">
+        Submitted successfully.
+      </div> -->
+
+    </div>
+
+    <div class="col-md-5 mx-auto ">
+      <div  class="form-group mb-3 float-end" >
+
+        <div class="d-grid gap-2">
+          <input type="submit" class="btn btn-primary btn-lg " value="Submit">
+          <!-- <button type="submit" class="btn btn-primary btn-lg">Submit</button> -->
+        </div>
+        <!-- <button type="button" class="btn btn-outline-warning">Warning</button>
+        <input class="btn btn-primary" type="reset" value="Reset">
+        <button type="button" class="btn btn-primary btn-lg">Large button</button>
+        <button type="button" class="btn btn-warning btn-lg">Large button</button> -->
+      </div>
+    </div>
+
+  </div>
+
+</form>
+
+<div class="row">
+  <div class="col-md-10 col-md-offset-1 mx-auto" >
+    <app-invoice-list></app-invoice-list>
+  </div>
+</div>
+
+
+
+

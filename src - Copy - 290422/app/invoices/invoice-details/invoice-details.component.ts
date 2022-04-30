@@ -1,64 +1,50 @@
-import { Component, OnInit,ViewChild,AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  Inject,
+} from '@angular/core';
 import { InvoiceService } from '../invoice.service';
-import {FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { ConsigneeService } from '../../shared/consignee.service';
 import { Customer } from '../../models/customer.model';
 import { ToastrService } from 'ngx-toastr';
 import { InvoiceListComponent } from '../invoice-list/invoice-list.component';
 import { UtilityService } from '../../shared/utility.service';
 import { Invoice } from '../invoice.model';
-import { MatDialog ,MatDialogConfig} from '@angular/material/dialog';
-import { InvoiceDetailsComponent } from '../invoice-details/invoice-details.component';
+import { ClearingItemService } from 'src/app/shared/bill-item.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ClearingItem } from 'src/app/shared/bill-item.model';
 
 @Component({
-  selector: 'app-invoice',
-  templateUrl: './invoice.component.html',
-  styleUrls: ['./invoice.component.css'],
+  selector: 'app-invoice-details',
+  templateUrl: './invoice-details.component.html',
+  styleUrls: ['./invoice-details.component.css'],
 })
-export class InvoiceComponent implements OnInit {
+export class InvoiceDetailsComponent implements OnInit {
   constructor(
     public utilSvc: UtilityService,
     public service: InvoiceService,
-    private customerService: ConsigneeService,
+    private itemService: ClearingItemService,
     private toastr: ToastrService,
-    private dialog: MatDialog
+    private dialogRef: MatDialogRef<InvoiceDetailsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
   public formControls = this.service.form.controls;
-  itemList: Customer[] = []; //=this.customerGroupService.customerGroupList;
+  itemList: ClearingItem[] = []; //=this.customerGroupService.customerGroupList;
   // snoVal = this.service.form.get('SNo')?.value;
   messages: any[] = [];
 
-  //bDate =  this.service.form.controls['bDate'];
-  //bDateVal = new Date('2022-04-22'); // this.service.form.controls['bDate'];
-  today: String = ''; //<- note String
-  date: Date = new Date();
-
-  // // today: String=''; //<- note String
-  // // date: Date = new Date();
-  //  today: Date = new Date(); // Date = new Date();
-  // dateStr: String = ''; //String=''; //<- note String
-
   ngOnInit() {
     //this.reloadData
-    this.today = this.date.toISOString().substr(0, 10);
-    //this.today = new Date().toLocaleDateString();
-    // console.log(today)
-
-    // this.today =
-    //   this.date.getFullYear() +
-    //   '-' +
-    //   (this.date.getMonth() + 1) +
-    //   '-' +
-    //   this.date.getDate();
-    // console.log(today)
-    // // output 2021-7-9
-
     this.utilSvc.setButtons(true);
-    this.customerService
+    this.itemService
       .getListCombo()
-      .then((res) => (this.itemList = res as Customer[]));
+      .then((res) => (this.itemList = res as ClearingItem[]));
   }
 
   @ViewChild(InvoiceListComponent) childRef?: InvoiceListComponent;
@@ -133,12 +119,11 @@ export class InvoiceComponent implements OnInit {
   }
 
   private handleErrors(errors: any) {
-    // this.messages = [];
-    // for (let msg of errors) {
-    //   this.messages.push(msg);
-    // }
-    // console.log(this.messages);
-    console.log(errors);
+    this.messages = [];
+    for (let msg of errors) {
+      this.messages.push(msg);
+    }
+    console.log(this.messages);
   }
 
   notifyForm(updateVal: string) {
@@ -155,7 +140,7 @@ export class InvoiceComponent implements OnInit {
   }
 
   resetForm() {
-    if (this.service.form) this.service.form.reset();
+    if (this.service.form.valid) this.service.form.reset();
 
     //this.service.form= new Invoice();
     this.service.flgEdit = false;
@@ -198,17 +183,20 @@ export class InvoiceComponent implements OnInit {
     this.utilSvc.setButtons(false);
     this.service.enableFields(true);
   }
-  AddToBill() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '70%';
-    dialogConfig.height = '70%';
-    dialogConfig.data = {
-      billNO: this.service.billNoVal,
-      bDate: this.service.bDateVal,
-    };
-    this.dialog.open(InvoiceDetailsComponent, dialogConfig);
+
+  onClose() {
+    this.service.form.reset();
+    this.service.clearFields();
+    this.dialogRef.close();
+  }
+
+  addToGrid() {
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = true;
+    // dialogConfig.autoFocus = true;
+    // dialogConfig.width = '70%';
+    // dialogConfig.height = '70%';
+    // this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
 }
 
