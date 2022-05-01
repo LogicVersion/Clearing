@@ -27,8 +27,56 @@
 //   object = Object.assign({}, ...array);
 // console.log(object);
 
-var d = new Date('2021-09-30T00:00:00');
+const currentMonth = new Date();
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+console.log(months[currentMonth.getMonth()]);
+
+dt=new Date().toLocaleDateString("en-us", {
+  weekday: "long",
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+var d = new Date();
 var today = d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
-console.log(d);
 console.log(today);
+console.log(dt);
+console.log(d);
+
+zt=new Date().toLocaleDateString(); //toDateString()
+console.log(zt);
+
+// toLocaleDateString();
+// toLocaleDateString(locales);
+// toLocaleDateString(locales, options);
+
+const currentDate = new Date();
+
+console.log(currentDate.toISOString());
+
+
+const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+
+console.log(currentDate.toLocaleDateString('en-US', options));
+//Freitag, 2. Juli 2021
+
+console.log(currentDate.toLocaleDateString('ar-EG', options))
+// الجمعة، ٢ يوليو ٢٠٢١
+
+
+
+
 

@@ -99,12 +99,17 @@ export class InvoiceComponent implements OnInit {
     return invalidCtrlX;
   }
 
+  formatDateToString(dateVal: Date): string {
+    return dateVal.toISOString();
+  }
+
   onSubmit() {
     this.submitted = true;
     if (this.service.form.valid) {
-      // console.log(this.findInvalidControlsRecursive(this.service.form));
+      //console.log(this.findInvalidControlsRecursive(this.service.form));
       // if ( this.findInvalidControls(this.service.form) !=null) {
       //console.log(this.service.flgEdit);
+
       if (this.service.flgEdit) {
         this.service.updateRecord(this.service.form.value).subscribe(
           (res) => {

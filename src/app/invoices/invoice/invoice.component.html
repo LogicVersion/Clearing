@@ -96,6 +96,7 @@
         <!-- <input type="text" bsDatepicker -->
         <input id="bDate"
           type="date"
+          valueAsDate="new Date()"
           [formControl]="$any(this.service.form.controls['bDate'])"
           class="form-control" [ngClass]="{'is-invalid':submitted && formControls['bDate'].errors}">
         <div class="invalid-feedback" *ngIf="submitted && formControls['bDate'].errors">
@@ -112,7 +113,8 @@
           data-date-format="dd-MMM-yy"
           placeholder="dd-mmm-yy"
           id="JobStartDate"
-          [formControl]="$any(this.service.form.controls['JobStartDate'])"          
+          valueAsDate="new Date()"
+          [formControl]="$any(this.service.form.controls['JobStartDate'])"
           class="form-control" [ngClass]="{'is-invalid':submitted && formControls['JobStartDate'].errors}">
         <div class="invalid-feedback" *ngIf="submitted && formControls['JobStartDate'].errors">
           Invalid JobStartDate.</div>
@@ -125,7 +127,8 @@
           data-date-format="dd-MMM-yy"
           placeholder="dd-mmm-yy"
           id="JobEndDate"
-          [formControl]="$any(this.service.form.controls['JobEndDate'])"          
+          valueAsDate="new Date()"
+          [formControl]="$any(this.service.form.controls['JobEndDate'])"
           class="form-control" [ngClass]="{'is-invalid':submitted && formControls['JobEndDate'].errors}">
         <div class="invalid-feedback" *ngIf="submitted && formControls['JobEndDate'].errors">
           Invalid JobEndDate.</div>

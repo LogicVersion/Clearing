@@ -24,8 +24,8 @@ export class InvoiceService {
     bDate: [new Date(), [Validators.required]],
     billNO: ['***', [Validators.required]],
     JobCode: ['', [Validators.required]],
-    billType: ['', [Validators.required]],
-    JobNature: ['', [Validators.required]],
+    billType: ['0', [Validators.required]],
+    JobNature: ['0', [Validators.required]],
     pNo: ['0', [Validators.required]],
     ConsigneeCode: ['', [Validators.required]],
     AmountBilledInWord: ['', [Validators.required]],
@@ -34,7 +34,7 @@ export class InvoiceService {
     BLNo: ['', [Validators.required]],
     CheckedBy: ['', [Validators.required]],
     Carrier: ['', [Validators.required]],
-    Weight: [0],
+    Weight: [''],
     JobStartDate: [new Date(), [Validators.required]],
     JobEndDate: [new Date(), [Validators.required]],
     NoOf20Ft: [0, [Validators.required]],
@@ -99,13 +99,13 @@ export class InvoiceService {
   //             confirmPassword: ['', this.isAddMode ? Validators.required : Validators.nullValidator]
 
   clearFields() {
-    this.form.setValue({
+    this.form.patchValue({
       ID: [0],
       bDate: [new Date().toISOString().substr(0, 10)],
       billNO: ['***'],
       JobCode: [''],
-      billType: [''],
-      JobNature: [''],
+      billType: ['0'],
+      JobNature: ['0'],
       pNo: ['0'],
       ConsigneeCode: [''],
       AmountBilledInWord: [''],
@@ -114,7 +114,7 @@ export class InvoiceService {
       BLNo: [''],
       CheckedBy: [''],
       Carrier: [''],
-      Weight: [0],
+      Weight: [''],
       JobStartDate: [new Date()],
       JobEndDate: [new Date()],
       NoOf20Ft: [0],
@@ -124,7 +124,11 @@ export class InvoiceService {
     });
   }
 
-  formatDate(dateVal: any): Date {
+  formatDateToString(dateVal: Date): any {
+    return dateVal.toISOString(); //.toISOString().substr(0
+  }
+
+  formatStringToDate(dateVal: any): Date {
     const d = new Date(dateVal);
     const dayNum: number = d.getDate() + 1; //+ ('0' + inv.bDate.getDate()).slice(-2);
     const mthNum: number = d.getMonth(); //+ ('0' + (inv.bDate.getMonth() + 1)).slice(-2);
@@ -133,12 +137,12 @@ export class InvoiceService {
   }
 
   FormData(inv: Invoice): void {
-    //const bDate: Date = this.formatDate(inv.bDate);
+    //const bDate: Date = this.formatStringToDate(inv.bDate);
     //const bDate: Date = new Date("2011-09-24T00:00:00".replace(/-/g, '\/').replace(/T.+/, ''));
 
     this.form.setValue({
       ID: 0, //inv.ID,
-      bDate: this.formatDate(inv.bDate), // new Date( inv.bDate),
+      bDate: this.formatStringToDate(inv.bDate), // new Date( inv.bDate),
       billNO: inv.billNO,
       JobCode: inv.JobCode,
       billType: inv.billType,
@@ -151,9 +155,9 @@ export class InvoiceService {
       BLNo: inv.BLNo,
       CheckedBy: inv.CheckedBy,
       Carrier: inv.Carrier,
-      Weight: 0, //inv.Weight,
-      JobStartDate: this.formatDate(inv.JobStartDate),
-      JobEndDate: this.formatDate(inv.JobEndDate),
+      Weight: '', //inv.Weight,
+      JobStartDate: this.formatStringToDate(inv.JobStartDate),
+      JobEndDate: this.formatStringToDate(inv.JobEndDate),
       NoOf20Ft: inv.NoOf20Ft,
       NoOf40Ft: inv.NoOf40Ft,
       Content: inv.Content,
@@ -193,6 +197,16 @@ export class InvoiceService {
   // }
 
   insertRecord(formData: Invoice): Observable<Invoice> {
+    const clientID = formData.pNo;
+    const bDate = this.formatDateToString(formData.bDate);
+    const JobStartDate = this.formatDateToString(formData.JobStartDate);
+    const JobEndDate = this.formatDateToString(formData.JobEndDate);
+
+    formData.clientID=clientID;
+    formData.bDate = bDate;
+    formData.JobStartDate = JobStartDate;
+    formData.JobEndDate = JobEndDate;
+
     // console.log(formData);
     //let body = JSON.stringify({ formData });
     //let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -218,8 +232,10 @@ export class InvoiceService {
     //   }),
     // };
     //return this.http.post(this.appURL, body, options);
+    //'https://localhost:7118/api/invoices'
+
     return this.http
-      .post<Invoice>(this.appURL, formData, {
+      .post<Invoice>('https://localhost:7118/api/invoices', body, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
