@@ -101,7 +101,7 @@ export class InvoiceService {
   clearFields() {
     this.form.patchValue({
       ID: [0],
-      bDate: [new Date().toISOString().substr(0, 10)],
+      bDate: this.formatStringToDate(new Date()),
       billNO: ['***'],
       JobCode: [''],
       billType: ['0'],
@@ -115,8 +115,8 @@ export class InvoiceService {
       CheckedBy: [''],
       Carrier: [''],
       Weight: [''],
-      JobStartDate: [new Date()],
-      JobEndDate: [new Date()],
+      JobStartDate: this.formatStringToDate(new Date()),
+      JobEndDate: this.formatStringToDate(new Date()),
       NoOf20Ft: [0],
       NoOf40Ft: [0],
       Content: [''],
@@ -162,6 +162,22 @@ export class InvoiceService {
       NoOf40Ft: inv.NoOf40Ft,
       Content: inv.Content,
       Voy: inv.Voy,
+      clientID: '',
+      AmountBilled: 0,
+      profFee: 0,
+      AmtBF: 0,
+      AmountPaid: 0,
+      BillingMonth: '',
+      BillingYear: 0,
+      diagnosis: '',
+      isPaid: false,
+      CoyFullName: '',
+      CoyAddress: '',
+      PORder: '',
+      JPCNo: '',
+      Curr: '',
+      Address: '',
+      consultDate: new Date(),
     });
   }
 
@@ -235,7 +251,7 @@ export class InvoiceService {
     //'https://localhost:7118/api/invoices'
 
     return this.http
-      .post<Invoice>('https://localhost:7118/api/invoices', body, {
+      .post<Invoice>(this.appURL, body, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
@@ -260,7 +276,17 @@ export class InvoiceService {
   // }
 
   updateRecord(formData: Invoice) {
-    return this.http.put(this.appURL + '/' + formData.ConsigneeCode, formData);
+    let body = JSON.stringify(formData);
+    return this.http
+      .put(this.appURL + '/' + formData.billNO,
+        body,
+        {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+        }
+      )
+      .pipe(catchError((error) => this.handleError(error))); //this.handleError(error));
   }
 
   deleteRecord(id: string) {
