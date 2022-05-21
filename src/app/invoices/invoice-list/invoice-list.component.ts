@@ -133,9 +133,9 @@ export class InvoiceListComponent implements OnInit {
     this.service.bDateVal = row.bDate;
   }
 
-  onDelete(row: Customer) {
+  onDelete(row: Invoice) {
     // console.log(`id is: ${id}`);
-    const id = row.ConsigneeCode;
+    const id = row.billNO;
     if (id != null) {
       if (confirm('Are you sure to delete this record?')) {
         this.service.deleteRecord(id).subscribe((res) => {
