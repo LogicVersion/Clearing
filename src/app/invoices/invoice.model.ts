@@ -116,3 +116,16 @@ export class InvoiceList {
   PK_SNo: number = 0;
 }
 
+export class InvoiceDetailsList {
+  PK_SNo: number = 0;
+  billNO: string = '';
+  dtDate: Date = new Date();
+  drgName: string = '';
+  Price: number = 0;
+  Qty: number = 0;
+  subTotal: number = 0;
+  Interest: number = 0;
+  Total: number = 0;
+  Serial: number = 0;
+  VAT: number = 0;
+}
