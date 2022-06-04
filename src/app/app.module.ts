@@ -31,7 +31,8 @@ import { DateFormatPipe } from './shared/date-format.pipe';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { DateInputConverterDirective } from './shared/date-input-converter.directive';
 import { InvoiceDetailsListComponent } from './invoices/invoice-details-list/invoice-details-list.component';
-import { InvoiceDetailsService } from './invoices/invoice-details.service';
+import {InvoiceDetailsService } from './invoices/invoice-details.service';
+import {InvoiceService,} from './invoices/invoice.service';
 
 
 
@@ -52,6 +53,7 @@ import { InvoiceDetailsService } from './invoices/invoice-details.service';
     DisabledDirective,
     InvoiceComponent,
     InvoiceListComponent,
+    InvoiceDetailsListComponent,
     InvoiceDetailsComponent,
     DateFormatPipe,
     DateInputConverterDirective,
@@ -76,6 +78,7 @@ import { InvoiceDetailsService } from './invoices/invoice-details.service';
     ConsigneeGroupService,
     { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
     UtilityService,
+    InvoiceService,
     InvoiceDetailsService,
   ],
   entryComponents: [InvoiceDetailsComponent],

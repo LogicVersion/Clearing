@@ -13,9 +13,11 @@ import {
   DatatableItem,
 } from 'src/app/datatable/datatable-datasource';
 import { UtilityService } from 'src/app/shared/utility.service';
-import { InvoiceDetailsService } from '../invoice-details.service';
-import { InvoiceDetails, InvoiceDetailsList } from '../invoice.model';
+import { InvoiceService } from '../invoice.service';
+import { Invoice, InvoiceDetailsList, InvoiceList } from '../invoice.model';
 import { DatePipe } from '@angular/common';
+import { InvoiceDetails } from 'src/app/invoices/invoice.model';
+import { InvoiceDetailsService } from '../invoice-details.service';
 //import { DateFormatPipe } from 'src/app/shared/utili                                                                    ty.service';
 
 @Component({
@@ -58,7 +60,7 @@ export class InvoiceDetailsListComponent implements OnInit {
   }
 
   reLoadData(): void {
-    this.service.getList().subscribe((res) => {
+    this.service.getList().subscribe((res: any)  => {
       this.service.InvoiceDetailsList = res as InvoiceDetailsList[];
       this.dataSource = new MatTableDataSource(this.service.InvoiceDetailsList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
@@ -142,7 +144,7 @@ export class InvoiceDetailsListComponent implements OnInit {
     const id = row.PK_SNo;
     if (id != null) {
       if (confirm('Are you sure to delete this record?')) {
-        this.service.deleteRecord(id).subscribe((res) => {
+        this.service.deleteRecord(id).subscribe((res: any) => {
           this.utilSvc.setButtons(true);
           this.service.enableFields(false);
           this.service.flgEdit = false;
