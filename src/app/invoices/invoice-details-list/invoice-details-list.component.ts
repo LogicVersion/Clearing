@@ -27,12 +27,16 @@ import { InvoiceDetailsService } from '../invoice-details.service';
 })
 export class InvoiceDetailsListComponent implements OnInit {
   displayedColumns: string[] = [
-    'ID',
-    'bDate',
-    'JobCode',
+    'PK_SNo',
+    'Serial',
     'billNO',
-    'JobStartDate',
-    'JobEndDate',
+    'drgName',
+    'Price',
+    'Qty',
+    'subTotal',
+    'VAT',
+    'Interest',
+    'Total',
     'actions',
   ];
 
@@ -60,7 +64,7 @@ export class InvoiceDetailsListComponent implements OnInit {
   }
 
   reLoadData(): void {
-    this.service.getList().subscribe((res: any)  => {
+    this.service.getList().subscribe((res: any) => {
       this.service.InvoiceDetailsList = res as InvoiceDetailsList[];
       this.dataSource = new MatTableDataSource(this.service.InvoiceDetailsList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;

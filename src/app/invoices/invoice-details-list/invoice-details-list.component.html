@@ -11,38 +11,38 @@
 <div class="mat-elevation-z8">
   <mat-table [dataSource]="dataSource" matSort >
     <!-- ID Column -->
-    <ng-container matColumnDef="ID">
-      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.ID}} </mat-cell>
+    <ng-container matColumnDef="PK_SNo">
+      <mat-header-cell *matHeaderCellDef>PK_SNo</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.PK_SNo}} </mat-cell>
     </ng-container>
 
-    <!-- bDate Column -->
-    <ng-container matColumnDef="bDate">
-      <mat-header-cell *matHeaderCellDef>BillDate</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.bDate | date}} </mat-cell>
+    <!-- Serial Column -->
+    <ng-container matColumnDef="Serial">
+      <mat-header-cell *matHeaderCellDef>Serial</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Serial | date}} </mat-cell>
     </ng-container>
 
     <!-- ConsigeeName Column -->
-    <ng-container matColumnDef="JobCode">
-      <mat-header-cell mat-sort-header *matHeaderCellDef > JobCode </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.JobCode}} </mat-cell>
-    </ng-container>
-
-    <!-- billNO Column -->
     <ng-container matColumnDef="billNO">
-      <mat-header-cell mat-sort-header *matHeaderCellDef>BillNO</mat-header-cell>
+      <mat-header-cell mat-sort-header *matHeaderCellDef > billNO </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.billNO}} </mat-cell>
     </ng-container>
 
-    <!-- JobStartDate Column -->
-    <ng-container matColumnDef="JobStartDate">
-      <mat-header-cell mat-sort-header *matHeaderCellDef> JobStartDate </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.JobStartDate | date}} </mat-cell>
+    <!-- drgName Column -->
+    <ng-container matColumnDef="drgName">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>BillNO</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.drgName}} </mat-cell>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="Price">
+      <mat-header-cell mat-sort-header *matHeaderCellDef> Price </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Price}} </mat-cell>
     </ng-container>
     <!-- JobEndDate Column -->
-    <ng-container matColumnDef="JobEndDate">
-      <mat-header-cell *matHeaderCellDef> JobEndDate </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.JobEndDate | date}} </mat-cell>
+    <ng-container matColumnDef="Qty">
+      <mat-header-cell *matHeaderCellDef> Qty </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Qty}} </mat-cell>
     </ng-container>
 
   <ng-container matColumnDef="actions">

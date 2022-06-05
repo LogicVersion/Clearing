@@ -16,6 +16,7 @@ import { Invoice } from '../invoice.model';
 import { ClearingItemService } from 'src/app/shared/bill-item.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClearingItem } from 'src/app/shared/bill-item.model';
+import { InvoiceDetailsService } from '../invoice-details.service';
 
 @Component({
   selector: 'app-invoice-details',
@@ -25,7 +26,7 @@ import { ClearingItem } from 'src/app/shared/bill-item.model';
 export class InvoiceDetailsComponent implements OnInit {
   constructor(
     public utilSvc: UtilityService,
-    public service: InvoiceService,
+    public service: InvoiceDetailsService,
     private itemService: ClearingItemService,
     private toastr: ToastrService,
     private dialogRef: MatDialogRef<InvoiceDetailsComponent>,
