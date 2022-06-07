@@ -35,18 +35,22 @@ export class InvoiceDetailsComponent implements OnInit {
 
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
-  public formControls = this.service.form.controls;
+  public formControls = this.service.formData.controls;
   itemList: ClearingItem[] = []; //=this.customerGroupService.customerGroupList;
-  // snoVal = this.service.form.get('SNo')?.value;
+  // snoVal = this.service.formData.get('SNo')?.value;
   messages: any[] = [];
 
   ngOnInit() {
     //this.reloadData
-    this.utilSvc.setButtons(true);
-    this.itemService
-      .getListCombo()
-      .then((res) => (this.itemList = res as ClearingItem[]));
-  }
+    if (this.data.billNO!=null){
+      this.service.formData.patchValue({ billNO: this.data.billNO });
+        this.utilSvc.setButtons(true);
+      this.itemService
+        .getListCombo()
+        .then((res) => (this.itemList = res as ClearingItem[]));
+
+      }
+    }
 
   @ViewChild(InvoiceListComponent) childRef?: InvoiceListComponent;
 
@@ -88,12 +92,12 @@ export class InvoiceDetailsComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.service.form.valid) {
-      // console.log(this.findInvalidControlsRecursive(this.service.form));
-      // if ( this.findInvalidControls(this.service.form) !=null) {
+    if (this.service.formData.valid) {
+      // console.log(this.findInvalidControlsRecursive(this.service.formData));
+      // if ( this.findInvalidControls(this.service.formData) !=null) {
       //console.log(this.service.flgEdit);
       if (this.service.flgEdit) {
-        this.service.updateRecord(this.service.form.value).subscribe(
+        this.service.updateRecord(this.service.formData.value).subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('update');
@@ -105,7 +109,7 @@ export class InvoiceDetailsComponent implements OnInit {
         );
       } else {
         //form.get('SNo')!.value == 0
-        this.service.insertRecord(this.service.form.value).subscribe(
+        this.service.insertRecord(this.service.formData.value).subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('insert');
@@ -141,13 +145,13 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   resetForm() {
-    if (this.service.form.valid) this.service.form.reset();
+    if (this.service.formData.valid) this.service.formData.reset();
 
-    //this.service.form= new Invoice();
+    //this.service.formData= new Invoice();
     this.service.flgEdit = false;
     this.service.clearFields();
     ////this is to be done for proper reset operation
-    // this.service.form.setValue({
+    // this.service.formData.setValue({
     //   ID: [0],
     //   bDate: [new Date()],
     //   billNO: ['***'],
@@ -186,7 +190,7 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   onClose() {
-    this.service.form.reset();
+    this.service.formData.reset();
     this.service.clearFields();
     this.dialogRef.close();
   }
@@ -199,6 +203,44 @@ export class InvoiceDetailsComponent implements OnInit {
     // dialogConfig.height = '70%';
     // this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
+
+  updatePrice(ctrl: any) {
+    if (ctrl.selectedIndex == 0) {
+      this.service.formData.patchValue({
+        Price: 0,
+      });
+      //this.form.controls['your form control name'].value;
+    } else {
+      this.service.formData.patchValue({
+        Price: this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Price,
+      });
+    }
+  }
+
+  updateTotal(qty: number, price: number) {
+    if (qty == 0 || price == 0) {
+      this.service.formData.patchValue({
+        Total: 0,
+      });
+    } else {
+      this.service.formData.patchValue({
+        Total: qty * price,
+      });
+    }
+  }
+
+  // updateTotal() {
+  //   this.formData.Total = parseFloat(
+  //     (this.formData.Quantity * this.formData.Price).toFixed(2)
+  //   );
+  // }
+
+  // isNumberKey(evt: any) {
+  //   var charCode = evt.which ? evt.which : event.keyCode;
+  //   if (charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+
+  //   return true;
+  // }
 }
 
 

@@ -204,6 +204,11 @@ export class InvoiceComponent implements OnInit {
     this.service.enableFields(true);
   }
   AddToBill() {
+    if (this.service.form.controls['billNO'].value=='***'){
+        this.toastr.warning('Select a Bill to Add Items to');
+        return;
+    }
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;

@@ -5,7 +5,7 @@
   <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
 </mat-toolbar>
 
-<form [formGroup]="this.service.form" (ngSubmit)="onSubmit()">
+<form [formGroup]="this.service.formData" (ngSubmit)="onSubmit()">
 
   <div class="row">
     <div class="col-md-5 mx-auto ">
@@ -35,7 +35,7 @@
       <div class="row">
         <div class="form-group col-md-10 mb-3 mt-3 ">
           <label for="drgName">Bill Item</label>
-                <select id="drgName" formControlName="drgName"
+                <select id="drgName" formControlName="drgName" (change)="updatePrice($event.target)"
                   class="form-control" [ngClass]="{'is-invalid': submitted && formControls['drgName'].errors}">
                   <option value="0">--Select--</option>
                   <option *ngFor="let item of itemList" value="{{item.BillItem}}">{{item.BillItem}}</option>
@@ -66,7 +66,7 @@
       <div class="row">
         <div class="form-group col-md-2 mb-3">
           <label for="Qty">Qty</label>
-          <input id="Qty" formControlName="Qty" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
+          <input id="Qty" formControlName="Qty" type="text" #qty (keyup)="updateTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Qty'].errors">
             <label *ngIf="formControls['Qty'].errors['required']">This field is required.</label>
           </div>
@@ -74,7 +74,7 @@
 
         <div class="form-group col-md-4 mb-3">
           <label for="Price">Rate</label>
-          <input id="Price" formControlName="Price" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
+          <input id="Price" formControlName="Price" type="text" #price (keyup)="updateTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Price'].errors">
             <label *ngIf="formControls['Price'].errors['required']">This field is required.</label>
           </div>
@@ -234,7 +234,8 @@
       <div  class="form-group mb-3 float-end" >
 
         <div class="d-grid gap-2">
-          <input type="submit" class="btn btn-primary btn-lg " value="Submit">
+          <input type="submit" class="btn btn-primary " value="Submit">
+          <input type="button" [mat-dialog-close] class="btn btn-outline-warning " value="Close">
           <!-- <button type="submit" class="btn btn-primary btn-lg">Submit</button> -->
         </div>
         <!-- <button type="button" class="btn btn-outline-warning">Warning</button>

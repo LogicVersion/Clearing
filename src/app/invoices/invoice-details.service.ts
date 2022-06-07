@@ -19,7 +19,7 @@ export class InvoiceDetailsService {
 
   //form: Invoice = new Invoice();
 
-  form = this.fb.group({
+  formData = this.fb.group({
     SNO: [0],
     PK_SNo: [0],
     dtDate: [new Date(), [Validators.required]],
@@ -46,7 +46,7 @@ export class InvoiceDetailsService {
     //const bDate: Date = this.formatStringToDate(inv.bDate);
     //const bDate: Date = new Date("2011-09-24T00:00:00".replace(/-/g, '\/').replace(/T.+/, ''));
 
-    this.form.setValue({
+    this.formData.setValue({
       SNO: 0,
       PK_SNo: 0,
       dtDate: this.formatStringToDate(inv.dtDate), // new Date( inv.bDate),
@@ -71,7 +71,7 @@ export class InvoiceDetailsService {
   }
 
   clearFields() {
-    this.form.patchValue({
+    this.formData.patchValue({
       SNO: [0],
       PK_SNo: [0],
       dtDate: this.formatStringToDate(new Date()),
@@ -114,26 +114,26 @@ export class InvoiceDetailsService {
 
   enableFields(blnVal = true) {
     if (blnVal) {
-      this.form.enable();
+      this.formData.enable();
       // this.form.controls['SNo'].enable();
-      // this.form.controls['ConsigneeCode'].enable();
-      // this.form.controls['ConsigneeName'].enable();
-      // this.form.controls['GroupName'].enable();
-      // this.form.controls['ConsigneeAddress'].enable();
+      // this.formData.controls['ConsigneeCode'].enable();
+      // this.formData.controls['ConsigneeName'].enable();
+      // this.formData.controls['GroupName'].enable();
+      // this.formData.controls['ConsigneeAddress'].enable();
 
       // if (this.flgEdit) {
-      //   this.form.controls['ConsigneeCode'].disable();
+      //   this.formData.controls['ConsigneeCode'].disable();
       //}
     } else {
-      this.form.disable();
-      // this.form.controls['SNo'].disable();
-      // this.form.controls['ConsigneeCode'].disable();
-      // this.form.controls['ConsigneeName'].disable();
-      // this.form.controls['GroupName'].disable();
-      // this.form.controls['ConsigneeAddress'].disable();
+      this.formData.disable();
+      // this.formData.controls['SNo'].disable();
+      // this.formData.controls['ConsigneeCode'].disable();
+      // this.formData.controls['ConsigneeName'].disable();
+      // this.formData.controls['GroupName'].disable();
+      // this.formData.controls['ConsigneeAddress'].disable();
     }
 
-    //  this.form.setValue({
+    //  this.formData.setValue({
     //   SNo: { value: '', disabled: true },
     //   //ConsigneeCode: { value: '', disabled: blnVal },
     //   ConsigneeCode: { value: '', disabled: blnVal },
@@ -150,7 +150,7 @@ export class InvoiceDetailsService {
   invoiceMasterArr: Invoice[] = [];
   invoiceDetailsArr: InvoiceDetails[] = [];
 
-  readonly appURL = environment.appURL + '/invoicesdetails';
+  readonly appURL = environment.appURL + '/invoicedetails';
   //readonly appURL ='http://localhost:8081/api/invoices'
 
   // getListCombo() {
@@ -177,12 +177,12 @@ export class InvoiceDetailsService {
   //   return this.employeeList.snapshotChanges();
   // }
 
-  insertRecord(formData: InvoiceDetails): Observable<InvoiceDetails> {
-    const dtDate = this.formatDateToString(formData.dtDate);
-    formData.dtDate = dtDate;
+  insertRecord(formVal: InvoiceDetails): Observable<InvoiceDetails> {
+    const dtDate = this.formatDateToString(formVal.dtDate);
+    formVal.dtDate = dtDate;
 
-    // console.log(formData);
-    //let body = JSON.stringify({ formData });
+    // console.log(formVal);
+    //let body = JSON.stringify({ formVal });
     //let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     // let headers = new HttpHeaders({
     //   'Access-Control-Allow-Origin': '*',
@@ -190,7 +190,7 @@ export class InvoiceDetailsService {
     // });
     // console.log(headers);
     //let options = new RequestOptions ({ headers: headers });
-    let body = JSON.stringify(formData);
+    let body = JSON.stringify(formVal);
 
     // let headers = new HttpHeaders({
     //   'Access-Control-Allow-Origin': '*',
@@ -233,10 +233,10 @@ export class InvoiceDetailsService {
   //   });
   // }
 
-  updateRecord(formData: InvoiceDetails) {
-    let body = JSON.stringify(formData);
+  updateRecord(formVal: InvoiceDetails) {
+    let body = JSON.stringify(formVal);
     return this.http
-      .put(this.appURL + '/' + formData.PK_SNo, body, {
+      .put(this.appURL + '/' + formVal.PK_SNo, body, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),

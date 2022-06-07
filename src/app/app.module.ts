@@ -81,7 +81,7 @@ import {InvoiceService,} from './invoices/invoice.service';
     InvoiceService,
     InvoiceDetailsService,
   ],
-  entryComponents: [InvoiceDetailsComponent],
+  entryComponents: [InvoiceDetailsComponent, InvoiceDetailsListComponent],
   bootstrap: [AppComponent, LoadingService],
 })
 export class AppModule {}
