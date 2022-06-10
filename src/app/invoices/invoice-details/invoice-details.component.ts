@@ -33,6 +33,7 @@ export class InvoiceDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  isValid: boolean = true;
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
   public formControls = this.service.formData.controls;
@@ -42,15 +43,14 @@ export class InvoiceDetailsComponent implements OnInit {
 
   ngOnInit() {
     //this.reloadData
-    if (this.data.billNO!=null){
+    if (this.data.billNO != null) {
       this.service.formData.patchValue({ billNO: this.data.billNO });
-        this.utilSvc.setButtons(true);
+      this.utilSvc.setButtons(true);
       this.itemService
         .getListCombo()
         .then((res) => (this.itemList = res as ClearingItem[]));
-
-      }
     }
+  }
 
   @ViewChild(InvoiceListComponent) childRef?: InvoiceListComponent;
 
@@ -101,6 +101,7 @@ export class InvoiceDetailsComponent implements OnInit {
           (res) => {
             this.resetForm();
             this.notifyForm('update');
+            this.dialogRef.close();
           },
           (err) => {
             this.handleErrors(err);
@@ -204,27 +205,45 @@ export class InvoiceDetailsComponent implements OnInit {
     // this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
 
-  updatePrice(ctrl: any) {
+  updateFields(ctrl: any) {
     if (ctrl.selectedIndex == 0) {
       this.service.formData.patchValue({
-        Price: 0,
+        MarkUp: 0,
+        Serial: 1,
+        BillCategory: '***',
+        BillStatus: '***',
+        FreightCat: '***',
       });
       //this.form.controls['your form control name'].value;
     } else {
-      this.service.formData.patchValue({
-        Price: this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Price,
-      });
+      if (this.itemList){
+        this.service.formData.patchValue({
+          Interest: this.itemList[ctrl.selectedIndex - 1].MarkUp
+            ? this.itemList[ctrl.selectedIndex - 1].MarkUp
+            : 0,
+          Serial: this.itemList[ctrl.selectedIndex - 1].Serial
+            ? this.itemList[ctrl.selectedIndex - 1].Serial
+            : 9,
+          BillCategory: this.itemList[ctrl.selectedIndex - 1].BillCategory
+            ? this.itemList[ctrl.selectedIndex - 1].BillCategory
+            : '***',
+          BillStatus: this.itemList[ctrl.selectedIndex - 1].BillStatus
+            ? this.itemList[ctrl.selectedIndex - 1].BillStatus
+            : '***',
+          FreightCat: this.itemList[ctrl.selectedIndex - 1].FreightCat ? this.itemList[ctrl.selectedIndex - 1].FreightCat : '***',
+        });
+      }
     }
   }
 
-  updateTotal(qty: number, price: number) {
+  updateSubTotal(qty: number, price: number) {
     if (qty == 0 || price == 0) {
       this.service.formData.patchValue({
-        Total: 0,
+        subTotal: 0,
       });
     } else {
       this.service.formData.patchValue({
-        Total: qty * price,
+        subTotal: qty * price,
       });
     }
   }
