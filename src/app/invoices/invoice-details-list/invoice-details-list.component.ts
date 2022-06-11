@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Customer } from 'src/app/models/customer.model';
 import { ConsigneeService } from 'src/app/shared/consignee.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -27,16 +27,16 @@ import { InvoiceDetailsService } from '../invoice-details.service';
 })
 export class InvoiceDetailsListComponent implements OnInit {
   displayedColumns: string[] = [
-    'PK_SNo',
+    // 'PK_SNo',
     'Serial',
     'billNO',
     'drgName',
-    'Price',
     'Qty',
+    'Price',
     'subTotal',
-    'VAT',
-    'Interest',
-    'Total',
+    // 'VAT',
+    // 'Interest',
+    // 'Total',
     'actions',
   ];
 
@@ -48,6 +48,7 @@ export class InvoiceDetailsListComponent implements OnInit {
   //dataSource= this.service.customerList; //this.service.customerList; //ELEMENT_DATA;
   dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey?: string;
+  @Input() billNoChild: string = '';
 
   constructor(
     private utilSvc: UtilityService,
@@ -58,13 +59,15 @@ export class InvoiceDetailsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.service.enableFields(true);
+      this.utilSvc.setButtons(false);
     this.reLoadData();
     // this.dataSource.sort = this.sort;
     // this.dataSource.paginator = this.paginator;
   }
 
   reLoadData(): void {
-    this.service.getList().subscribe((res: any) => {
+    this.service.getList(this.billNoChild).subscribe((res: any) => {
       this.service.InvoiceDetailsList = res as InvoiceDetailsList[];
       this.dataSource = new MatTableDataSource(this.service.InvoiceDetailsList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
@@ -137,7 +140,7 @@ export class InvoiceDetailsListComponent implements OnInit {
     // const newDate = new Date(dateString);
     // rowCopy.bDate = newDate;
     this.service.FormData(rowCopy);
-    this.service.key = row.billNO; //strParam
+    this.service.key = row.PK_SNo; //strParam
 
     this.service.billNoVal = row.billNO;
     this.service.bDateVal = row.dtDate;

@@ -32,7 +32,7 @@ export class InvoiceDetailsService {
     Total: [0],
     billType: ['***'],
     ExchRate: [1],
-    Serial: [1],
+    Serial: [9],
     VatScope: ['0'],
     AmountPaid: [0],
     BillCategory: ['***'],
@@ -71,43 +71,56 @@ export class InvoiceDetailsService {
 
   clearFields() {
     this.formData.patchValue({
-      SNO: [0],
-      PK_SNo: [0],
+      SNO: 0,
+      PK_SNo: 0,
       dtDate: this.formatStringToDate(new Date()),
-      billNO: ['***'],
-      drgName: [''],
-      Price: [0],
-      Qty: [0],
-      subTotal: [0],
-      Interest: [0],
-      Total: [0],
-      billType: ['***'],
-      VAT: [0],
-      ExchRate: [1],
-      Serial: [1],
-      VatScope: ['0'],
-      AmountPaid: [0],
-      BillCategory: ['***'],
-      BillStatus: ['***'],
-      FreightCat: ['***'],
-      FrightCat: [''],
+      billNO: '***',
+      drgName: '',
+      Price: 0,
+      Qty: 0,
+      subTotal: 0,
+      Interest: 0,
+      Total: 0,
+      billType: '***',
+      VAT: 0,
+      ExchRate: 1,
+      Serial: 9,
+      VatScope: '0',
+      AmountPaid: 0,
+      BillCategory: '***',
+      BillStatus: '***',
+      FreightCat: '***',
+      FrightCat: '',
     });
   }
 
   formatDateToString(dateVal: Date): any {
-    return dateVal.toISOString(); //.toISOString().substr(0
+    try {
+
+      return dateVal.toISOString(); //.toISOString().substr(0
+
+    }
+    catch(err){
+      return dateVal; //
+    }
+
   }
 
   formatStringToDate(dateVal: any): Date {
-    const d = new Date(dateVal);
-    const dayNum: number = d.getDate() + 1; //+ ('0' + inv.bDate.getDate()).slice(-2);
-    const mthNum: number = d.getMonth(); //+ ('0' + (inv.bDate.getMonth() + 1)).slice(-2);
-    const yrNum: number = d.getFullYear();
-    return new Date(yrNum, mthNum, dayNum);
+    try {
+      const d = new Date(dateVal);
+      const dayNum: number = d.getDate() + 1; //+ ('0' + inv.bDate.getDate()).slice(-2);
+      const mthNum: number = d.getMonth(); //+ ('0' + (inv.bDate.getMonth() + 1)).slice(-2);
+      const yrNum: number = d.getFullYear();
+      return new Date(yrNum, mthNum, dayNum);
+    } catch (err) {
+      return dateVal; //
+    }
+
   }
 
   flgEdit = false;
-  key: string = '';
+  key: number = 0;
   billNoVal: string = '';
   bDateVal: Date = new Date();
 
@@ -158,8 +171,8 @@ export class InvoiceDetailsService {
   //   //console.log(this.customerGroupList);
   // }
 
-  getList() {
-    return this.http.get(this.appURL);
+  getList(billNoX: string ) {
+    return this.http.get(this.appURL + '/' + billNoX);
     // this.http.get(this.appURL);
     // .toPromise()
     // .then((res) => (this.InvoiceList = res as Invoice[]));

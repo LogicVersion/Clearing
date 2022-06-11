@@ -19,7 +19,7 @@
     <!-- Serial Column -->
     <ng-container matColumnDef="Serial">
       <mat-header-cell *matHeaderCellDef>Serial</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.Serial | date}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.Serial}} </mat-cell>
     </ng-container>
 
     <!-- billNO Column -->
@@ -36,17 +36,17 @@
 
     <!-- Price Column -->
     <ng-container matColumnDef="Price">
-      <mat-header-cell mat-sort-header *matHeaderCellDef> Price </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.Price}} </mat-cell>
+      <mat-header-cell mat-sort-header *matHeaderCellDef> Rate </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Price | number}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="Qty">
       <mat-header-cell *matHeaderCellDef> Qty </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.Qty}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.Qty | number}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="subTotal">
-      <mat-header-cell *matHeaderCellDef> subTotal </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.subTotal}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.subTotal | number}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="VAT">
@@ -55,7 +55,7 @@
     </ng-container>
 
     <ng-container matColumnDef="Interest">
-      <mat-header-cell *matHeaderCellDef> Interest </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> MarkUp </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.Interest}} </mat-cell>
     </ng-container>
 
@@ -89,6 +89,8 @@
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <!-- <mat-row (click)="mtdCall()" *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+
     <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></mat-footer-row>
     <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
 

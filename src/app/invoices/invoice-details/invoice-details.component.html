@@ -64,7 +64,7 @@
       </div>
 
       <div class="row">
-        <div class="form-group col-md-2 mb-3">
+        <div class="form-group col-md-3 mb-3">
           <label for="Qty">Qty</label>
           <input id="Qty" formControlName="Qty" type="text" #qty (keyup)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Qty'].errors">
@@ -95,7 +95,7 @@
    <div class="col-md-5 mx-auto ">
 
     <div class="row">
-      <div class="form-group col-md-5 mb-3 mt-3">
+      <div class="form-group col-md-4 mb-3 mt-3">
         <label for="billNO">InvoiceNo</label>
         <input readonly id="billNO" formControlName="billNO" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['billNO'].errors}">
         <div class="invalid-feedback" *ngIf="submitted && formControls['billNO'].errors">
@@ -103,13 +103,13 @@
         </div>
       </div>
 
-      <div class="form-group col-md-5 mb-3 mt-3 ">
-        <label for="bDate">InvoiceDate</label>
-        <input type="text" readonly
-          id="bDate"
-          formControlName="bDate"
-          class="form-control" [ngClass]="{'is-invalid':submitted && formControls['bDate'].errors}">
-        <div class="invalid-feedback" *ngIf="submitted && formControls['bDate'].errors">
+      <div class="form-group col-md-6 mb-3 mt-3 ">
+        <label for="dtDate">InvoiceDate</label>
+        <input type="date"
+          id="dtDate"
+          [formControl]="$any(this.service.formData.controls['dtDate'])"
+          class="form-control" [ngClass]="{'is-invalid':submitted && formControls['dtDate'].errors}">
+        <div class="invalid-feedback" *ngIf="submitted && formControls['dtDate'].errors">
           Invalid InvoiceDate.</div>
       </div>
 
@@ -124,13 +124,13 @@
           </div>
         </div> -->
 
-        <div class="form-group col-md-4 mb-3">
+        <!-- <div class="form-group col-md-4 mb-3">
           <label for="VAT">VAT</label>
           <input id="VAT" formControlName="VAT" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['VAT'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['VAT'].errors">
             <label *ngIf="formControls['VAT'].errors['required']">This field is required.</label>
           </div>
-        </div>
+        </div> -->
 
         <div class="form-group col-md-4 mb-3">
           <label for="Serial">Serial</label>
@@ -176,7 +176,7 @@
       <div class="row">
 
         <div class="form-group col-md-4 mb-3">
-          <label for="Interest">Interest</label>
+          <label for="Interest">MarkUp</label>
           <input id="Interest" formControlName="Interest" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Interest'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Interest'].errors">
             <label *ngIf="formControls['Interest'].errors['required']">This field is required.</label>
@@ -209,7 +209,8 @@
     <div class="col-md-5 mx-auto ">
       <!-- *ngIf="utilSvc.saveButtVisible" -->
       <div class="form-group mb-3 ">
-        <input type="button" class="btn btn-link " value="Add to Grid" (click)="addToGrid()">
+        <input type="submit" class="btn btn-primary " value="Submit">
+        <!-- <input type="button" class="btn btn-link " value="Add to Grid" (click)="addToGrid()"> -->
         <!-- <button type="button" class="btn btn-primary">Primary</button>
         <button type="button" class="btn btn-secondary">Secondary</button>
         <button type="button" class="btn btn-success">Success</button>
@@ -231,7 +232,7 @@
       <div  class="form-group mb-3 float-end" >
 
         <div class="d-grid gap-2">
-          <input type="submit" class="btn btn-primary " value="Submit">
+          <!-- <input type="submit" class="btn btn-primary " value="Submit"> -->
           <input type="button" [mat-dialog-close] class="btn btn-outline-warning " value="Close">
           <!-- <button type="submit" class="btn btn-primary btn-lg">Submit</button> -->
         </div>
@@ -248,7 +249,7 @@
 
 <div class="row">
   <div class="col-md-10 col-md-offset-1 mx-auto" >
-    <app-invoice-details-list></app-invoice-details-list>
+    <app-invoice-details-list [billNoChild]="billNoParam"></app-invoice-details-list>
   </div>
 </div>
 

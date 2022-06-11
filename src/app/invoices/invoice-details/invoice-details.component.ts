@@ -17,6 +17,7 @@ import { ClearingItemService } from 'src/app/shared/bill-item.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClearingItem } from 'src/app/shared/bill-item.model';
 import { InvoiceDetailsService } from '../invoice-details.service';
+import { InvoiceDetailsListComponent } from '../invoice-details-list/invoice-details-list.component';
 
 @Component({
   selector: 'app-invoice-details',
@@ -40,11 +41,13 @@ export class InvoiceDetailsComponent implements OnInit {
   itemList: ClearingItem[] = []; //=this.customerGroupService.customerGroupList;
   // snoVal = this.service.formData.get('SNo')?.value;
   messages: any[] = [];
+  billNoParam: string='';
 
   ngOnInit() {
     //this.reloadData
     if (this.data.billNO != null) {
-      this.service.formData.patchValue({ billNO: this.data.billNO });
+      this.billNoParam = this.data.billNO;
+      this.service.formData.patchValue({ billNO: this.billNoParam });
       this.utilSvc.setButtons(true);
       this.itemService
         .getListCombo()
@@ -52,7 +55,8 @@ export class InvoiceDetailsComponent implements OnInit {
     }
   }
 
-  @ViewChild(InvoiceListComponent) childRef?: InvoiceListComponent;
+  @ViewChild(InvoiceDetailsListComponent)
+  childRef?: InvoiceDetailsListComponent;
 
   ngAfterViewInit(): void {
     this.utilSvc.setButtons(true);
@@ -101,7 +105,7 @@ export class InvoiceDetailsComponent implements OnInit {
           (res) => {
             this.resetForm();
             this.notifyForm('update');
-            this.dialogRef.close();
+            //this.dialogRef.close();
           },
           (err) => {
             this.handleErrors(err);
@@ -137,10 +141,10 @@ export class InvoiceDetailsComponent implements OnInit {
     setTimeout(() => (this.showSuccessMessage = false), 3000);
     this.submitted = false;
     if ((updateVal = 'insert'))
-      this.toastr.success('Record saved successfully', 'Clearing Saved');
+      this.toastr.success('Record saved successfully', 'Invoice-Item Saved');
     else this.toastr.success('Record updated successfully', 'Clearing Updated');
-    this.utilSvc.setButtons(true);
-    this.service.enableFields(false);
+    //this.utilSvc.setButtons(true);
+    //this.service.enableFields(false);
     this.service.flgEdit = false;
     this.childRef?.reLoadData();
   }
@@ -151,6 +155,12 @@ export class InvoiceDetailsComponent implements OnInit {
     //this.service.formData= new Invoice();
     this.service.flgEdit = false;
     this.service.clearFields();
+    //this.ngOnInit();
+    this.service.formData.patchValue({
+      billNO: this.billNoParam,
+      dtDate: new Date()
+    });
+
     ////this is to be done for proper reset operation
     // this.service.formData.setValue({
     //   ID: [0],
@@ -216,7 +226,7 @@ export class InvoiceDetailsComponent implements OnInit {
       });
       //this.form.controls['your form control name'].value;
     } else {
-      if (this.itemList){
+      if (this.itemList) {
         this.service.formData.patchValue({
           Interest: this.itemList[ctrl.selectedIndex - 1].MarkUp
             ? this.itemList[ctrl.selectedIndex - 1].MarkUp
@@ -230,7 +240,9 @@ export class InvoiceDetailsComponent implements OnInit {
           BillStatus: this.itemList[ctrl.selectedIndex - 1].BillStatus
             ? this.itemList[ctrl.selectedIndex - 1].BillStatus
             : '***',
-          FreightCat: this.itemList[ctrl.selectedIndex - 1].FreightCat ? this.itemList[ctrl.selectedIndex - 1].FreightCat : '***',
+          FreightCat: this.itemList[ctrl.selectedIndex - 1].FreightCat
+            ? this.itemList[ctrl.selectedIndex - 1].FreightCat
+            : '***',
         });
       }
     }
