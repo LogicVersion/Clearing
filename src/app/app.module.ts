@@ -33,6 +33,7 @@ import { DateInputConverterDirective } from './shared/date-input-converter.direc
 import { InvoiceDetailsListComponent } from './invoices/invoice-details-list/invoice-details-list.component';
 import {InvoiceDetailsService } from './invoices/invoice-details.service';
 import {InvoiceService,} from './invoices/invoice.service';
+import { FormatNumerLocalDirective } from './shared/format-numer-local.directive';
 
 
 
@@ -57,6 +58,7 @@ import {InvoiceService,} from './invoices/invoice.service';
     InvoiceDetailsComponent,
     DateFormatPipe,
     DateInputConverterDirective,
+    FormatNumerLocalDirective,
   ],
   imports: [
     BrowserModule,
@@ -83,5 +85,8 @@ import {InvoiceService,} from './invoices/invoice.service';
   ],
   entryComponents: [InvoiceDetailsComponent, InvoiceDetailsListComponent],
   bootstrap: [AppComponent, LoadingService],
+  exports: [
+    FormatNumerLocalDirective
+  ],
 })
 export class AppModule {}

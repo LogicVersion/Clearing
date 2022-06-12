@@ -47,7 +47,7 @@ export class InvoiceDetailsService {
 
     this.formData.setValue({
       SNO: 0,
-      PK_SNo: 0,
+      PK_SNo: inv.PK_SNo,
       dtDate: this.formatStringToDate(inv.dtDate), // new Date( inv.bDate),
       billNO: inv.billNO,
       drgName: inv.drgName,
@@ -57,7 +57,7 @@ export class InvoiceDetailsService {
       Interest: inv.Interest,
       Total: inv.Total,
       billType: inv.billType,
-      VAT: inv.VAT,
+      //VAT: inv.VAT,
       ExchRate: inv.ExchRate,
       Serial: inv.Serial,
       VatScope: inv.VatScope,
@@ -75,7 +75,7 @@ export class InvoiceDetailsService {
       PK_SNo: 0,
       dtDate: this.formatStringToDate(new Date()),
       billNO: '***',
-      drgName: '',
+      drgName: '0',
       Price: 0,
       Qty: 0,
       subTotal: 0,

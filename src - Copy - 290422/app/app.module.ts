@@ -30,7 +30,8 @@ import { InvoiceDetailsComponent } from './invoices/invoice-details/invoice-deta
 import { DateFormatPipe } from './shared/date-format.pipe';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import { DateInputConverterDirective } from './shared/date-input-converter.directive'
-
+import { NgxMaterialToolsModule } from 'ngx-material-tools';
+import { LOCALE_ID } from '@angular/core';
 
 
 
@@ -65,6 +66,7 @@ import { DateInputConverterDirective } from './shared/date-input-converter.direc
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    NgxMaterialToolsModule,
     BsDatepickerModule.forRoot(),
   ],
   providers: [

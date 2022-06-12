@@ -19,6 +19,9 @@ import { ClearingItem } from 'src/app/shared/bill-item.model';
 import { InvoiceDetailsService } from '../invoice-details.service';
 import { InvoiceDetailsListComponent } from '../invoice-details-list/invoice-details-list.component';
 
+import { formatNumber } from '@angular/common';
+import {LOCALE_ID } from '@angular/core';
+
 @Component({
   selector: 'app-invoice-details',
   templateUrl: './invoice-details.component.html',
@@ -31,7 +34,8 @@ export class InvoiceDetailsComponent implements OnInit {
     private itemService: ClearingItemService,
     private toastr: ToastrService,
     private dialogRef: MatDialogRef<InvoiceDetailsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(LOCALE_ID) public locale: string
   ) {}
 
   isValid: boolean = true;
@@ -41,7 +45,9 @@ export class InvoiceDetailsComponent implements OnInit {
   itemList: ClearingItem[] = []; //=this.customerGroupService.customerGroupList;
   // snoVal = this.service.formData.get('SNo')?.value;
   messages: any[] = [];
-  billNoParam: string='';
+  billNoParam: string = '';
+
+  //curr = formatNumber(1000, this.locale, '7.1-5');
 
   ngOnInit() {
     //this.reloadData
@@ -158,7 +164,7 @@ export class InvoiceDetailsComponent implements OnInit {
     //this.ngOnInit();
     this.service.formData.patchValue({
       billNO: this.billNoParam,
-      dtDate: new Date()
+      dtDate: new Date(),
     });
 
     ////this is to be done for proper reset operation
@@ -227,32 +233,43 @@ export class InvoiceDetailsComponent implements OnInit {
       //this.form.controls['your form control name'].value;
     } else {
       if (this.service.flgEdit) {
+        //do nothing -- InvoiceDetailsList
+          this.service.formData.patchValue({
+            Interest:
+              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Interest,
+            Serial:
+              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Serial,
+            BillCategory:
+              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
+                .BillCategory,
+            BillStatus:
+              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
+                .BillStatus,
+            FreightCat:
+              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].FreightCat,
+          });
 
-        //do nothing
+      } else {
+        if (this.itemList) {
+          this.service.formData.patchValue({
+            Interest: this.itemList[ctrl.selectedIndex - 1].MarkUp
+              ? this.itemList[ctrl.selectedIndex - 1].MarkUp
+              : 0,
+            Serial: this.itemList[ctrl.selectedIndex - 1].Serial
+              ? this.itemList[ctrl.selectedIndex - 1].Serial
+              : 9,
+            BillCategory: this.itemList[ctrl.selectedIndex - 1].BillCategory
+              ? this.itemList[ctrl.selectedIndex - 1].BillCategory
+              : '***',
+            BillStatus: this.itemList[ctrl.selectedIndex - 1].BillStatus
+              ? this.itemList[ctrl.selectedIndex - 1].BillStatus
+              : '***',
+            FreightCat: this.itemList[ctrl.selectedIndex - 1].FreightCat
+              ? this.itemList[ctrl.selectedIndex - 1].FreightCat
+              : '***',
+          });
+        }
       }
-      else {
-          if (this.itemList) {
-            this.service.formData.patchValue({
-              Interest: this.itemList[ctrl.selectedIndex - 1].MarkUp
-                ? this.itemList[ctrl.selectedIndex - 1].MarkUp
-                : 0,
-              Serial: this.itemList[ctrl.selectedIndex - 1].Serial
-                ? this.itemList[ctrl.selectedIndex - 1].Serial
-                : 9,
-              BillCategory: this.itemList[ctrl.selectedIndex - 1].BillCategory
-                ? this.itemList[ctrl.selectedIndex - 1].BillCategory
-                : '***',
-              BillStatus: this.itemList[ctrl.selectedIndex - 1].BillStatus
-                ? this.itemList[ctrl.selectedIndex - 1].BillStatus
-                : '***',
-              FreightCat: this.itemList[ctrl.selectedIndex - 1].FreightCat
-                ? this.itemList[ctrl.selectedIndex - 1].FreightCat
-                : '***',
-            });
-          }
-
-      }
-
     }
   }
 

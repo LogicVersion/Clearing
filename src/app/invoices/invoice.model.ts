@@ -128,4 +128,7 @@ export class InvoiceDetailsList {
   Total: number = 0;
   Serial: number = 0;
   VAT: number = 0;
+  BillCategory: string = '';
+  BillStatus: string = '';
+  FreightCat: string = '';
 }

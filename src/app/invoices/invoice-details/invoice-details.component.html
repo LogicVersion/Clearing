@@ -74,15 +74,23 @@
 
         <div class="form-group col-md-4 mb-3">
           <label for="Price">Rate</label>
-          <input id="Price" formControlName="Price" type="text" #price (keyup)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
+          <input id="Price" FormatNumerLocal formControlName="Price" type="text" #price (keyup)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Price'].errors">
             <label *ngIf="formControls['Price'].errors['required']">This field is required.</label>
           </div>
         </div>
 
+        <!-- <mat-form-field appearance="outline">
+          <mat-label>Deposit Amount</mat-label>
+          <input matInput
+                FormatNumerLocal
+                formControlName="Price"
+                type="text"/>
+        </mat-form-field> -->
+
         <div class="form-group col-md-4 mb-3">
           <label for="AmountPaid">AmountPaid</label>
-          <input id="AmountPaid" formControlName="AmountPaid" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountPaid'].errors}">
+          <input id="AmountPaid" FormatNumerLocal formControlName="AmountPaid" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountPaid'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['AmountPaid'].errors">
             <label *ngIf="formControls['AmountPaid'].errors['required']">This field is required.</label>
           </div>
@@ -152,7 +160,7 @@
       <div class="row">
         <div class="form-group col-md-6 mb-3">
           <label for="subTotal">SubTotal</label>
-          <input readonly  id="subTotal" formControlName="subTotal" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['subTotal'].errors}">
+          <input readonly  id="subTotal" FormatNumerLocal formControlName="subTotal" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['subTotal'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['subTotal'].errors">
             <label *ngIf="formControls['subTotal'].errors['required']">This field is required.</label>
           </div>
@@ -160,7 +168,7 @@
 
         <div class="form-group col-md-6 mb-3">
           <label for="Total">Total</label>
-          <input  readonly id="Total" formControlName="Total" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Total'].errors}">
+          <input  readonly id="Total" FormatNumerLocal formControlName="Total" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Total'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Total'].errors">
             <label *ngIf="formControls['Total'].errors['required']">This field is required.</label>
           </div>

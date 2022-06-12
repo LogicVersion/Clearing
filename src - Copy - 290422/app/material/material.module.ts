@@ -24,7 +24,7 @@ const MaterialComponents = [
   MatPaginatorModule,
   MatDialogModule,
   MatToolbarModule,
-  MatDatepickerModule
+  MatDatepickerModule,
 ];
 
 @NgModule({
