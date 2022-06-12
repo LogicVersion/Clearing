@@ -55,7 +55,7 @@ export class InvoiceDetailsService {
       Qty: inv.Qty,
       subTotal: inv.subTotal,
       Interest: inv.Interest,
-      Total: inv.Total,
+      //Total: inv.Total,
       billType: inv.billType,
       //VAT: inv.VAT,
       ExchRate: inv.ExchRate,
@@ -80,7 +80,7 @@ export class InvoiceDetailsService {
       Qty: 0,
       subTotal: 0,
       Interest: 0,
-      Total: 0,
+      //Total: 0,
       billType: '***',
       VAT: 0,
       ExchRate: 1,
@@ -96,14 +96,10 @@ export class InvoiceDetailsService {
 
   formatDateToString(dateVal: Date): any {
     try {
-
       return dateVal.toISOString(); //.toISOString().substr(0
-
-    }
-    catch(err){
+    } catch (err) {
       return dateVal; //
     }
-
   }
 
   formatStringToDate(dateVal: any): Date {
@@ -116,7 +112,6 @@ export class InvoiceDetailsService {
     } catch (err) {
       return dateVal; //
     }
-
   }
 
   flgEdit = false;
@@ -162,6 +157,21 @@ export class InvoiceDetailsService {
   invoiceMasterArr: Invoice[] = [];
   invoiceDetailsArr: InvoiceDetails[] = [];
 
+  updateTotal() {
+    if (this.InvoiceDetailsList.length > 0) {
+      this.formData.patchValue({
+        Total: this.InvoiceDetailsList.reduce((sum, curr) => {
+          return sum + curr.subTotal; //sum=prev Value
+        }, 0),
+        //this.service.formData.GTotal = parseFloat(this.service.formData.GTotal.toFixed(2));
+      });
+    } else {
+      this.formData.patchValue({
+        Total: 0,
+      });
+    }
+  }
+
   readonly appURL = environment.appURL + '/invoicedetails';
   //readonly appURL ='http://localhost:8081/api/invoices'
 
@@ -171,7 +181,7 @@ export class InvoiceDetailsService {
   //   //console.log(this.customerGroupList);
   // }
 
-  getList(billNoX: string ) {
+  getList(billNoX: string) {
     return this.http.get(this.appURL + '/' + billNoX);
     // this.http.get(this.appURL);
     // .toPromise()

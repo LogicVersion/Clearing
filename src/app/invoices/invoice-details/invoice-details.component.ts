@@ -46,6 +46,7 @@ export class InvoiceDetailsComponent implements OnInit {
   // snoVal = this.service.formData.get('SNo')?.value;
   messages: any[] = [];
   billNoParam: string = '';
+  idx = 0;
 
   //curr = formatNumber(1000, this.locale, '7.1-5');
 
@@ -66,6 +67,8 @@ export class InvoiceDetailsComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.utilSvc.setButtons(true);
+    //this.updateTotal();
+
   }
 
   /*
@@ -153,6 +156,8 @@ export class InvoiceDetailsComponent implements OnInit {
     //this.service.enableFields(false);
     this.service.flgEdit = false;
     this.childRef?.reLoadData();
+    //this.service.updateTotal();
+
   }
 
   resetForm() {
@@ -223,6 +228,7 @@ export class InvoiceDetailsComponent implements OnInit {
 
   updateFields(ctrl: any) {
     if (ctrl.selectedIndex == 0) {
+      this.idx = 0;
       this.service.formData.patchValue({
         MarkUp: 0,
         Serial: 9,
@@ -234,38 +240,39 @@ export class InvoiceDetailsComponent implements OnInit {
     } else {
       if (this.service.flgEdit) {
         //do nothing -- InvoiceDetailsList
-          this.service.formData.patchValue({
-            Interest:
-              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Interest,
-            Serial:
-              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Serial,
-            BillCategory:
-              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
-                .BillCategory,
-            BillStatus:
-              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
-                .BillStatus,
-            FreightCat:
-              this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].FreightCat,
-          });
-
+        // this.service.formData.patchValue({
+        //   Interest:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Interest,
+        //   Serial:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Serial,
+        //   BillCategory:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
+        //       .BillCategory,
+        //   BillStatus:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
+        //       .BillStatus,
+        //   FreightCat:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].FreightCat,
+        // });
       } else {
+        //new entry
         if (this.itemList) {
+          this.idx = ctrl.selectedIndex;
           this.service.formData.patchValue({
-            Interest: this.itemList[ctrl.selectedIndex - 1].MarkUp
-              ? this.itemList[ctrl.selectedIndex - 1].MarkUp
+            Interest: this.itemList[this.idx - 1].MarkUp
+              ? this.itemList[this.idx - 1].MarkUp
               : 0,
-            Serial: this.itemList[ctrl.selectedIndex - 1].Serial
-              ? this.itemList[ctrl.selectedIndex - 1].Serial
+            Serial: this.itemList[this.idx - 1].Serial
+              ? this.itemList[this.idx - 1].Serial
               : 9,
-            BillCategory: this.itemList[ctrl.selectedIndex - 1].BillCategory
-              ? this.itemList[ctrl.selectedIndex - 1].BillCategory
+            BillCategory: this.itemList[this.idx - 1].BillCategory
+              ? this.itemList[this.idx - 1].BillCategory
               : '***',
-            BillStatus: this.itemList[ctrl.selectedIndex - 1].BillStatus
-              ? this.itemList[ctrl.selectedIndex - 1].BillStatus
+            BillStatus: this.itemList[this.idx - 1].BillStatus
+              ? this.itemList[this.idx - 1].BillStatus
               : '***',
-            FreightCat: this.itemList[ctrl.selectedIndex - 1].FreightCat
-              ? this.itemList[ctrl.selectedIndex - 1].FreightCat
+            FreightCat: this.itemList[this.idx - 1].FreightCat
+              ? this.itemList[this.idx - 1].FreightCat
               : '***',
           });
         }
@@ -277,15 +284,33 @@ export class InvoiceDetailsComponent implements OnInit {
     if (qty == 0 || price == 0) {
       this.service.formData.patchValue({
         subTotal: 0,
+        //Total: 0,
       });
     } else {
       this.service.formData.patchValue({
         subTotal: qty * price,
       });
+      //this.service.updateTotal();
     }
   }
 
   // updateTotal() {
+  //   if (this.service.InvoiceDetailsList.length > 0){
+  //     this.service.formData.patchValue({
+  //       Total: this.service.InvoiceDetailsList.reduce((sum, curr) => {
+  //         return sum + curr.subTotal; //sum=prev Value
+  //       }, 0),
+  //       //this.service.formData.GTotal = parseFloat(this.service.formData.GTotal.toFixed(2));
+  //     });
+  //   } else {
+  //     this.service.formData.patchValue({
+  //       Total:0,
+  //     });
+  //   }
+
+  // }
+
+  // updateTotal2() {
   //   this.formData.Total = parseFloat(
   //     (this.formData.Quantity * this.formData.Price).toFixed(2)
   //   );
