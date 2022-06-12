@@ -219,32 +219,40 @@ export class InvoiceDetailsComponent implements OnInit {
     if (ctrl.selectedIndex == 0) {
       this.service.formData.patchValue({
         MarkUp: 0,
-        Serial: 1,
+        Serial: 9,
         BillCategory: '***',
         BillStatus: '***',
         FreightCat: '***',
       });
       //this.form.controls['your form control name'].value;
     } else {
-      if (this.itemList) {
-        this.service.formData.patchValue({
-          Interest: this.itemList[ctrl.selectedIndex - 1].MarkUp
-            ? this.itemList[ctrl.selectedIndex - 1].MarkUp
-            : 0,
-          Serial: this.itemList[ctrl.selectedIndex - 1].Serial
-            ? this.itemList[ctrl.selectedIndex - 1].Serial
-            : 9,
-          BillCategory: this.itemList[ctrl.selectedIndex - 1].BillCategory
-            ? this.itemList[ctrl.selectedIndex - 1].BillCategory
-            : '***',
-          BillStatus: this.itemList[ctrl.selectedIndex - 1].BillStatus
-            ? this.itemList[ctrl.selectedIndex - 1].BillStatus
-            : '***',
-          FreightCat: this.itemList[ctrl.selectedIndex - 1].FreightCat
-            ? this.itemList[ctrl.selectedIndex - 1].FreightCat
-            : '***',
-        });
+      if (this.service.flgEdit) {
+
+        //do nothing
       }
+      else {
+          if (this.itemList) {
+            this.service.formData.patchValue({
+              Interest: this.itemList[ctrl.selectedIndex - 1].MarkUp
+                ? this.itemList[ctrl.selectedIndex - 1].MarkUp
+                : 0,
+              Serial: this.itemList[ctrl.selectedIndex - 1].Serial
+                ? this.itemList[ctrl.selectedIndex - 1].Serial
+                : 9,
+              BillCategory: this.itemList[ctrl.selectedIndex - 1].BillCategory
+                ? this.itemList[ctrl.selectedIndex - 1].BillCategory
+                : '***',
+              BillStatus: this.itemList[ctrl.selectedIndex - 1].BillStatus
+                ? this.itemList[ctrl.selectedIndex - 1].BillStatus
+                : '***',
+              FreightCat: this.itemList[ctrl.selectedIndex - 1].FreightCat
+                ? this.itemList[ctrl.selectedIndex - 1].FreightCat
+                : '***',
+            });
+          }
+
+      }
+
     }
   }
 

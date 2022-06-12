@@ -95,7 +95,7 @@
    <div class="col-md-5 mx-auto ">
 
     <div class="row">
-      <div class="form-group col-md-4 mb-3 mt-3">
+      <div class="form-group col-md-5 mb-3 mt-3">
         <label for="billNO">InvoiceNo</label>
         <input readonly id="billNO" formControlName="billNO" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['billNO'].errors}">
         <div class="invalid-feedback" *ngIf="submitted && formControls['billNO'].errors">
@@ -105,7 +105,7 @@
 
       <div class="form-group col-md-6 mb-3 mt-3 ">
         <label for="dtDate">InvoiceDate</label>
-        <input type="date"
+        <input type="date" readonly
           id="dtDate"
           [formControl]="$any(this.service.formData.controls['dtDate'])"
           class="form-control" [ngClass]="{'is-invalid':submitted && formControls['dtDate'].errors}">
