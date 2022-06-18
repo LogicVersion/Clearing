@@ -34,10 +34,6 @@ import { InvoiceDetailsListComponent } from './invoices/invoice-details-list/inv
 import {InvoiceDetailsService } from './invoices/invoice-details.service';
 import {InvoiceService,} from './invoices/invoice.service';
 import { FormatNumerLocalDirective } from './shared/format-numer-local.directive';
-import { DataEntryComponent } from './data-entry/data-entry.component';
-import { ReportsComponent } from './reports/reports.component';
-import { ContactUsComponent } from './contact-us/contact-us.component';
-import { ProductsAndServicesComponent } from './products-and-services/products-and-services.component';
 
 
 
@@ -63,10 +59,6 @@ import { ProductsAndServicesComponent } from './products-and-services/products-a
     DateFormatPipe,
     DateInputConverterDirective,
     FormatNumerLocalDirective,
-    DataEntryComponent,
-    ReportsComponent,
-    ContactUsComponent,
-    ProductsAndServicesComponent,
   ],
   imports: [
     BrowserModule,
