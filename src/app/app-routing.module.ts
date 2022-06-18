@@ -27,6 +27,7 @@ const routes: Routes = [
       { path: 'consignees', component: ConsigneeComponent },
       { path: 'consigneegroups', component: ConsigneeGroupComponent },
       { path: 'welcome', component: WelcomeComponent },
+      { path: 'invoices', component: InvoiceComponent }, //invoices
       { path: '', component: InvoiceComponent }, //invoices
     ],
   },
