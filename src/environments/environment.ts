@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   appURL: 'https://localhost:7118/api',
   //appURL: 'http://localhost:8081/api',
+  apiURL_Admin: 'http://localhost:35257',
   coyID: 'Clearing',
   coyName: 'Sapid Agencies Ltd',
   imgLogo: '',

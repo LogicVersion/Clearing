@@ -4,10 +4,11 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs/operators';
 import { User } from './user.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class UserService {
-  readonly rootUrl = 'http://localhost:35257';
+  readonly rootUrl = environment.apiURL_Admin;
   constructor(private http: HttpClient) { }
 
   registerUser(user: User,roles : string[]) {
