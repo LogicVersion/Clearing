@@ -13,7 +13,7 @@ import { DataEntryComponent } from './data-entry/data-entry.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ProductsAndServicesComponent } from './products-and-services/products-and-services.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
-import { AuthGuard } from './auth/auth.guard';
+import { AuthMainGuard } from './auth-main.guard';
 
 //import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -31,7 +31,8 @@ const routes: Routes = [
   { path: 'ContactUs', component: ContactUsComponent },
   {
     path: 'DataEntry',
-    component: DataEntryComponent,canActivate: [AuthGuard],
+    component: DataEntryComponent,
+    canActivate: [AuthMainGuard],
     children: [
       { path: 'billitems', component: ClearingItemsComponent },
       { path: 'consignees', component: ConsigneeComponent },
@@ -41,7 +42,11 @@ const routes: Routes = [
       { path: '', component: InvoiceComponent }, //invoices
     ],
   },
-  { path: 'Reports', component: ReportsComponent,canActivate:[AuthGuard] },
+  {
+    path: 'Reports',
+    component: ReportsComponent,
+    canActivate: [AuthMainGuard],
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];

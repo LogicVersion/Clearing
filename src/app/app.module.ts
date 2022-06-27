@@ -42,6 +42,8 @@ import { ProductsAndServicesComponent } from './products-and-services/products-a
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
+import { AuthMainGuard } from './auth-main.guard';
+import { UserService } from './auth/shared/user.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,6 @@ import { AuthModule } from './auth/auth.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     HttpClientModule,
@@ -81,6 +82,7 @@ import { AuthModule } from './auth/auth.module';
     MatSortModule,
     BsDatepickerModule.forRoot(),
     AuthModule,
+    AppRoutingModule,
   ],
   providers: [
     ClearingItemService,
@@ -91,6 +93,8 @@ import { AuthModule } from './auth/auth.module';
     InvoiceService,
     InvoiceDetailsService,
     AuthGuard,
+    AuthMainGuard,
+    UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
