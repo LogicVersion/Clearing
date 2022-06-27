@@ -1,6 +1,6 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpUserEvent, HttpEvent } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { UserService } from "../shared-admin/user.service";
+import { UserService } from "./shared/user.service";
 
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";

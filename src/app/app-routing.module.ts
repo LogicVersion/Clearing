@@ -13,6 +13,16 @@ import { DataEntryComponent } from './data-entry/data-entry.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ProductsAndServicesComponent } from './products-and-services/products-and-services.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
+import { AuthGuard } from './auth/auth.guard';
+
+//import { AppComponent } from './app.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+//import { ToastrModule } from 'ngx-toastr';
+//import { HomeComponent } from './home/home.component';
+//import { AuthGuard } from './auth/auth.guard';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { AdminPanelComponent } from './auth/admin-panel/admin-panel.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 
 const routes: Routes = [
@@ -21,7 +31,7 @@ const routes: Routes = [
   { path: 'ContactUs', component: ContactUsComponent },
   {
     path: 'DataEntry',
-    component: DataEntryComponent,
+    component: DataEntryComponent,canActivate: [AuthGuard],
     children: [
       { path: 'billitems', component: ClearingItemsComponent },
       { path: 'consignees', component: ConsigneeComponent },
@@ -31,7 +41,7 @@ const routes: Routes = [
       { path: '', component: InvoiceComponent }, //invoices
     ],
   },
-  { path: 'Reports', component: ReportsComponent },
+  { path: 'Reports', component: ReportsComponent,canActivate:[AuthGuard] },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];
@@ -41,6 +51,7 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
 export const routeComponents = [
   ClearingItemsComponent,
   ClearingItemListComponent,

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule, routeComponents } from './app-routing.module';
-//import { AppRoutingAdminModule } from './app-routing-admin';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -39,15 +38,10 @@ import { DataEntryComponent } from './data-entry/data-entry.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { ProductsAndServicesComponent } from './products-and-services/products-and-services.component';
-import { AppRoutingAdminModule, routeComponentsAdmin } from './app-routing-admin.module';
+//import { AppRoutingAdminModule, routeComponentsAdmin } from './app-routing-admin.module';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { UserService } from './shared-admin/user.service';
 import { AuthGuard } from './auth/auth.guard';
-
-
-
-
-
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -72,12 +66,10 @@ import { AuthGuard } from './auth/auth.guard';
     ReportsComponent,
     ContactUsComponent,
     ProductsAndServicesComponent,
-    routeComponentsAdmin,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AppRoutingAdminModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     HttpClientModule,
@@ -88,6 +80,7 @@ import { AuthGuard } from './auth/auth.guard';
     MatPaginatorModule,
     MatSortModule,
     BsDatepickerModule.forRoot(),
+    AuthModule,
   ],
   providers: [
     ClearingItemService,
@@ -97,7 +90,6 @@ import { AuthGuard } from './auth/auth.guard';
     UtilityService,
     InvoiceService,
     InvoiceDetailsService,
-    UserService,
     AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
