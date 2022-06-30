@@ -12,31 +12,52 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   registerUser(user: User,roles : string[]) {
-    const body = {
+    const body = JSON.stringify({
       UserName: user.UserName,
       Password: user.Password,
       Email: user.Email,
       FirstName: user.FirstName,
       LastName: user.LastName,
       Roles : roles
-    }
-    var reqHeader = new HttpHeaders({'No-Auth':'True'});
-    return this.http.post(this.apiUrl + '/api/User/Register', body,{headers : reqHeader});
+    });
+    var reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'No-Auth': 'True',
+    });
+    //return this.http.post(this.apiUrl + '/api/User/Register', body,{headers : reqHeader});
+    return this.http.post(this.apiUrl + '/Authenticate/registerAdmin', body, {
+      headers: reqHeader,
+    });
+
   }
 
   userAuthentication(userName: string, password: string) {
-    var data = "username=" + userName + "&password=" + password + "&grant_type=password";
-    var reqHeader = new HttpHeaders({ 'Content-Type': 'application/x-www-urlencoded','No-Auth':'True' });
-    return this.http.post(this.apiUrl + '/token', data, { headers: reqHeader });
+    //var data = "username=" + userName + "&password=" + password + "&grant_type=password";
+    //var reqHeader = new HttpHeaders({ 'Content-Type': 'application/x-www-urlencoded','No-Auth':'True' });
+    //return this.http.post(this.apiUrl + '/token', data, { headers: reqHeader });
+
+    var data = JSON.stringify({
+      UserName: userName,
+      Password: password
+    });
+    var reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'No-Auth': 'True',
+    });
+    return this.http.post(this.apiUrl + '/Authenticate/login', data, {
+      headers: reqHeader,
+    });
   }
 
   getUserClaims(){
-   return  this.http.get(this.apiUrl+'/api/GetUserClaims');
+   return this.http.get(this.apiUrl + '/Authenticate/GetUserClaims');
   }
 
   getAllRoles() {
     var reqHeader = new HttpHeaders({ 'No-Auth': 'True' });
-    return this.http.get(this.apiUrl + '/api/GetAllRoles', { headers: reqHeader });
+    return this.http.get(this.apiUrl + '/Authenticate/GetAllRoles', {
+      headers: reqHeader,
+    });
   }
 
   roleMatch(allowedRoles: any): boolean {

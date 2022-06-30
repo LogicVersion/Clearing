@@ -17,9 +17,12 @@ export class SignInComponent implements OnInit {
 
   OnSubmit(userName: string,password: string){
      this.userService.userAuthentication(userName,password).subscribe((data : any)=>{
-      localStorage.setItem('userToken',data.access_token);
-      localStorage.setItem('userRoles',data.role);
-      this.router.navigate(['/home']);
+      localStorage.setItem('userToken',data.token);
+      const payload = JSON.parse(atob(data.token.split('.')[1]));
+      const roles =
+        payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      localStorage.setItem('userRoles', roles);
+      this.router.navigate(['/DataEntry']);
     },
     (err : HttpErrorResponse)=>{
       this.isLoginError = true;

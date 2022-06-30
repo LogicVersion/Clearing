@@ -41,14 +41,23 @@ export class SignUpComponent implements OnInit {
   }
 
   OnSubmit(form: NgForm) {
-    var x = this.roles.filter(x => x.selected).map(y => y.Name);
-    this.userService.registerUser(form.value,x)
-      .subscribe((data: any) => {
-        if (data.Succeeded == true) {
-          this.resetForm(form);
-          this.toastr.success('User registration successful');
+        let x: any[]=[];
+        if (this.roles){
+          x = this.roles.filter((x) => x.selected).map((y) => y.name);
+          if (x.length <= 0) {
+            this.toastr.warning('No User Role(s) Selected');
+            return;
+          }
+        } 
+        else{
+          this.toastr.warning('User Roles Required! Please Register one or more Roles');
+          return;
         }
-        else
+
+      this.userService.registerUser(form.value,x)
+      .subscribe((data: any)=> {
+          this.resetForm(form);
+          this.toastr.success('User registration successful'),
           this.toastr.error(data.Errors[0]);
       });
   }

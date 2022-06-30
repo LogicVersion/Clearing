@@ -28,8 +28,8 @@
   <div class="row" *ngIf="roles">
     <ul>
       <li *ngFor="let item of roles;let i = index">
-        <input type="checkbox" [id]="'roles-'+i" value="{{item.Id}}" [checked]="item.selected"  (change)="updateSelectedRoles(i)">
-        <label [for]="'roles-'+i">{{item.Name}}</label>
+        <input type="checkbox" [id]="'roles-'+i" value="{{item.id}}" [checked]="item.selected"  (change)="updateSelectedRoles(i)"/>
+        <label [for]="'roles-'+i" >{{item.name}}</label>
       </li>
     </ul>
   </div>

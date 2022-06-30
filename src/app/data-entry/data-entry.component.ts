@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { concatMap } from 'rxjs/operators';
 import { LoadingService } from '../shared/loading.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,11 +17,19 @@ export class DataEntryComponent implements OnInit {
   coyID = environment.coyID;
   loading$ = this.loader.loading$;
 
-  constructor(public loader: LoadingService, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    public loader: LoadingService,
+    private http: HttpClient
+  ) {}
 
-    ngOnInit(): void {
+  ngOnInit(): void {}
 
-    }
+  Logout() {
+    localStorage.removeItem('userToken');
+    this.router.navigate(['/login']);
+  }
+
   // fetchData() {
   //   this.http
   //     .get('https://api.github.com/users/thisiszoaib')
