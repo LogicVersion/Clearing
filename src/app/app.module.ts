@@ -45,6 +45,10 @@ import { AuthModule } from './auth/auth.module';
 import { AuthMainGuard } from './auth-main.guard';
 import { UserService } from './auth/shared/user.service';
 
+import { AppResolve } from './_resolvers/app.resolver';
+
+// import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,6 +87,7 @@ import { UserService } from './auth/shared/user.service';
     BsDatepickerModule.forRoot(),
     AuthModule,
     AppRoutingModule,
+    // NgSelectModule,
   ],
   providers: [
     ClearingItemService,
@@ -100,6 +105,7 @@ import { UserService } from './auth/shared/user.service';
       useClass: AuthInterceptor,
       multi: true,
     },
+    AppResolve,
   ],
   entryComponents: [InvoiceDetailsComponent, InvoiceDetailsListComponent],
   bootstrap: [AppComponent, LoadingService],

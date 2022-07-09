@@ -24,6 +24,10 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { AdminPanelComponent } from './auth/admin-panel/admin-panel.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 
+import { AppResolve } from './_resolvers/app.resolver';
+// import { BlankComponent } from './blank.component';
+
+
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -45,8 +49,18 @@ const routes: Routes = [
   {
     path: 'Reports',
     component: ReportsComponent,
-    canActivate: [AuthMainGuard],
+    //canActivate: [AuthMainGuard],
+    resolve: {
+      appResolve: AppResolve,
+    },
   },
+  // {
+  //   path: 'paymentmethod.htm',
+  //   component: BlankComponent,
+  //   resolve: {
+  //     appResolve: AppResolve,
+  //   },
+  // },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];
@@ -65,4 +79,5 @@ export const routeComponents = [
   HomeComponent,
   WelcomeComponent,
   PageNotFoundComponent,
+  //BlankComponent,
 ];
