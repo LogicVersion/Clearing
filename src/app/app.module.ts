@@ -47,8 +47,7 @@ import { UserService } from './auth/shared/user.service';
 
 import { AppResolve } from './_resolvers/app.resolver';
 
-// import { NgSelectModule } from '@ng-select/ng-select';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -87,7 +86,7 @@ import { AppResolve } from './_resolvers/app.resolver';
     BsDatepickerModule.forRoot(),
     AuthModule,
     AppRoutingModule,
-    // NgSelectModule,
+    NgSelectModule,
   ],
   providers: [
     ClearingItemService,

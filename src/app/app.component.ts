@@ -18,7 +18,7 @@ export class AppComponent {
 
   constructor(public loader: LoadingService, private http: HttpClient) {}
 
-fruits = ["apple", "orange", "banana", "grapes"];
+// fruits = ["apple", "orange", "banana", "grapes"];
 
   // fetchData() {
   //   this.http
