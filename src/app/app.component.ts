@@ -18,7 +18,16 @@ export class AppComponent {
 
   constructor(public loader: LoadingService, private http: HttpClient) {}
 
-// fruits = ["apple", "orange", "banana", "grapes"];
+  selectedCar: number=0;
+
+  cars = [
+    { id: 1, name: 'Volvo' },
+    { id: 2, name: 'Saab' },
+    { id: 3, name: 'Opel' },
+    { id: 4, name: 'Audi' },
+  ];
+
+  fruits = ["apple", "orange", "banana", "grapes"];
 
   // fetchData() {
   //   this.http
@@ -42,6 +51,4 @@ export class AppComponent {
   //       console.log(res);
   //     });
   // }
-
-
 }

@@ -40,6 +40,15 @@ export class InvoiceComponent implements OnInit {
   //  today: Date = new Date(); // Date = new Date();
   // dateStr: String = ''; //String=''; //<- note String
 
+  selectedCar: number=0;
+
+  cars = [
+    { id: 1, name: 'Volvo' },
+    { id: 2, name: 'Saab' },
+    { id: 3, name: 'Opel' },
+    { id: 4, name: 'Audi' },
+  ];
+
   ngOnInit() {
     //this.reloadData
     this.today = this.date.toISOString().substr(0, 10);
@@ -204,9 +213,9 @@ export class InvoiceComponent implements OnInit {
     this.service.enableFields(true);
   }
   AddToBill() {
-    if (this.service.form.controls['billNO'].value=='***'){
-        this.toastr.warning('Select a Bill to Add Items to');
-        return;
+    if (this.service.form.controls['billNO'].value == '***') {
+      this.toastr.warning('Select a Bill to Add Items to');
+      return;
     }
 
     const dialogConfig = new MatDialogConfig();
