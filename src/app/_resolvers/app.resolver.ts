@@ -9,7 +9,8 @@ export class AppResolve implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot): any {
       //window.location.href = "http://www.google.com";
-      window.open('http://localhost:8099/reports.aspx', '_blank');
+      //window.open('http://localhost:8099/reports.aspx', '_blank');
+      window.open('http://sapidholdingsonline.com/reports.aspx', '_blank');
       return true;
   }
 

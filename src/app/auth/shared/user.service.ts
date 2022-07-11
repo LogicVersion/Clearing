@@ -25,7 +25,7 @@ export class UserService {
       'No-Auth': 'True',
     });
     //return this.http.post(this.apiUrl + '/api/User/Register', body,{headers : reqHeader});
-    return this.http.post(this.apiUrl + '/Authenticate/registerAdmin', body, {
+    return this.http.post(this.apiUrl + '/registerAdmin', body, {
       headers: reqHeader,
     });
 
@@ -44,18 +44,18 @@ export class UserService {
       'Content-Type': 'application/json',
       'No-Auth': 'True',
     });
-    return this.http.post(this.apiUrl + '/Authenticate/login', data, {
+    return this.http.post(this.apiUrl + '/login', data, {
       headers: reqHeader,
     });
   }
 
   getUserClaims(){
-   return this.http.get(this.apiUrl + '/Authenticate/GetUserClaims');
+   return this.http.get(this.apiUrl + '/GetUserClaims');
   }
 
   getAllRoles() {
     var reqHeader = new HttpHeaders({ 'No-Auth': 'True' });
-    return this.http.get(this.apiUrl + '/Authenticate/GetAllRoles', {
+    return this.http.get(this.apiUrl + '/GetAllRoles', {
       headers: reqHeader,
     });
   }
