@@ -150,8 +150,8 @@
               <ng-select id="pNo" formControlName="pNo"
                 placeholder="Select an Importer"
                 class="form-control" [ngClass]="{'is-invalid': submitted && formControls['pNo'].errors}">
-                <option value="0">--Select--</option>
-                <option *ngFor="let item of itemList" [value]="item.ConsigneeCode">{{item.ConsigneeName}}</option>
+                <ng-option value="0">--Select--</ng-option>
+                <ng-option *ngFor="let item of itemList" [value]="item.ConsigneeCode">{{item.ConsigneeName}}</ng-option>
               </ng-select>
         <div class="invalid-feedback" *ngIf="submitted && formControls['pNo'].errors" >
           <label *ngIf="formControls['pNo'].errors['required']" >This field is required.</label>

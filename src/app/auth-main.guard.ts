@@ -11,9 +11,11 @@ export class AuthMainGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (localStorage.getItem('userToken') != null)
+    if (localStorage.getItem('userToken') != null){
      return true;
+    }else {
     this.router.navigate(['/login']);
     return false;
+    }
   }
 }

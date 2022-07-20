@@ -92,7 +92,23 @@ mat-footer-row mat-footer-cell{
         }
 
 
+
         /* ------------------------------------- */
+
+  	.pointerCursor {
+  	  cursor: pointer;
+  	}
+
+  	.headerLogo {
+  	  height: 50px;
+  	}
+
+    .navbar a {
+  	  color: white !important
+  	}
+
+
+/* ------------------------------------- */
 
 /* .form-control,.input-group-text{
     border:1px solid #0080ff;

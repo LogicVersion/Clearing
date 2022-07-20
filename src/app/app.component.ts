@@ -18,14 +18,14 @@ export class AppComponent {
 
   constructor(public loader: LoadingService, private http: HttpClient) {}
 
-  selectedCar: number=0;
+  // selectedCar: number=0;
 
-  cars = [
-    { id: 1, name: 'Volvo' },
-    { id: 2, name: 'Saab' },
-    { id: 3, name: 'Opel' },
-    { id: 4, name: 'Audi' },
-  ];
+  // cars = [
+  //   { id: 1, name: 'Volvo' },
+  //   { id: 2, name: 'Saab' },
+  //   { id: 3, name: 'Opel' },
+  //   { id: 4, name: 'Audi' },
+  // ];
 
   fruits = ["apple", "orange", "banana", "grapes"];
 

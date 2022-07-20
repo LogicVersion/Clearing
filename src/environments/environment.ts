@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  //appURL: 'http://localhost:8081/api',
-  appURL: 'http://sapidholdingsonline.com/sapi/api/clearing', //billingAPI
-  //apiURL_Admin: 'http://localhost:8082/api',
-  apiURL_Admin: 'http://sapidholdingsonline.com/apix/api/authenticate', //AuthAPI
+  appURL: 'https://localhost:7118/api/clearing',
+  // appURL: 'http://sapidholdingsonline.com/sapi/api/clearing', //billingAPI
+  apiURL_Admin: 'http://localhost:8082/api/authenticate', //http://localhost:5000/api',
+  // apiURL_Admin: 'http://sapidholdingsonline.com/apix/api/authenticate', //AuthAPI
   coyID: 'Clearing',
   coyName: 'Sapid Agencies Ltd',
   imgLogo: '',

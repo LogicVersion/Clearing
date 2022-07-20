@@ -25,6 +25,7 @@ import { AdminPanelComponent } from './auth/admin-panel/admin-panel.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 import { AppResolve } from './_resolvers/app.resolver';
+import { AuthGuard } from './auth/auth.guard';
 // import { BlankComponent } from './blank.component';
 
 
@@ -36,8 +37,10 @@ const routes: Routes = [
   {
     path: 'DataEntry',
     component: DataEntryComponent,
-    canActivate: [AuthMainGuard],
+    canActivate: [AuthGuard],
+    // data: { roles: ['User'] },
     children: [
+      { path: '', redirectTo: 'DataEntry', pathMatch: 'full' },
       { path: 'billitems', component: ClearingItemsComponent },
       { path: 'consignees', component: ConsigneeComponent },
       { path: 'consigneegroups', component: ConsigneeGroupComponent },
@@ -61,7 +64,7 @@ const routes: Routes = [
   //     appResolve: AppResolve,
   //   },
   // },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];
 

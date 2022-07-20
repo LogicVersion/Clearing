@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, observable, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.model';
 import { Invoice, InvoiceDetails, InvoiceList } from './invoice.model';
@@ -26,7 +26,7 @@ export class InvoiceService {
     JobCode: ['', [Validators.required]],
     billType: ['0', [Validators.required]],
     JobNature: ['0', [Validators.required]],
-    pNo: ['0', [Validators.required]],
+    pNo: [null, [Validators.required]],
     ConsigneeCode: ['', [Validators.required]],
     AmountBilledInWord: ['', [Validators.required]],
     IssuedBy: ['', [Validators.required]],
@@ -106,7 +106,7 @@ export class InvoiceService {
       JobCode: [''],
       billType: ['0'],
       JobNature: ['0'],
-      pNo: ['0'],
+      pNo: [null],
       ConsigneeCode: [''],
       AmountBilledInWord: [''],
       IssuedBy: [''],
