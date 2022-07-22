@@ -33,13 +33,14 @@
       <input type="hidden" formControlName="ID">
 
       <div class="row">
-        <div class="form-group col-md-10 mb-3 mt-3 ">
+        <div class="form-group mb-3 mt-3 ">
           <label for="drgName">Bill Item</label>
-                <select id="drgName" formControlName="drgName" (change)="updateFields($event.target)"
-                  class="form-control" [ngClass]="{'is-invalid': submitted && formControls['drgName'].errors}">
-                  <option value="0">--Select--</option>
-                  <option *ngFor="let item of itemList" value="{{item.BillItem}}">{{item.BillItem}}</option>
-                </select>
+                <ng-select id="drgName" formControlName="drgName" #itmX (change)="updateFields($event)"
+                placeholder="Select an Item"
+                class="form-control" [ngClass]="{'is-invalid': submitted && formControls['drgName'].errors}">
+                  <ng-option value="0">--Select--</ng-option>
+                  <ng-option *ngFor="let item of itemList" value="{{item.BillItem}}">{{item.BillItem}}</ng-option>
+                </ng-select>
           <div class="invalid-feedback" *ngIf="submitted && formControls['drgName'].errors" >
             <label *ngIf="formControls['drgName'].errors['required']" >This field is required.</label>
           </div>

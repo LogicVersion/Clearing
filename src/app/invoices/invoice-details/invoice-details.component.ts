@@ -226,8 +226,10 @@ export class InvoiceDetailsComponent implements OnInit {
     // this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
 
-  updateFields(ctrl: any) {
-    if (ctrl.selectedIndex == 0) {
+  updateFields(ctrl: any ) {
+    console.log(ctrl)
+    if (ctrl==null) {
+      //.selectedIndex == 0
       this.idx = 0;
       this.service.formData.patchValue({
         MarkUp: 0,
@@ -237,46 +239,50 @@ export class InvoiceDetailsComponent implements OnInit {
         FreightCat: '***',
       });
       //this.form.controls['your form control name'].value;
-    } else {
-      if (this.service.flgEdit) {
-        //do nothing -- InvoiceDetailsList
-        // this.service.formData.patchValue({
-        //   Interest:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Interest,
-        //   Serial:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Serial,
-        //   BillCategory:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
-        //       .BillCategory,
-        //   BillStatus:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
-        //       .BillStatus,
-        //   FreightCat:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].FreightCat,
-        // });
-      } else {
-        //new entry
-        if (this.itemList) {
-          this.idx = ctrl.selectedIndex;
-          this.service.formData.patchValue({
-            Interest: this.itemList[this.idx - 1].MarkUp
-              ? this.itemList[this.idx - 1].MarkUp
-              : 0,
-            Serial: this.itemList[this.idx - 1].Serial
-              ? this.itemList[this.idx - 1].Serial
-              : 9,
-            BillCategory: this.itemList[this.idx - 1].BillCategory
-              ? this.itemList[this.idx - 1].BillCategory
-              : '***',
-            BillStatus: this.itemList[this.idx - 1].BillStatus
-              ? this.itemList[this.idx - 1].BillStatus
-              : '***',
-            FreightCat: this.itemList[this.idx - 1].FreightCat
-              ? this.itemList[this.idx - 1].FreightCat
-              : '***',
-          });
+    }
+    else
+      {
+        if (this.service.flgEdit) {
+          //do nothing -- InvoiceDetailsList
+          // this.service.formData.patchValue({
+          //   Interest:
+          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Interest,
+          //   Serial:
+          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Serial,
+          //   BillCategory:
+          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
+          //       .BillCategory,
+          //   BillStatus:
+          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
+          //       .BillStatus,
+          //   FreightCat:
+          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].FreightCat,
+          // });
+        } else {
+          //new entry
+          if (this.itemList) {
+            // this.idx = ctrl.selectedIndex;
+            this.idx = this.itemList.findIndex((p) => p.BillItem == ctrl);
+            this.idx+=1;
+            this.service.formData.patchValue({
+              Interest: this.itemList[this.idx - 1].MarkUp
+                ? this.itemList[this.idx - 1].MarkUp
+                : 0,
+              Serial: this.itemList[this.idx - 1].Serial
+                ? this.itemList[this.idx - 1].Serial
+                : 9,
+              BillCategory: this.itemList[this.idx - 1].BillCategory
+                ? this.itemList[this.idx - 1].BillCategory
+                : '***',
+              BillStatus: this.itemList[this.idx - 1].BillStatus
+                ? this.itemList[this.idx - 1].BillStatus
+                : '***',
+              FreightCat: this.itemList[this.idx - 1].FreightCat
+                ? this.itemList[this.idx - 1].FreightCat
+                : '***',
+            });
+          }
         }
-      }
     }
   }
 
