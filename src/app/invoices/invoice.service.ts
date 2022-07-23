@@ -28,7 +28,7 @@ export class InvoiceService {
     JobNature: ['0', [Validators.required]],
     pNo: [null, [Validators.required]],
     ConsigneeCode: ['', [Validators.required]],
-    AmountBilledInWord: ['', [Validators.required]],
+    AmountBilledInWord: [''],
     IssuedBy: ['', [Validators.required]],
     GoodsDescription: ['', [Validators.required]],
     BLNo: ['', [Validators.required]],

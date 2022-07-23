@@ -7,8 +7,8 @@ export class UtilityService {
   constructor() {}
 
   addButtVisible = true;
-  saveButtVisible = true;
-  cancelButtVisible = true;
+  saveButtVisible = false;
+  cancelButtVisible = false;
 
 
   setButtons(bVal: boolean) {
@@ -16,6 +16,7 @@ export class UtilityService {
     this.addButtVisible = bVal;
     this.saveButtVisible = !bVal;
     this.cancelButtVisible = !bVal;
+
     // this.editButtVisible.Visible = bVal;
     // this.delButtVisible = bVal;
     //this.reLoadButtVisible = bVal;

@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-md-5 mx-auto ">
       <!-- *ngIf="utilSvc.addButtVisible" -->
-        <div  class="form-group mb-3 mt-3 ">
+        <div  *ngIf="utilSvc.addButtVisible" class="form-group mb-3 mt-3 ">
           <!-- <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()"> -->
           <button mat-raised-button (click)="addNew()" >
             <mat-icon>add</mat-icon>Add
@@ -147,7 +147,7 @@
 
       <div class="form-group mb-3 mt-3 ">
         <label for="pNo">Select Importer</label>
-              <ng-select id="pNo" formControlName="pNo"
+              <ng-select id="pNo" formControlName="pNo" (change)="updateFields($event)"
                 placeholder="Select an Importer"
                 class="form-control" [ngClass]="{'is-invalid': submitted && formControls['pNo'].errors}">
                 <ng-option value="0">--Select--</ng-option>
@@ -181,7 +181,8 @@
             Invalid NoOf40Ft.
           </div>
         </div>
-<!--
+
+        <!--
         <div class="form-group col-md-2 mb-3 ">
           <label for="ExchRate">ExchRate</label>
           <input id="ExchRate"  formControlName="ExchRate" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['ExchRate'].errors}">
@@ -212,7 +213,7 @@
         <label for="Content">Specific Content (Goods Summary)</label>
         <input id="Content"  formControlName="Content" class="form-control">
         <div class="invalid-feedback" *ngIf="submitted && formControls['Content'].errors">
-          Invalid Specific Content.
+          <label *ngIf="formControls['Content'].errors['required']">Invalid Specific Content.</label>
         </div>
       </div>
 
@@ -259,8 +260,8 @@
   <div class="row">
     <div class="col-md-5 mx-auto ">
       <!-- *ngIf="utilSvc.saveButtVisible" -->
-      <div class="form-group mb-3 ">
-        <input type="submit" class="btn btn-primary btn-space" value="Submit">
+      <div *ngIf="!utilSvc.addButtVisible" class="form-group mb-3 ">
+        <input type="submit" class="btn btn-primary btn-space" value="Submit" >
         <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()">
       </div>
 
@@ -274,7 +275,7 @@
       <!-- *ngIf="utilSvc.saveButtVisible" -->
       <!-- style="text-align: right;" -->
       <!-- https://getbootstrap.com/docs/5.0/utilities/float/ -->
-      <div  class="form-group mb-3 float-end" >
+      <div *ngIf="!utilSvc.addButtVisible"  class="form-group mb-3 float-end" >
         <input type="button" class="btn btn-primary " value="Add to Bill" (click)="AddToBill()">
         <!-- <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()"> -->
       </div>

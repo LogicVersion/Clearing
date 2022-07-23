@@ -209,8 +209,9 @@ export class InvoiceComponent implements OnInit {
 
   addNew() {
     this.service.flgEdit = false;
-    this.utilSvc.setButtons(false);
     this.service.enableFields(true);
+    this.utilSvc.setButtons(false);
+
   }
   AddToBill() {
     if (this.service.form.controls['billNO'].value == '***') {
@@ -229,6 +230,21 @@ export class InvoiceComponent implements OnInit {
     };
     this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
+  idx=-1;
+  updateFields(ctrl: any ) {
+    console.log(ctrl);
+        this.idx = this.itemList.findIndex((p) => p.ConsigneeCode == ctrl);
+            this.idx+=1; //just to avoid editing below code lines
+            this.service.form.patchValue({
+              ConsigneeCode: this.itemList[this.idx - 1].ConsigneeName
+                ? this.itemList[this.idx - 1].ConsigneeName
+                : '***',
+            });
+
+
+  }
+
+
 }
 
 

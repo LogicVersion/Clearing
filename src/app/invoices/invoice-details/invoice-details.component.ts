@@ -227,7 +227,7 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   updateFields(ctrl: any ) {
-    console.log(ctrl)
+    // console.log(ctrl)
     if (ctrl==null) {
       //.selectedIndex == 0
       this.idx = 0;
@@ -263,7 +263,7 @@ export class InvoiceDetailsComponent implements OnInit {
           if (this.itemList) {
             // this.idx = ctrl.selectedIndex;
             this.idx = this.itemList.findIndex((p) => p.BillItem == ctrl);
-            this.idx+=1;
+            this.idx+=1; //just to avoid editing below code lines
             this.service.formData.patchValue({
               Interest: this.itemList[this.idx - 1].MarkUp
                 ? this.itemList[this.idx - 1].MarkUp
