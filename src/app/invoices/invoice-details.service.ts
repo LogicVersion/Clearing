@@ -28,6 +28,7 @@ export class InvoiceDetailsService {
     Price: [0, [Validators.required]],
     Qty: [0, [Validators.required]],
     subTotal: [0, [Validators.required]],
+    VAT: [0, [Validators.required]],
     Interest: [0],
     Total: [0],
     billType: ['***'],
@@ -51,10 +52,11 @@ export class InvoiceDetailsService {
       dtDate: this.formatStringToDate(inv.dtDate), // new Date( inv.bDate),
       billNO: inv.billNO,
       drgName: inv.drgName,
-      Price: inv.Price,
-      Qty: inv.Qty,
-      subTotal: inv.subTotal,
-      Interest: inv.Interest,
+      Price: +inv.Price,
+      Qty: +inv.Qty,
+      subTotal: +inv.subTotal,
+      VAT:  +inv.VAT,
+      Interest: +inv.Interest,
       //Total: inv.Total,
       billType: inv.billType,
       //VAT: inv.VAT,
@@ -79,10 +81,10 @@ export class InvoiceDetailsService {
       Price: 0,
       Qty: 0,
       subTotal: 0,
+      VAT: 0,
       Interest: 0,
       //Total: 0,
       billType: '***',
-      VAT: 0,
       ExchRate: 1,
       Serial: 9,
       VatScope: '0',
@@ -203,6 +205,15 @@ export class InvoiceDetailsService {
     const dtDate = this.formatDateToString(formVal.dtDate);
     formVal.dtDate = dtDate;
 
+    formVal.Qty=+formVal.Qty
+    formVal.Price = +formVal.Price;
+    formVal.VAT = +formVal.VAT;
+
+    formVal.AmountPaid = +formVal.AmountPaid;
+    formVal.Interest = +formVal.Interest;
+    formVal.Serial = +formVal.Serial;
+
+
     // console.log(formVal);
     //let body = JSON.stringify({ formVal });
     //let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -212,7 +223,11 @@ export class InvoiceDetailsService {
     // });
     // console.log(headers);
     //let options = new RequestOptions ({ headers: headers });
-    let body = JSON.stringify(formVal);
+
+    const formValX: InvoiceDetails[]=[];
+    formValX.push(formVal);
+
+    let body = JSON.stringify(formValX);
 
     // let headers = new HttpHeaders({
     //   'Access-Control-Allow-Origin': '*',

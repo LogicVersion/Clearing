@@ -47,10 +47,10 @@ export class InvoiceDetails {
   Price: number = 0;
   Qty: number = 0;
   subTotal: number = 0;
+  VAT: number = 0;
   Interest: number = 0;
   Total: number = 0;
   billType: string = '';
-  VAT: number = 0;
   ExchRate: number = 0;
   Serial: number = 0;
   VatScope: string = '';

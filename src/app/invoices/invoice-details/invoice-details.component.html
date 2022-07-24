@@ -30,7 +30,7 @@
   <div class="row">
     <div class="col-md-5 mx-auto ">
 
-      <input type="hidden" formControlName="ID">
+      <input type="hidden" formControlName="PK_SNo">
 
       <div class="row">
         <div class="form-group mb-3 mt-3 ">
@@ -128,7 +128,7 @@
       <div class="row">
 
         <!-- <div class="form-group col-md-4 mb-3">
-          <label for="Interest">MarkUp</label>
+          <label for="Interest">Interest</label>
           <input id="Interest" formControlName="Interest" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Interest'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Interest'].errors">
             <label *ngIf="formControls['Interest'].errors['required']">This field is required.</label>
@@ -162,10 +162,10 @@
 
       <div class="row">
         <div class="form-group col-md-4 mb-3">
-          <label for="MarkUp">MarkUp (%)</label>
-          <input id="MarkUp" formControlName="MarkUp" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['MarkUp'].errors}">
-          <div class="invalid-feedback" *ngIf="submitted && formControls['MarkUp'].errors">
-            <label *ngIf="formControls['MarkUp'].errors['required']">This field is required.</label>
+          <label for="Interest">MarkUp (%)</label>
+          <input id="Interest" formControlName="Interest" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Interest'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['Interest'].errors">
+            <label *ngIf="formControls['Interest'].errors['required']">This field is required.</label>
           </div>
         </div>
 
