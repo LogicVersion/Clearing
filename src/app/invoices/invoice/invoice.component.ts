@@ -63,7 +63,7 @@ export class InvoiceComponent implements OnInit {
     //   this.date.getDate();
     // console.log(today)
     // // output 2021-7-9
-
+    this.service.enableFields(false);
     this.utilSvc.setButtons(true);
     this.customerService
       .getListCombo()
@@ -118,6 +118,76 @@ export class InvoiceComponent implements OnInit {
       //console.log(this.findInvalidControlsRecursive(this.service.form));
       // if ( this.findInvalidControls(this.service.form) !=null) {
       //console.log(this.service.flgEdit);
+
+      if (this.service.form.controls['billType'].value == '0') {
+      this.toastr.warning('Specify Bill Type (Freight)');
+      return;
+    }
+
+
+    if (this.service.form.controls['JobNature'].value == '0') {
+      this.toastr.warning('Specify Job Nature');
+      return;
+    }
+
+    if (typeof this.service.form.controls['pNo'].value == 'object') { // an array object
+      if (this.service.form.controls['pNo'].value[0] == null) {
+        //ret an array with one value, null ie [null]
+        this.toastr.warning('Select an Importer');
+        return;
+      }
+    }
+
+
+    if (this.service.form.controls['JobCode'].value == '') {
+      this.toastr.warning('Specify JobCode');
+      return;
+    }
+
+
+    if (this.service.form.controls['BLNo'].value == '') {
+      this.toastr.warning('Specify BLNo or AWB');
+      return;
+    }
+
+
+
+    if (this.service.form.controls['GoodsDescription'].value == '') {
+      this.toastr.warning('Specify Goods Description');
+      return;
+    }
+
+    if (this.service.form.controls['Content'].value == '') {
+      this.toastr.warning('Specify Specific Content');
+      return;
+    }
+
+    if (this.service.form.controls['Voy'].value == '') {
+      this.toastr.warning('Specify Voyage');
+      return;
+    }
+
+
+    if (this.service.form.controls['IssuedBy'].value == '') {
+      this.toastr.warning('Specify Bill Officer');
+      return;
+    }
+
+
+
+    if (this.service.form.controls['CheckedBy'].value == '') {
+      this.toastr.warning('Specify CheckedBy Officer');
+      return;
+    }
+
+
+      // If Trim(cboType.Text) = "SEA" And txtTEU.Text = "" Then
+
+      //     If Trim(cbo20ft.Text) = 0 And Trim(cbo40Ft.Text) = 0 Then
+      //         MsgBox "Please specify No of Containers"
+      //         Exit Sub
+      //     End If
+      // End If
 
       if (this.service.flgEdit) {
         this.service.updateRecord(this.service.form.value).subscribe(
@@ -174,30 +244,7 @@ export class InvoiceComponent implements OnInit {
     //this.service.form= new Invoice();
     this.service.flgEdit = false;
     this.service.clearFields();
-    ////this is to be done for proper reset operation
-    // this.service.form.setValue({
-    //   ID: [0],
-    //   bDate: [new Date()],
-    //   billNO: ['***'],
-    //   JobCode: [''],
-    //   billType: [''],
-    //   JobNature: [''],
-    //   pNo: [''],
-    //   ConsigneeCode: [''],
-    //   AmountBilledInWord: [''],
-    //   IssuedBy: [''],
-    //   GoodsDescription: [''],
-    //   BLNo: [''],
-    //   CheckedBy: [''],
-    //   Carrier: [''],
-    //   Weight: [0],
-    //   JobStartDate: [new Date()],
-    //   JobEndDate: [new Date()],
-    //   NoOf20Ft: [0],
-    //   NoOf40Ft: [0],
-    //   Content: [''],
-    //   Voy: [''],
-    // });
+
   }
 
   cancelEntry() {
@@ -211,6 +258,8 @@ export class InvoiceComponent implements OnInit {
     this.service.flgEdit = false;
     this.service.enableFields(true);
     this.utilSvc.setButtons(false);
+
+    // this.resetForm();
 
   }
   AddToBill() {
