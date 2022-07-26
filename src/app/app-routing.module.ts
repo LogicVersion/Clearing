@@ -52,7 +52,7 @@ const routes: Routes = [
   {
     path: 'Reports',
     component: ReportsComponent,
-    //canActivate: [AuthMainGuard],
+    canActivate: [AuthGuard],
     resolve: {
       appResolve: AppResolve,
     },

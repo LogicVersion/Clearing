@@ -48,6 +48,7 @@ import { UserService } from './auth/shared/user.service';
 import { AppResolve } from './_resolvers/app.resolver';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ErrorInterceptor } from './shared/error.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -93,6 +94,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ConsigneeService,
     ConsigneeGroupService,
     { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor,   multi: true },
     UtilityService,
     InvoiceService,
     InvoiceDetailsService,

@@ -6,7 +6,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { catchError, observable, Observable, throwError } from 'rxjs';
+import {  observable, Observable, throwError } from 'rxjs'; //catchError,
+import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.model';
 import { Invoice, InvoiceDetails, InvoiceList } from './invoice.model';
@@ -195,7 +196,10 @@ export class InvoiceService {
   // }
 
   getList() {
-    return this.http.get(this.appURL);
+    return this.http
+      .get(this.appURL)
+      //.pipe(retry(1), catchError(this.handleError));
+
     // this.http.get(this.appURL);
     // .toPromise()
     // .then((res) => (this.InvoiceList = res as Invoice[]));
@@ -207,12 +211,27 @@ export class InvoiceService {
     // }) })
   }
 
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(() => {
+      return errorMessage;
+    });
+  }
+
   // getListFirebase() {
   //   this.employeeList = this.firebase.list('employees');
   //   return this.employeeList.snapshotChanges();
   // }
 
-  valuesString: string='';
+  valuesString: string = '';
   valuesArray: number[] = [];
 
   PerformAddition() {
@@ -271,7 +290,7 @@ export class InvoiceService {
       .pipe(catchError((error) => this.handleError(error))); //this.handleError(error)
   }
 
-  handleError(error: any) {
+  handleError2(error: any) {
     // console.log('Caught in CatchError. Throwing error')
     // throw new Error(error)  //js syntax
     //return throwError(() => new error(error.messages || 'server error'))
