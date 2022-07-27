@@ -104,6 +104,16 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   onSubmit() {
+
+    const Importer = this.service.formData.controls['drgName'].value;
+    const duplicateArr = this.service.InvoiceDetailsList.filter(
+      (item) => item.drgName == Importer
+    );
+    if (duplicateArr != null) {
+      this.toastr.warning('Duplicate Item NOT Allowed');
+      return ;
+    }
+
     this.submitted = true;
     if (this.service.formData.valid) {
       // console.log(this.findInvalidControlsRecursive(this.service.formData));
