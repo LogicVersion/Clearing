@@ -231,18 +231,7 @@ export class InvoiceService {
   //   return this.employeeList.snapshotChanges();
   // }
 
-  valuesString: string = '';
-  valuesArray: number[] = [];
-
-  PerformAddition() {
-    var valuesStr = this.valuesString.split(' '); //split based on ' ' and store on a variable
-    this.valuesArray = valuesStr.map((x) => parseInt(x)); //convert each item to int
-
-    //perform your computation
-    var results = this.valuesArray[0] - this.valuesArray[1];
-    console.log(results);
-  }
-
+  
   insertRecord(formData: Invoice): Observable<Invoice> {
     const clientID = formData.pNo;
     const bDate = this.formatDateToString(formData.bDate);

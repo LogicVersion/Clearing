@@ -67,15 +67,15 @@
       <div class="row">
         <div class="form-group col-md-3 mb-3">
           <label for="Qty">Qty</label>
-          <input id="Qty" formControlName="Qty" type="text" #qty (keyup)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
+          <input id="Qty" formControlName="Qty" type="text" #qty (blur)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Qty'].errors">
             <label *ngIf="formControls['Qty'].errors['required']">This field is required.</label>
           </div>
         </div>
 
-        <div class="form-group col-md-4 mb-3">
+        <div class="form-group col-md-5 mb-3">
           <label for="Price">Rate</label>
-          <input id="Price" FormatNumerLocal formControlName="Price" type="text" #price (keyup)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
+          <input id="Price"  formControlName="Price" type="text" (blur)="service.PerformAddition()" #price (blur)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Price'].errors">
             <label *ngIf="formControls['Price'].errors['required']">This field is required.</label>
           </div>
@@ -135,17 +135,17 @@
           </div>
         </div> -->
 
-        <div class="form-group col-md-4 mb-3">
+        <div class="form-group col-md-5 mb-3">
           <label for="BillCategory">Expense Cat</label>
-          <input readonly  id="BillCategory" formControlName="BillCategory" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillCategory'].errors}">
+          <input  id="BillCategory" formControlName="BillCategory" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillCategory'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['BillCategory'].errors">
             <label *ngIf="formControls['BillCategory'].errors['required']">This field is required.</label>
           </div>
         </div>
 
-        <div class="form-group col-md-4 mb-3">
-          <label for="BillStatus">Item Status</label>
-          <input readonly  id="BillStatus" formControlName="BillStatus" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillStatus'].errors}">
+        <div class="form-group col-md-5 mb-3">
+          <label for="BillStatus">Bill Status</label>
+          <input  id="BillStatus" formControlName="BillStatus" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillStatus'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['BillStatus'].errors">
             <label *ngIf="formControls['BillStatus'].errors['required']">This field is required.</label>
           </div>

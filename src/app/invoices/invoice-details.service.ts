@@ -28,12 +28,12 @@ export class InvoiceDetailsService {
     Price: [0, [Validators.required]],
     Qty: [0, [Validators.required]],
     subTotal: [0, [Validators.required]],
-    VAT: [0, [Validators.required]],
+    VAT: [7.5, [Validators.required]],
     Interest: [0],
     Total: [0],
     billType: ['***'],
     ExchRate: [1],
-    Serial: [9],
+    Serial: [0],
     VatScope: ['0'],
     AmountPaid: [0],
     BillCategory: ['***'],
@@ -55,13 +55,13 @@ export class InvoiceDetailsService {
       Price: +inv.Price,
       Qty: +inv.Qty,
       subTotal: +inv.subTotal,
-      VAT:  +inv.VAT,
+      VAT: +inv.VAT,
       Interest: +inv.Interest,
       //Total: inv.Total,
       billType: inv.billType,
       //VAT: inv.VAT,
       ExchRate: inv.ExchRate,
-      Serial: inv.Serial,
+      Serial: +inv.Serial,
       VatScope: inv.VatScope,
       AmountPaid: inv.AmountPaid,
       BillCategory: inv.BillCategory,
@@ -81,12 +81,12 @@ export class InvoiceDetailsService {
       Price: 0,
       Qty: 0,
       subTotal: 0,
-      VAT: 0,
+      VAT: 7.5,
       Interest: 0,
       //Total: 0,
       billType: '***',
       ExchRate: 1,
-      Serial: 9,
+      Serial: 0,
       VatScope: '0',
       AmountPaid: 0,
       BillCategory: '***',
@@ -174,6 +174,23 @@ export class InvoiceDetailsService {
     }
   }
 
+  // valuesString: string = '';
+  // valuesArray: number[] = [];
+
+  PerformAddition() { // on blur
+    const valuesString: string = this.formData.controls['Price'].value;
+    var valuesStr = valuesString.split('+'); //split based on ' ' and store on a variable
+    const valuesArray = valuesStr.map((x) => parseFloat(x)); //convert each item to int
+    // console.log(valuesArray);
+
+    //perform your computation
+    var results = valuesArray.reduce((sum,curr) => {
+      return sum+=curr
+    },0);
+    this.formData.patchValue({
+      Price:results});
+  }
+
   readonly appURL = environment.appURL + '/invoicedetails';
   //readonly appURL ='http://localhost:8081/api/invoices'
 
@@ -205,14 +222,13 @@ export class InvoiceDetailsService {
     const dtDate = this.formatDateToString(formVal.dtDate);
     formVal.dtDate = dtDate;
 
-    formVal.Qty=+formVal.Qty
+    formVal.Qty = +formVal.Qty;
     formVal.Price = +formVal.Price;
     formVal.VAT = +formVal.VAT;
 
     formVal.AmountPaid = +formVal.AmountPaid;
     formVal.Interest = +formVal.Interest;
     formVal.Serial = +formVal.Serial;
-
 
     // console.log(formVal);
     //let body = JSON.stringify({ formVal });
@@ -224,7 +240,7 @@ export class InvoiceDetailsService {
     // console.log(headers);
     //let options = new RequestOptions ({ headers: headers });
 
-    const formValX: InvoiceDetails[]=[];
+    const formValX: InvoiceDetails[] = [];
     formValX.push(formVal);
 
     let body = JSON.stringify(formValX);

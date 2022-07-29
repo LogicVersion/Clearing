@@ -12,7 +12,7 @@ import { Customer } from '../../models/customer.model';
 import { ToastrService } from 'ngx-toastr';
 import { InvoiceListComponent } from '../invoice-list/invoice-list.component';
 import { UtilityService } from '../../shared/utility.service';
-import { Invoice } from '../invoice.model';
+import { Invoice, InvoiceDetails, InvoiceDetailsList } from '../invoice.model';
 import { ClearingItemService } from 'src/app/shared/bill-item.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClearingItem } from 'src/app/shared/bill-item.model';
@@ -105,20 +105,82 @@ export class InvoiceDetailsComponent implements OnInit {
 
   onSubmit() {
 
-    const Importer = this.service.formData.controls['drgName'].value;
-    const duplicateArr = this.service.InvoiceDetailsList.filter(
-      (item) => item.drgName == Importer
-    );
-    if (duplicateArr != null) {
-      this.toastr.warning('Duplicate Item NOT Allowed');
-      return ;
-    }
-
     this.submitted = true;
+
     if (this.service.formData.valid) {
       // console.log(this.findInvalidControlsRecursive(this.service.formData));
       // if ( this.findInvalidControls(this.service.formData) !=null) {
       //console.log(this.service.flgEdit);
+
+     let duplicateArr: InvoiceDetailsList[] = [];
+      const Importer = this.service.formData.controls['drgName'].value;
+       duplicateArr = this.service.InvoiceDetailsList.filter(
+        (item) => item.drgName == Importer
+      );
+
+      if (duplicateArr.length > 0) {
+        this.toastr.warning('Duplicate Item Entry NOT Allowed');
+        return;
+      }
+
+      if (typeof this.service.formData.controls['drgName'].value == 'object') {
+        // an array object
+        if (this.service.formData.controls['drgName'].value[0] == null) {
+          //ret an array with one value, null ie [null]
+          this.toastr.warning('Select a Bill Item');
+          return;
+        }
+      }
+
+      if (
+        this.service.formData.controls['Qty'].value == '0' ||
+        this.service.formData.controls['Qty'].value == ''
+      ) {
+        //this.toastr.warning('Specify Bill Type (Freight)');
+        this.service.formData.patchValue({ Qty: 1 });
+        return;
+      }
+
+      if (
+        this.service.formData.controls['Price'].value == '0' ||
+        this.service.formData.controls['Price'].value == ''
+      ) {
+        this.toastr.warning('Specify Item Rate');
+        //this.service.formData.patchValue({ Qty: 1 });
+        return;
+      }
+
+      if (this.service.formData.controls['AmountPaid'].value == '') {
+        //this.toastr.warning('Specify Bill Type (Freight)');
+        this.service.formData.patchValue({ AmountPaid: 0 });
+        return;
+      }
+
+      if (this.service.formData.controls['Interest'].value == '') {
+        //this.toastr.warning('Specify Bill Type (Freight)');
+        this.service.formData.patchValue({ Interest: 0 });
+        return;
+      }
+
+      if (
+        this.service.formData.controls['VAT'].value == '0' ||
+        this.service.formData.controls['VAT'].value == ''
+      ) {
+        this.toastr.warning('Specify VAT');
+        //this.service.formData.patchValue({ Qty: 1 });
+        return;
+      }
+
+      if (
+        this.service.formData.controls['Serial'].value == '0' ||
+        this.service.formData.controls['Serial'].value == ''
+      ) {
+        this.toastr.warning('Specify Serial');
+        //this.service.formData.patchValue({ Qty: 1 });
+        return;
+      }
+
+
       if (this.service.flgEdit) {
         this.service.updateRecord(this.service.formData.value).subscribe(
           (res) => {
@@ -243,7 +305,7 @@ export class InvoiceDetailsComponent implements OnInit {
       this.idx = 0;
       this.service.formData.patchValue({
         MarkUp: 0,
-        Serial: 9,
+        Serial: 0,
         BillCategory: '***',
         BillStatus: '***',
         FreightCat: '***',
@@ -280,7 +342,7 @@ export class InvoiceDetailsComponent implements OnInit {
                 : 0,
               Serial: this.itemList[this.idx - 1].Serial
                 ? this.itemList[this.idx - 1].Serial
-                : 9,
+                : 0,
               BillCategory: this.itemList[this.idx - 1].BillCategory
                 ? this.itemList[this.idx - 1].BillCategory
                 : '***',
