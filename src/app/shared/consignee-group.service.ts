@@ -12,10 +12,10 @@ export class ConsigneeGroupService {
 
   customerGroupList: CustomerGroup[] = [];
   customerGroupListCombo: CustomerGroup[] = [];
-  readonly rootURL = environment.appURL + '/consigneegroups';
+  readonly rootURL = environment.appURL + '/ConsigneeGroups';
 
   form = new FormGroup({
-    ID: new FormControl(null),
+    ID: new FormControl(0),
     GroupName: new FormControl('', Validators.required),
   });
   FormData(cust: CustomerGroup): void {
@@ -23,6 +23,22 @@ export class ConsigneeGroupService {
     this.form.setValue({
       ID: cust.ID,
       GroupName: cust.GroupName,
+    });
+  }
+
+  flgEdit = false;
+  enableFields(blnVal = true) {
+    if (blnVal) {
+      this.form.enable();
+    } else {
+      this.form.disable();
+    }
+  }
+
+  clearFields() {
+    this.form.patchValue({
+      ID: 0,
+      GroupName: [''],
     });
   }
 
@@ -36,10 +52,8 @@ export class ConsigneeGroupService {
     //console.log(this.list);
   }
   getListCombo() {
-   return this.http
-      .get(this.rootURL)
-      .toPromise();
-      // .then((res) => (this.customerGroupListCombo = res as CustomerGroup[]));
+    return this.http.get(this.rootURL).toPromise();
+    // .then((res) => (this.customerGroupListCombo = res as CustomerGroup[]));
     //console.log(this.customerGroupList);
   }
 

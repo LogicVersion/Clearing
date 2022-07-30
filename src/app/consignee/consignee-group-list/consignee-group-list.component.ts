@@ -12,6 +12,7 @@ import {
   DatatableItem,
 } from 'src/app/datatable/datatable-datasource';
 import { ConsigneeGroupService } from 'src/app/shared/consignee-group.service';
+import { UtilityService } from 'src/app/shared/utility.service';
 
 @Component({
   selector: 'app-consignee-group-list',
@@ -26,7 +27,10 @@ export class ConsigneeGroupListComponent implements OnInit {
   dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey?: string;
 
-  constructor(private service: ConsigneeGroupService,private toastr: ToastrService
+  constructor(
+    private service: ConsigneeGroupService,
+    private utilSvc: UtilityService,
+    private toastr: ToastrService
   ) {
     //this.dataSource = new DatatableDataSource();
   }
@@ -88,7 +92,9 @@ export class ConsigneeGroupListComponent implements OnInit {
   }
 
   populateForm(row: CustomerGroup) {
-    //this.service.FormData = Object.assign({}, row);
+    this.service.flgEdit = true;
+    this.service.enableFields(true);
+    this.utilSvc.setButtons(false);
     let rowCopy;
     rowCopy = Object.assign({}, row);
     this.service.FormData(rowCopy);

@@ -40,7 +40,7 @@ export class InvoiceComponent implements OnInit {
   //  today: Date = new Date(); // Date = new Date();
   // dateStr: String = ''; //String=''; //<- note String
 
-  selectedCar: number=0;
+  selectedCar: number = 0;
 
   cars = [
     { id: 1, name: 'Volvo' },
@@ -120,66 +120,58 @@ export class InvoiceComponent implements OnInit {
       //console.log(this.service.flgEdit);
 
       if (this.service.form.controls['billType'].value == '0') {
-      this.toastr.warning('Specify Bill Type (Freight)');
-      return;
-    }
-
-
-    if (this.service.form.controls['JobNature'].value == '0') {
-      this.toastr.warning('Specify Job Nature');
-      return;
-    }
-
-    if (typeof this.service.form.controls['pNo'].value == 'object') { // an array object
-      if (this.service.form.controls['pNo'].value[0] == null) {
-        //ret an array with one value, null ie [null]
-        this.toastr.warning('Select an Importer');
+        this.toastr.warning('Specify Bill Type (Freight)');
         return;
       }
-    }
 
+      if (this.service.form.controls['JobNature'].value == '0') {
+        this.toastr.warning('Specify Job Nature');
+        return;
+      }
 
-    if (this.service.form.controls['JobCode'].value == '') {
-      this.toastr.warning('Specify JobCode');
-      return;
-    }
+      if (typeof this.service.form.controls['pNo'].value == 'object') {
+        // an array object
+        if (this.service.form.controls['pNo'].value[0] == null) {
+          //ret an array with one value, null ie [null]
+          this.toastr.warning('Select an Importer');
+          return;
+        }
+      }
 
+      if (this.service.form.controls['JobCode'].value == '') {
+        this.toastr.warning('Specify JobCode');
+        return;
+      }
 
-    if (this.service.form.controls['BLNo'].value == '') {
-      this.toastr.warning('Specify BLNo or AWB');
-      return;
-    }
+      if (this.service.form.controls['BLNo'].value == '') {
+        this.toastr.warning('Specify BLNo or AWB');
+        return;
+      }
 
+      if (this.service.form.controls['GoodsDescription'].value == '') {
+        this.toastr.warning('Specify Goods Description');
+        return;
+      }
 
+      if (this.service.form.controls['Content'].value == '') {
+        this.toastr.warning('Specify Specific Content');
+        return;
+      }
 
-    if (this.service.form.controls['GoodsDescription'].value == '') {
-      this.toastr.warning('Specify Goods Description');
-      return;
-    }
+      if (this.service.form.controls['Voy'].value == '') {
+        this.toastr.warning('Specify Voyage');
+        return;
+      }
 
-    if (this.service.form.controls['Content'].value == '') {
-      this.toastr.warning('Specify Specific Content');
-      return;
-    }
+      if (this.service.form.controls['IssuedBy'].value == '') {
+        this.toastr.warning('Specify Bill Officer');
+        return;
+      }
 
-    if (this.service.form.controls['Voy'].value == '') {
-      this.toastr.warning('Specify Voyage');
-      return;
-    }
-
-
-    if (this.service.form.controls['IssuedBy'].value == '') {
-      this.toastr.warning('Specify Bill Officer');
-      return;
-    }
-
-
-
-    if (this.service.form.controls['CheckedBy'].value == '') {
-      this.toastr.warning('Specify CheckedBy Officer');
-      return;
-    }
-
+      if (this.service.form.controls['CheckedBy'].value == '') {
+        this.toastr.warning('Specify CheckedBy Officer');
+        return;
+      }
 
       // If Trim(cboType.Text) = "SEA" And txtTEU.Text = "" Then
 
@@ -196,8 +188,8 @@ export class InvoiceComponent implements OnInit {
             this.notifyForm('update');
           },
           (err) => {
-            this.handleErrors(err);
-            this.toastr.error(err, 'Clearing');
+            this.handleError(err);
+            this.toastr.error('Error has Occured', 'Clearing');
           }
         );
       } else {
@@ -208,15 +200,29 @@ export class InvoiceComponent implements OnInit {
             this.notifyForm('insert');
           },
           (err) => {
-            this.handleErrors(err);
-            this.toastr.error(err, 'Clearing');
+            this.handleError(err);
+            this.toastr.error('Error has Occrured!!!', 'Clearing');
           }
         );
       }
     }
   }
 
-  private handleErrors(errors: any) {
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.log(errorMessage);
+    // return errorMessage;
+  }
+
+
+  private handleError2(errors: any) {
     // this.messages = [];
     // for (let msg of errors) {
     //   this.messages.push(msg);
@@ -244,7 +250,6 @@ export class InvoiceComponent implements OnInit {
     //this.service.form= new Invoice();
     this.service.flgEdit = false;
     this.service.clearFields();
-
   }
 
   cancelEntry() {
@@ -260,7 +265,6 @@ export class InvoiceComponent implements OnInit {
     this.utilSvc.setButtons(false);
 
     // this.resetForm();
-
   }
   AddToBill() {
     if (this.service.form.controls['billNO'].value == '***') {
@@ -279,21 +283,17 @@ export class InvoiceComponent implements OnInit {
     };
     this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
-  idx=-1;
-  updateFields(ctrl: any ) {
+  idx = -1;
+  updateFields(ctrl: any) {
     console.log(ctrl);
-        this.idx = this.itemList.findIndex((p) => p.ConsigneeCode == ctrl);
-            this.idx+=1; //just to avoid editing below code lines
-            this.service.form.patchValue({
-              ConsigneeCode: this.itemList[this.idx - 1].ConsigneeName
-                ? this.itemList[this.idx - 1].ConsigneeName
-                : '***',
-            });
-
-
+    this.idx = this.itemList.findIndex((p) => p.ConsigneeCode == ctrl);
+    this.idx += 1; //just to avoid editing below code lines
+    this.service.form.patchValue({
+      ConsigneeCode: this.itemList[this.idx - 1].ConsigneeName
+        ? this.itemList[this.idx - 1].ConsigneeName
+        : '***',
+    });
   }
-
-
 }
 
 
