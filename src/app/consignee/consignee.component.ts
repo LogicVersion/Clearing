@@ -27,6 +27,7 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
   messages: any[] = [];
 
   ngOnInit() {
+    this.service.enableFields(false)
     //this.reloadData
     this.customerGroupService
       .getListCombo()
@@ -76,9 +77,24 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
   onSubmit() {
     this.submitted = true;
     if (this.service.form.valid) {
-      // console.log(this.findInvalidControlsRecursive(this.service.form));
-      // if ( this.findInvalidControls(this.service.form) !=null) {
-      //console.log(this.service.flgEdit);
+
+      if (this.service.form.controls['ConsigneeCode'].value == '') {
+        this.toastr.warning('Specify Consignee Code');
+        return;
+      }
+
+      if (this.service.form.controls['ConsigneeName'].value == '') {
+        this.toastr.warning('Specify Consignee Name');
+        return;
+      }
+
+
+      if (this.service.form.controls['GroupName'].value == '0') {
+        this.toastr.warning('Specify GroupName');
+        return;
+      }
+
+
       if (this.service.flgEdit) {
         this.service.updateRecord(this.service.form.value).subscribe(
           (res) => {
@@ -134,7 +150,7 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
       SNo: 0,
       ConsigneeCode: '',
       ConsigneeName: '',
-      GroupName: '--Select--',
+      GroupName: '0',
       ConsigneeAddress: '',
     });
     this.service.flgEdit = false;

@@ -16,7 +16,7 @@ export class ConsigneeService {
     SNo: [0],
     ConsigneeCode: ['', [Validators.required, Validators.maxLength(5)]],
     ConsigneeName: ['', [Validators.required]],
-    GroupName: ['', [Validators.required]],
+    GroupName: ['0', [Validators.required]],
     ConsigneeAddress: [''],
   });
 
@@ -62,7 +62,7 @@ export class ConsigneeService {
       SNo: 0,
       ConsigneeCode: '',
       ConsigneeName: '',
-      GroupName: '--Select--',
+      GroupName: '0',
       ConsigneeAddress: '',
     });
   }

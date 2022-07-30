@@ -47,12 +47,12 @@
                 <input id="ConsigneeAddress"  formControlName="ConsigneeAddress" class="form-control">
               </div>
 
-              <div *ngIf="utilSvc.saveButtVisible" class="form-group mb-3 ">
+              <div *ngIf="!utilSvc.addButtVisible" class="form-group mb-3 ">
                 <input type="submit" class="btn btn-primary btn-space" value="Submit">
                 <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()">
               </div>
             </form>
-            
+
             <div class="alert alert-info"  *ngIf="showSuccessMessage">
               Submitted successfully.
             </div>
