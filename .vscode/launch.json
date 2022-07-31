@@ -7,13 +7,13 @@
       "name": "Attach to Edge",
       "port": 4200,
       "request": "attach",
-      "type": "pwa-msedge",
+      "type": "msedge",
       "webRoot": "${workspaceFolder}"
     },
     {
       "name": "Launch Chrome",
       "request": "launch",
-      "type": "pwa-chrome",
+      "type": "chrome", //pwa-chrome
       "timeout": 20000,
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}"

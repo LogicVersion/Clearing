@@ -7,7 +7,7 @@ import { ClearingItemService } from 'src/app/shared/bill-item.service';
   selector: 'app-bill-item',
   templateUrl: './bill-item.component.html',
   styleUrls: ['./bill-item.component.css'],
-})  
+})
 export class ClearingItemComponent implements OnInit {
   constructor(
     public service: ClearingItemService,
@@ -28,11 +28,11 @@ export class ClearingItemComponent implements OnInit {
   resetForm(form?: NgForm) {
     if (form != null) form.resetForm();
     this.service.formData = {
-      SNo: null,
+      SNo: 0,
       BillItem: '',
       MarkUp: 0,
       isActive: 'YES',
-      Serial: 1,
+      Serial: 9,
       Amount: 0,
       BillStatus: 'BOTH',
       BillCategory: 'CLEARING',
@@ -41,13 +41,13 @@ export class ClearingItemComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (form.value.SNo == null)  this.insertRecord(form);
+    if (form.value.SNo == 0)  this.insertRecord(form);
     else this.updateRecord(form);
   }
 
   insertRecord(form: NgForm) {
     this.service.postItem(form.value).subscribe((res) => {
-      this.toastr.success('Inserted successfully', 'EMP. Register');
+      this.toastr.success('Inserted successfully', 'Bill Item');
       this.resetForm(form);
       this.service.reloadList();
     });

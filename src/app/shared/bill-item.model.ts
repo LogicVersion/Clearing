@@ -1,5 +1,5 @@
 export class ClearingItem {
-  SNo: null | number = null;
+  SNo: number = 0;
   BillItem!: string;
   MarkUp: number = 0;
   isActive!: string;

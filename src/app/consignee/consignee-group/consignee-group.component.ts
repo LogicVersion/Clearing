@@ -66,7 +66,7 @@ export class ConsigneeGroupComponent implements OnInit {
             this.notifyForm('update');
           },
           (err) => {
-            this.handleError(err);
+            //this.handleError(err);
             this.toastr.error(err, 'Clearing');
           }
         );
@@ -78,8 +78,8 @@ export class ConsigneeGroupComponent implements OnInit {
             this.notifyForm('insert');
           },
           (err) => {
-            this.handleError(err);
-            this.toastr.error('Error has Occured!', 'Clearing');
+            // this.handleError(err);
+            this.toastr.error(err, 'Clearing');
           }
         );
       }
