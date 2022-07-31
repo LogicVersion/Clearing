@@ -187,8 +187,9 @@ export class InvoiceDetailsService {
     var results = valuesArray.reduce((sum,curr) => {
       return sum+=curr
     },0);
+
     this.formData.patchValue({
-      Price:results});
+      Price:results.toFixed(2)});
   }
 
   readonly appURL = environment.appURL + '/invoicedetails';

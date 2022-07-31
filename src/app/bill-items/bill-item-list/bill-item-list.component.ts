@@ -31,6 +31,8 @@ export class ClearingItemListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatTable) table!: MatTable<any>;
 
+
+
   constructor(
     public service: ClearingItemService,
     private toastr: ToastrService
@@ -49,20 +51,9 @@ export class ClearingItemListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.service.reloadList().subscribe((res) => {
-      this.service.list = res as ClearingItem[];
-      this.dataSource = new MatTableDataSource(this.service.list); //ELEMENT_DATA;
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
-    // (this.dataSource = res as ClearingItem[]));
 
-    // this.http
-    //   .get<User>('api/user/id')
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((user) => {
-    //     this.user = user;
-    //   });
+    this.reLoadData();
+
   }
 
   ngOnDestroy(): void {
@@ -83,9 +74,21 @@ export class ClearingItemListComponent implements OnInit, OnDestroy {
       if (confirm('Are you sure to delete this record?')) {
         this.service.deleteItem(id).subscribe((res) => {
           this.service.reloadList();
+          this.reLoadData();
           this.toastr.warning('Deleted successfully', 'ClearingItem');
         });
       }
     }
   }
+
+    reLoadData(): void {
+      this.service.reloadList().subscribe((res) => {
+      this.service.list = res as ClearingItem[];
+      this.dataSource = new MatTableDataSource(this.service.list); //ELEMENT_DATA;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
+
+    }
+
 }

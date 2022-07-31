@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ClearingItemService } from 'src/app/shared/bill-item.service';
+import { ClearingItemListComponent } from '../bill-item-list/bill-item-list.component';
 
 @Component({
   selector: 'app-bill-item',
@@ -14,16 +15,17 @@ export class ClearingItemComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
+  @ViewChild(ClearingItemListComponent)
+  childRef?: ClearingItemListComponent;
+
   ngOnInit() {
     this.resetForm();
   }
 
   counter(i: number) {
     return new Array(i);
-}
-//my.component.html
-
-
+  }
+  //my.component.html
 
   resetForm(form?: NgForm) {
     if (form != null) form.resetForm();
@@ -41,7 +43,7 @@ export class ClearingItemComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (form.value.SNo == 0)  this.insertRecord(form);
+    if (form.value.SNo == 0) this.insertRecord(form);
     else this.updateRecord(form);
   }
 
@@ -50,15 +52,23 @@ export class ClearingItemComponent implements OnInit {
       this.toastr.success('Inserted successfully', 'Bill Item');
       this.resetForm(form);
       this.service.reloadList();
+      this.notifyForm();
     });
   }
 
   updateRecord(form: NgForm) {
     this.service.putItem(form.value).subscribe((res) => {
+      this.service.reloadList();
+      this.notifyForm();
       this.toastr.info('Updated successfully', 'Bill Items');
       this.resetForm(form);
-      this.service.reloadList();
+
     });
   }
+  notifyForm() {
+    this.childRef?.reLoadData(); //.reLoadData()
+  }
+
+
 }
 
