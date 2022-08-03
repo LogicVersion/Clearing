@@ -66,6 +66,8 @@ export class InvoiceService {
   billNoVal: string = '';
   bDateVal: Date = new Date();
 
+
+
   enableFields(blnVal = true) {
     if (blnVal) {
       this.form.enable();
@@ -141,9 +143,13 @@ export class InvoiceService {
     return new Date(yrNum, mthNum, dayNum);
   }
 
+  amountBal: number=0;
+
   FormData(inv: Invoice): void {
     //const bDate: Date = this.formatStringToDate(inv.bDate);
     //const bDate: Date = new Date("2011-09-24T00:00:00".replace(/-/g, '\/').replace(/T.+/, ''));
+
+    this.amountBal= (inv.AmountBilled - inv.AmountPaid);
 
     this.form.setValue({
       ID: 0, //inv.ID,
@@ -172,7 +178,7 @@ export class InvoiceService {
       profFee: 0,
       AmtBF: 0,
       AmountPaid: inv.AmountPaid,
-      Balance: (inv.AmountBilled - inv.AmountPaid),
+      Balance: this.amountBal, //(inv.AmountBilled - inv.AmountPaid),
       BillingMonth: '',
       BillingYear: 0,
       diagnosis: '',

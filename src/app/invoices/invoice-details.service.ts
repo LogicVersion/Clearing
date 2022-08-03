@@ -10,12 +10,12 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.model';
 import { Invoice, InvoiceDetails, InvoiceDetailsList } from './invoice.model';
-
+import { InvoiceService } from './invoice.service';
 @Injectable({
   providedIn: 'root',
 })
 export class InvoiceDetailsService {
-  constructor(private http: HttpClient, private fb: FormBuilder) {}
+  constructor(private http: HttpClient,private invoiceService: InvoiceService, private fb: FormBuilder) {}
 
   //form: Invoice = new Invoice();
 
@@ -158,14 +158,17 @@ export class InvoiceDetailsService {
   invoiceMasterArr: Invoice[] = [];
   invoiceDetailsArr: InvoiceDetails[] = [];
 
+
   updateTotal() {
     if (this.InvoiceDetailsList.length > 0) {
       this.formData.patchValue({
-        Total: this.InvoiceDetailsList.reduce((sum, curr) => {
-          return sum + curr.Total; //sum=prev Value
-        }, 0),
-        //this.service.formData.GTotal = parseFloat(this.service.formData.GTotal.toFixed(2));
+        Total: this.invoiceService.amountBal,
       });
+        // this.InvoiceDetailsList.reduce((sum, curr) => {
+        //   return sum + curr.Total; //sum=prev Value
+        // }, 0),
+        //this.service.formData.GTotal = parseFloat(this.service.formData.GTotal.toFixed(2));
+      // });
     } else {
       this.formData.patchValue({
         Total: 0,
