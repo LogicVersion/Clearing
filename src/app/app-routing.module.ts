@@ -35,6 +35,14 @@ const routes: Routes = [
   { path: 'ProductsAndServices', component: ProductsAndServicesComponent },
   { path: 'ContactUs', component: ContactUsComponent },
   {
+    path: 'Reports',
+    component: ReportsComponent,
+    canActivate: [AuthGuard],
+    resolve: {
+      appResolve: AppResolve,
+    },
+  },
+  {
     path: 'DataEntry',
     component: DataEntryComponent,
     canActivate: [AuthGuard],
@@ -46,17 +54,11 @@ const routes: Routes = [
       { path: 'consigneegroups', component: ConsigneeGroupComponent },
       { path: 'welcome', component: WelcomeComponent },
       { path: 'invoices', component: InvoiceComponent }, //invoices
+      { path: 'printinvoice', redirectTo: 'Reports', pathMatch: 'full' }, //invoices
       { path: '', component: InvoiceComponent }, //invoices
     ],
   },
-  {
-    path: 'Reports',
-    component: ReportsComponent,
-    canActivate: [AuthGuard],
-    resolve: {
-      appResolve: AppResolve,
-    },
-  },
+
   // {
   //   path: 'paymentmethod.htm',
   //   component: BlankComponent,

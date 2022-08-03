@@ -47,6 +47,7 @@ export class InvoiceService {
     profFee: [0],
     AmtBF: [0],
     AmountPaid: [0],
+    Balance: [0],
     BillingMonth: [''],
     BillingYear: [0],
     diagnosis: [''],
@@ -110,6 +111,9 @@ export class InvoiceService {
       pNo: [null],
       ConsigneeCode: [''],
       AmountBilledInWord: [''],
+      AmountBilled: [0],
+      AmountPaid: [0],
+      Balance: [0],
       IssuedBy: [''],
       GoodsDescription: [''],
       BLNo: [''],
@@ -164,10 +168,11 @@ export class InvoiceService {
       Content: inv.Content,
       Voy: inv.Voy,
       clientID: '',
-      AmountBilled: 0,
+      AmountBilled: inv.AmountBilled,
       profFee: 0,
       AmtBF: 0,
-      AmountPaid: 0,
+      AmountPaid: inv.AmountPaid,
+      Balance: (inv.AmountBilled - inv.AmountPaid),
       BillingMonth: '',
       BillingYear: 0,
       diagnosis: '',
@@ -196,9 +201,8 @@ export class InvoiceService {
   // }
 
   getList() {
-    return this.http
-      .get(this.appURL)
-      //.pipe(retry(1), catchError(this.handleError));
+    return this.http.get(this.appURL);
+    //.pipe(retry(1), catchError(this.handleError));
 
     // this.http.get(this.appURL);
     // .toPromise()
@@ -211,27 +215,26 @@ export class InvoiceService {
     // }) })
   }
 
-  handleError(error: any) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.log(errorMessage);
-    return throwError(() => {
-      return errorMessage;
-    });
-  }
+  // handleError(error: any) {
+  //   let errorMessage = '';
+  //   if (error.error instanceof ErrorEvent) {
+  //     // client-side error
+  //     errorMessage = `Error: ${error.error.message}`;
+  //   } else {
+  //     // server-side error
+  //     errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+  //   }
+  //   console.log(errorMessage);
+  //   return throwError(() => {
+  //     return errorMessage;
+  //   });
+  // }
 
   // getListFirebase() {
   //   this.employeeList = this.firebase.list('employees');
   //   return this.employeeList.snapshotChanges();
   // }
 
-  
   insertRecord(formData: Invoice): Observable<Invoice> {
     const clientID = formData.pNo;
     const bDate = this.formatDateToString(formData.bDate);
@@ -270,13 +273,12 @@ export class InvoiceService {
     //return this.http.post(this.appURL, body, options);
     //'https://localhost:7118/api/invoices'
 
-    return this.http
-      .post<Invoice>(this.appURL, body, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      })
-      .pipe(catchError((error) => this.handleError(error))); //this.handleError(error)
+    return this.http.post<Invoice>(this.appURL, body, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
+    // .pipe(catchError((error) => this.handleError(error))); //this.handleError(error)
   }
 
   handleError2(error: any) {
@@ -297,13 +299,12 @@ export class InvoiceService {
 
   updateRecord(formData: Invoice) {
     let body = JSON.stringify(formData);
-    return this.http
-      .put(this.appURL + '/' + formData.billNO, body, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      })
-      .pipe(catchError((error) => this.handleError(error))); //this.handleError(error));
+    return this.http.put(this.appURL + '/' + formData.billNO, body, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
+    // .pipe(catchError((error) => this.handleError(error))); //this.handleError(error));
   }
 
   deleteRecord(id: string) {

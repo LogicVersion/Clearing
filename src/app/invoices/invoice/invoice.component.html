@@ -209,6 +209,50 @@
         </div>
       </div>
 
+
+
+      <div class="row">
+        <div class="form-group col-md-5 mb-3">
+          <label for="AmountBilled">AmountBilled</label>
+          <input id="AmountBilled" FormatNumerLocal readonly formControlName="AmountBilled" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountBilled'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['AmountBilled'].errors">
+            <label *ngIf="formControls['AmountBilled'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <div class="form-group col-md-5 mb-3">
+          <label for="AmountPaid">AmountPaid</label>
+          <input id="AmountPaid" FormatNumerLocal readonly formControlName="AmountPaid" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountPaid'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['AmountPaid'].errors">
+            <label *ngIf="formControls['AmountPaid'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-5 mb-3">
+          <label for="Balance">Balance</label>
+          <input id="Balance" FormatNumerLocal readonly formControlName="Balance" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Balance'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['Balance'].errors">
+            <label *ngIf="formControls['Balance'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+        <!-- <div class="form-group col-md-5 mb-3">
+          <label for="AmountPaid">AmountPaid</label>
+          <input id="AmountPaid" FormatNumerLocal readonly formControlName="AmountPaid" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountPaid'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['AmountPaid'].errors">
+            <label *ngIf="formControls['AmountPaid'].errors['required']">This field is required.</label>
+          </div>
+        </div> -->
+
+      </div>
+
+    </div>
+
+    <div class="col-md-5 mx-auto ">
+
       <div class="form-group mb-3 " >
         <label for="Content">Specific Content (Goods Summary)</label>
         <input id="Content"  formControlName="Content" class="form-control">
@@ -217,25 +261,32 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="col-md-5 mx-auto ">
-
       <div class="form-group mb-3 mt-3">
         <label for="GoodsDescription">GoodsDescription (Details)</label>
-        <textarea id="GoodsDescription" formControlName="GoodsDescription" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['GoodsDescription'].errors}"  rows="3"></textarea>
+        <textarea id="GoodsDescription" formControlName="GoodsDescription" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['GoodsDescription'].errors}"  rows="2"></textarea>
         <div class="invalid-feedback" *ngIf="submitted && formControls['GoodsDescription'].errors">
           <label *ngIf="formControls['GoodsDescription'].errors['required']">This field is required.</label>
         </div>
       </div>
 
-      <div class="form-group mb-3">
-        <label for="AmountBilledInWord">AmountBilledInWord</label>
-        <textarea id="AmountBilledInWord" formControlName="AmountBilledInWord" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountBilledInWord'].errors}"  rows="3"></textarea>
-        <div class="invalid-feedback" *ngIf="submitted && formControls['AmountBilledInWord'].errors">
-          <label *ngIf="formControls['AmountBilledInWord'].errors['required']">This field is required.</label>
+      <!-- <div class="row">
+        <div class="form-group col-md-5 mb-3">
+          <label for="JobCode">JobCode</label>
+          <input id="JobCode" formControlName="JobCode" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['JobCode'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['JobCode'].errors">
+            <label *ngIf="formControls['JobCode'].errors['required']">This field is required.</label>
+          </div>
         </div>
-      </div>
+
+        <div class="form-group col-md-5 mb-3">
+          <label for="BLNo">BLNo / AWB</label>
+          <input id="BLNo" formControlName="BLNo" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BLNo'].errors}">
+          <div class="invalid-feedback" *ngIf="submitted && formControls['BLNo'].errors">
+            <label *ngIf="formControls['BLNo'].errors['required']">This field is required.</label>
+          </div>
+        </div>
+
+      </div> -->
 
       <div class="form-group mb-3">
         <label for="IssuedBy">IssuedBy</label>
@@ -250,6 +301,14 @@
         <input id="CheckedBy" formControlName="CheckedBy" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['CheckedBy'].errors}">
         <div class="invalid-feedback" *ngIf="submitted && formControls['CheckedBy'].errors">
           Invalid CheckedBy.
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="AmountBilledInWord">Balance In Word</label>
+        <textarea id="AmountBilledInWord" readonly formControlName="AmountBilledInWord" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountBilledInWord'].errors}"  rows="3"></textarea>
+        <div class="invalid-feedback" *ngIf="submitted && formControls['AmountBilledInWord'].errors">
+          <label *ngIf="formControls['AmountBilledInWord'].errors['required']">This field is required.</label>
         </div>
       </div>
 

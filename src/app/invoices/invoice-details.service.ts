@@ -59,7 +59,6 @@ export class InvoiceDetailsService {
       Interest: +inv.Interest,
       //Total: inv.Total,
       billType: inv.billType,
-      //VAT: inv.VAT,
       ExchRate: inv.ExchRate,
       Serial: +inv.Serial,
       VatScope: inv.VatScope,
@@ -163,7 +162,7 @@ export class InvoiceDetailsService {
     if (this.InvoiceDetailsList.length > 0) {
       this.formData.patchValue({
         Total: this.InvoiceDetailsList.reduce((sum, curr) => {
-          return sum + curr.subTotal; //sum=prev Value
+          return sum + curr.Total; //sum=prev Value
         }, 0),
         //this.service.formData.GTotal = parseFloat(this.service.formData.GTotal.toFixed(2));
       });
@@ -181,8 +180,6 @@ export class InvoiceDetailsService {
     const valuesString: string = this.formData.controls['Price'].value;
     var valuesStr = valuesString.split('+'); //split based on ' ' and store on a variable
     const valuesArray = valuesStr.map((x) => parseFloat(x)); //convert each item to int
-    // console.log(valuesArray);
-
     //perform your computation
     var results = valuesArray.reduce((sum,curr) => {
       return sum+=curr
@@ -226,6 +223,8 @@ export class InvoiceDetailsService {
     formVal.Qty = +formVal.Qty;
     formVal.Price = +formVal.Price;
     formVal.VAT = +formVal.VAT;
+    formVal.Total = 0; //done in sproc  //+formVal.Total;
+
 
     formVal.AmountPaid = +formVal.AmountPaid;
     formVal.Interest = +formVal.Interest;
@@ -268,15 +267,15 @@ export class InvoiceDetailsService {
           'Content-Type': 'application/json',
         }),
       })
-      .pipe(catchError((error) => this.handleError(error))); //this.handleError(error)
+      // .pipe(catchError((error) => this.handleError(error))); //this.handleError(error)
   }
 
-  handleError(error: any) {
-    // console.log('Caught in CatchError. Throwing error')
-    // throw new Error(error)  //js syntax
-    //return throwError(() => new error(error.messages || 'server error'))
-    return throwError(() => console.log(error));
-  }
+  // handleError(error: any) {
+  //   // console.log('Caught in CatchError. Throwing error')
+  //   // throw new Error(error)  //js syntax
+  //   //return throwError(() => new error(error.messages || 'server error'))
+  //   return throwError(() => console.log(error));
+  // }
 
   // insertInvoice(Invoice) {
   //   this.InvoiceList.push({
@@ -295,7 +294,7 @@ export class InvoiceDetailsService {
           'Content-Type': 'application/json',
         }),
       })
-      .pipe(catchError((error) => this.handleError(error))); //this.handleError(error));
+      // .pipe(catchError((error) => this.handleError(error))); //this.handleError(error));
   }
 
   deleteRecord(id: number) {
