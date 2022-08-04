@@ -12,7 +12,7 @@ export class Invoice {
   AmtBF: number = 0;
   AmountBilledInWord: string = '';
   AmountPaid: number = 0;
-  Balance: number = 0;
+  Balance?: number = 0;
   BillingMonth: string = '';
   BillingYear: number = 0;
   diagnosis: string = '';

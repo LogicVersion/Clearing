@@ -138,7 +138,7 @@ export class InvoiceDetailsComponent implements OnInit {
       ) {
         //this.toastr.warning('Specify Bill Type (Freight)');
         this.service.formData.patchValue({ Qty: 1 });
-        return;
+        // return;
       }
 
       if (
@@ -153,22 +153,19 @@ export class InvoiceDetailsComponent implements OnInit {
       if (this.service.formData.controls['AmountPaid'].value == '') {
         //this.toastr.warning('Specify Bill Type (Freight)');
         this.service.formData.patchValue({ AmountPaid: 0 });
-        return;
+        // return;
       }
 
       if (this.service.formData.controls['Interest'].value == '') {
         //this.toastr.warning('Specify Bill Type (Freight)');
         this.service.formData.patchValue({ Interest: 0 });
-        return;
+        // return;
       }
 
-      if (
-        this.service.formData.controls['VAT'].value == '0' ||
-        this.service.formData.controls['VAT'].value == ''
-      ) {
-        this.toastr.warning('Specify VAT');
-        //this.service.formData.patchValue({ Qty: 1 });
-        return;
+      if (this.service.formData.controls['VAT'].value == '') {
+        // this.toastr.warning('Specify VAT');
+        //return;
+     this.service.formData.patchValue({ VAT: 0 });
       }
 
       if (

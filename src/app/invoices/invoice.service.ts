@@ -21,7 +21,7 @@ export class InvoiceService {
   //form: Invoice = new Invoice();
 
   form = this.fb.group({
-    ID: [0],
+    ID: 0,
     bDate: [new Date(), [Validators.required]],
     billNO: ['***', [Validators.required]],
     JobCode: ['', [Validators.required]],
@@ -43,13 +43,13 @@ export class InvoiceService {
     Content: ['', [Validators.required]],
     Voy: ['', [Validators.required]],
     clientID: [''],
-    AmountBilled: [0],
-    profFee: [0],
-    AmtBF: [0],
-    AmountPaid: [0],
-    Balance: [0],
+    AmountBilled: 0,
+    profFee: 0,
+    AmtBF: 0,
+    AmountPaid: 0,
+    Balance: 0,
     BillingMonth: [''],
-    BillingYear: [0],
+    BillingYear: 0,
     diagnosis: [''],
     isPaid: [false],
     CoyFullName: [''],
@@ -104,7 +104,7 @@ export class InvoiceService {
 
   clearFields() {
     this.form.patchValue({
-      ID: [0],
+      ID: 0,
       bDate: this.formatStringToDate(new Date()),
       billNO: ['***'],
       JobCode: [''],
@@ -113,9 +113,9 @@ export class InvoiceService {
       pNo: [null],
       ConsigneeCode: [''],
       AmountBilledInWord: [''],
-      AmountBilled: [0],
-      AmountPaid: [0],
-      Balance: [0],
+      AmountBilled: 0,
+      AmountPaid: 0,
+      Balance: 0,
       IssuedBy: [''],
       GoodsDescription: [''],
       BLNo: [''],
@@ -124,8 +124,8 @@ export class InvoiceService {
       Weight: [''],
       JobStartDate: this.formatStringToDate(new Date()),
       JobEndDate: this.formatStringToDate(new Date()),
-      NoOf20Ft: [0],
-      NoOf40Ft: [0],
+      NoOf20Ft: 0,
+      NoOf40Ft: 0,
       Content: [''],
       Voy: [''],
     });
@@ -252,6 +252,10 @@ export class InvoiceService {
     formData.JobStartDate = JobStartDate;
     formData.JobEndDate = JobEndDate;
 
+    // delete formData.Balance;
+    // assign the key regex to the variable _ indicating it will be unused
+    const { Balance: _, ...formDataNew } = formData;
+
     // console.log(formData);
     //let body = JSON.stringify({ formData });
     //let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -261,7 +265,7 @@ export class InvoiceService {
     // });
     // console.log(headers);
     //let options = new RequestOptions ({ headers: headers });
-    let body = JSON.stringify(formData);
+    let body = JSON.stringify(formDataNew);
 
     // let headers = new HttpHeaders({
     //   'Access-Control-Allow-Origin': '*',
@@ -304,6 +308,9 @@ export class InvoiceService {
   // }
 
   updateRecord(formData: Invoice) {
+
+      delete formData.Balance;
+
     let body = JSON.stringify(formData);
     return this.http.put(this.appURL + '/' + formData.billNO, body, {
       headers: new HttpHeaders({
