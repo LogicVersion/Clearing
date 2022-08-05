@@ -126,7 +126,8 @@ export class InvoiceService {
       JobEndDate: this.formatStringToDate(new Date()),
       NoOf20Ft: 0,
       NoOf40Ft: 0,
-      Content: [''],
+      Content: [''], // CoyFullName
+      CoyFullName: [''], //
       Voy: [''],
     });
   }
@@ -183,7 +184,7 @@ export class InvoiceService {
       BillingYear: 0,
       diagnosis: '',
       isPaid: false,
-      CoyFullName: '',
+      CoyFullName: inv.CoyFullName,
       CoyAddress: '',
       PORder: '',
       JPCNo: '',
@@ -251,6 +252,7 @@ export class InvoiceService {
     formData.bDate = bDate;
     formData.JobStartDate = JobStartDate;
     formData.JobEndDate = JobEndDate;
+    formData.CoyFullName = formData.ConsigneeCode;
 
     // delete formData.Balance;
     // assign the key regex to the variable _ indicating it will be unused
@@ -309,9 +311,11 @@ export class InvoiceService {
 
   updateRecord(formData: Invoice) {
 
-      delete formData.Balance;
+      formData.CoyFullName = formData.ConsigneeCode;
+       const { Balance: _, ...formDataEdit } = formData;
+      // delete formData.Balance;
 
-    let body = JSON.stringify(formData);
+    let body = JSON.stringify(formDataEdit);
     return this.http.put(this.appURL + '/' + formData.billNO, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

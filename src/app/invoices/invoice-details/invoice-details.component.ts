@@ -118,7 +118,7 @@ export class InvoiceDetailsComponent implements OnInit {
         (item) => item.drgName == Importer
       );
 
-      if (duplicateArr.length > 0) {
+      if (duplicateArr.length > 0 && this.service.flgEdit==false) {
         this.toastr.warning('Duplicate Item Entry NOT Allowed');
         return;
       }
@@ -179,14 +179,15 @@ export class InvoiceDetailsComponent implements OnInit {
 
 
       if (this.service.flgEdit) {
-        this.service.updateRecord(this.service.formData.value).subscribe(
+        // this.service.updateRecord(this.service.formData.value).subscribe(
+        this.service.insertRecord(this.service.formData.value).subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('update');
             //this.dialogRef.close();
           },
           (err) => {
-            this.handleErrors(err);
+            // this.handleErrors(err);
             this.toastr.error(err, 'Clearing');
           }
         );
@@ -198,7 +199,7 @@ export class InvoiceDetailsComponent implements OnInit {
             this.notifyForm('insert');
           },
           (err) => {
-            this.handleErrors(err);
+            // this.handleErrors(err);
             this.toastr.error(err, 'Clearing');
           }
         );

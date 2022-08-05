@@ -46,7 +46,7 @@ export class InvoiceDetailsService {
     //const bDate: Date = this.formatStringToDate(inv.bDate);
     //const bDate: Date = new Date("2011-09-24T00:00:00".replace(/-/g, '\/').replace(/T.+/, ''));
 
-    this.formData.setValue({
+    this.formData.patchValue({
       SNO: 0,
       PK_SNo: inv.PK_SNo,
       dtDate: this.formatStringToDate(inv.dtDate), // new Date( inv.bDate),

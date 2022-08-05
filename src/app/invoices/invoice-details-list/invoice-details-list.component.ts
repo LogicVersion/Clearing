@@ -150,7 +150,7 @@ export class InvoiceDetailsListComponent implements OnInit {
   onDelete(row: InvoiceDetails) {
     // console.log(`id is: ${id}`);
     const id = row.PK_SNo;
-    if (id != null) {
+    if (id != 0) {
       if (confirm('Are you sure to delete this record?')) {
         this.service.deleteRecord(id).subscribe((res: any) => {
           this.utilSvc.setButtons(true);
