@@ -9,7 +9,7 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.model';
-import { Invoice, InvoiceDetails, InvoiceDetailsList } from './invoice.model';
+import { Invoice, InvoiceDetails, InvoiceDetailsList, InvoiceList } from './invoice.model';
 import { InvoiceService } from './invoice.service';
 @Injectable({
   providedIn: 'root',
@@ -159,11 +159,37 @@ export class InvoiceDetailsService {
   invoiceDetailsArr: InvoiceDetails[] = [];
 
 
-  updateTotal() {
-    if (this.InvoiceDetailsList.length > 0) {
-      this.formData.patchValue({
-        Total: this.invoiceService.amountBal,
-      });
+  updateTotal(billNO: string) {
+  this.formData.patchValue({ Total: 0 });
+  if (this.InvoiceDetailsList.length > 0) {
+    this.invoiceService.getListByID(billNO).subscribe((res) => {
+      this.invoiceService.invoiceByIdList = res as Invoice[];
+            const arr=this.invoiceService.invoiceByIdList
+            const AmtBilled =
+              this.invoiceService.invoiceByIdList['AmountBilled'];
+            const AmtPaid = this.invoiceService.invoiceByIdList['AmountPaid'];
+            const balance=(AmtBilled-AmtPaid).toFixed(2)
+            this.formData.patchValue({
+            Total: balance});
+    });
+
+    //   this.invoiceService
+    //     .getListByID(billNO)
+    //     .then((res) => {
+    //       (this.invoiceService.invoiceByIdList = res as Invoice[])
+    //       const arr=this.invoiceService.invoiceByIdList
+    //       const AmtBilled=this.invoiceService.invoiceByIdList[0].AmountBilled;
+    //       const AmtPaid = this.invoiceService.invoiceByIdList[0].AmountPaid;
+    //       const balance=(AmtBilled-AmtPaid).toFixed(2)
+    //       this.formData.patchValue({
+    //       Total: balance});
+    //     }, (error)=>{
+    //   console.log("Promise rejected with " + JSON.stringify(error));
+    // })
+
+        //console.log(this.invoiceService.invoiceByIdList);
+        //  console.log(this.invoiceService.invoiceByIdList)
+
         // this.InvoiceDetailsList.reduce((sum, curr) => {
         //   return sum + curr.Total; //sum=prev Value
         // }, 0),

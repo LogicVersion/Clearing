@@ -66,8 +66,6 @@ export class InvoiceService {
   billNoVal: string = '';
   bDateVal: Date = new Date();
 
-
-
   enableFields(blnVal = true) {
     if (blnVal) {
       this.form.enable();
@@ -144,13 +142,13 @@ export class InvoiceService {
     return new Date(yrNum, mthNum, dayNum);
   }
 
-  amountBal: number=0;
+  amountBal: number = 0;
 
   FormData(inv: Invoice): void {
     //const bDate: Date = this.formatStringToDate(inv.bDate);
     //const bDate: Date = new Date("2011-09-24T00:00:00".replace(/-/g, '\/').replace(/T.+/, ''));
 
-    this.amountBal= (inv.AmountBilled - inv.AmountPaid);
+    this.amountBal = inv.AmountBilled - inv.AmountPaid;
 
     this.form.setValue({
       ID: 0, //inv.ID,
@@ -179,7 +177,7 @@ export class InvoiceService {
       profFee: 0,
       AmtBF: 0,
       AmountPaid: inv.AmountPaid,
-      Balance: this.amountBal, //(inv.AmountBilled - inv.AmountPaid),
+      Balance: this.amountBal.toFixed(2), //(inv.AmountBilled - inv.AmountPaid),
       BillingMonth: '',
       BillingYear: 0,
       diagnosis: '',
@@ -195,6 +193,7 @@ export class InvoiceService {
   }
 
   invoiceList: InvoiceList[] = [];
+  invoiceByIdList: any; //InvoiceList[]
   invoiceMasterArr: Invoice[] = [];
   invoiceDetailsArr: InvoiceDetails[] = [];
 
@@ -206,6 +205,14 @@ export class InvoiceService {
   //   //.then((res) => (this.invoiceMasterArr = res as Invoice[]));
   //   //console.log(this.customerGroupList);
   // }
+
+  getListByID(id: string)  {
+    return this.http
+      .get(this.appURL + '/' + id)
+      // .toPromise();
+      // .then((res) => (this.invoiceByIdList = res as Invoice[]));
+    // console.log(this.invoiceByIdList);
+  }
 
   getList() {
     return this.http.get(this.appURL);
@@ -310,10 +317,9 @@ export class InvoiceService {
   // }
 
   updateRecord(formData: Invoice) {
-
-      formData.CoyFullName = formData.ConsigneeCode;
-       const { Balance: _, ...formDataEdit } = formData;
-      // delete formData.Balance;
+    formData.CoyFullName = formData.ConsigneeCode;
+    const { Balance: _, ...formDataEdit } = formData;
+    // delete formData.Balance;
 
     let body = JSON.stringify(formDataEdit);
     return this.http.put(this.appURL + '/' + formData.billNO, body, {
