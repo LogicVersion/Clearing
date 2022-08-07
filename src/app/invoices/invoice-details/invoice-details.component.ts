@@ -31,6 +31,7 @@ export class InvoiceDetailsComponent implements OnInit {
   constructor(
     public utilSvc: UtilityService,
     public service: InvoiceDetailsService,
+    public invoiceService: InvoiceService,
     private itemService: ClearingItemService,
     private toastr: ToastrService,
     private dialogRef: MatDialogRef<InvoiceDetailsComponent>,
@@ -54,7 +55,11 @@ export class InvoiceDetailsComponent implements OnInit {
     //this.reloadData
     if (this.data.billNO != null) {
       this.billNoParam = this.data.billNO;
-      this.service.formData.patchValue({ billNO: this.billNoParam });
+      this.service.formData.patchValue({
+        billNO: this.billNoParam,
+        // dtDate: this.data.bDate,
+        Total: this.data.balance.toFixed(2),
+      });
       this.utilSvc.setButtons(true);
       this.itemService
         .getListCombo()
@@ -68,7 +73,6 @@ export class InvoiceDetailsComponent implements OnInit {
   ngAfterViewInit(): void {
     this.utilSvc.setButtons(true);
     //this.updateTotal();
-
   }
 
   /*
@@ -104,7 +108,6 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-
     this.submitted = true;
 
     if (this.service.formData.valid) {
@@ -112,13 +115,13 @@ export class InvoiceDetailsComponent implements OnInit {
       // if ( this.findInvalidControls(this.service.formData) !=null) {
       //console.log(this.service.flgEdit);
 
-     let duplicateArr: InvoiceDetailsList[] = [];
+      let duplicateArr: InvoiceDetailsList[] = [];
       const Importer = this.service.formData.controls['drgName'].value;
-       duplicateArr = this.service.InvoiceDetailsList.filter(
+      duplicateArr = this.service.InvoiceDetailsList.filter(
         (item) => item.drgName == Importer
       );
 
-      if (duplicateArr.length > 0 && this.service.flgEdit==false) {
+      if (duplicateArr.length > 0 && this.service.flgEdit == false) {
         this.toastr.warning('Duplicate Item Entry NOT Allowed');
         return;
       }
@@ -165,7 +168,7 @@ export class InvoiceDetailsComponent implements OnInit {
       if (this.service.formData.controls['VAT'].value == '') {
         // this.toastr.warning('Specify VAT');
         //return;
-     this.service.formData.patchValue({ VAT: 0 });
+        this.service.formData.patchValue({ VAT: 0 });
       }
 
       if (
@@ -176,7 +179,6 @@ export class InvoiceDetailsComponent implements OnInit {
         //this.service.formData.patchValue({ Qty: 1 });
         return;
       }
-
 
       if (this.service.flgEdit) {
         // this.service.updateRecord(this.service.formData.value).subscribe(
@@ -219,7 +221,7 @@ export class InvoiceDetailsComponent implements OnInit {
     this.showSuccessMessage = true;
     setTimeout(() => (this.showSuccessMessage = false), 3000);
     this.submitted = false;
-    if ((updateVal = 'insert'))
+    if (updateVal == 'insert')
       this.toastr.success('Record saved successfully', 'Invoice-Item Saved');
     else this.toastr.success('Record updated successfully', 'Clearing Updated');
     //this.utilSvc.setButtons(true);
@@ -227,7 +229,6 @@ export class InvoiceDetailsComponent implements OnInit {
     this.service.flgEdit = false;
     this.childRef?.reLoadData();
     //this.service.updateTotal();
-
   }
 
   resetForm() {
@@ -240,6 +241,7 @@ export class InvoiceDetailsComponent implements OnInit {
     this.service.formData.patchValue({
       billNO: this.billNoParam,
       dtDate: new Date(),
+      Total:this.invoiceService.balance.toFixed(2),
     });
 
     ////this is to be done for proper reset operation
@@ -285,6 +287,9 @@ export class InvoiceDetailsComponent implements OnInit {
     this.service.formData.reset();
     this.service.clearFields();
     this.dialogRef.close();
+    this.invoiceService.updateTotal(this.billNoParam);
+    // this.service.formData.controls['billNO'].value
+    // this.billNoParam = this.data.billNO;
   }
 
   addToGrid() {
@@ -296,9 +301,9 @@ export class InvoiceDetailsComponent implements OnInit {
     // this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
 
-  updateFields(ctrl: any ) {
+  updateFields(ctrl: any) {
     // console.log(ctrl)
-    if (ctrl==null) {
+    if (ctrl == null) {
       //.selectedIndex == 0
       this.idx = 0;
       this.service.formData.patchValue({
@@ -309,50 +314,48 @@ export class InvoiceDetailsComponent implements OnInit {
         FreightCat: '***',
       });
       //this.form.controls['your form control name'].value;
-    }
-    else
-      {
-        if (this.service.flgEdit) {
-          //do nothing -- InvoiceDetailsList
-          // this.service.formData.patchValue({
-          //   Interest:
-          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Interest,
-          //   Serial:
-          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Serial,
-          //   BillCategory:
-          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
-          //       .BillCategory,
-          //   BillStatus:
-          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
-          //       .BillStatus,
-          //   FreightCat:
-          //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].FreightCat,
-          // });
-        } else {
-          //new entry
-          if (this.itemList) {
-            // this.idx = ctrl.selectedIndex;
-            this.idx = this.itemList.findIndex((p) => p.BillItem == ctrl);
-            this.idx+=1; //just to avoid editing below code lines
-            this.service.formData.patchValue({
-              Interest: this.itemList[this.idx - 1].MarkUp
-                ? this.itemList[this.idx - 1].MarkUp
-                : 0,
-              Serial: this.itemList[this.idx - 1].Serial
-                ? this.itemList[this.idx - 1].Serial
-                : 0,
-              BillCategory: this.itemList[this.idx - 1].BillCategory
-                ? this.itemList[this.idx - 1].BillCategory
-                : '***',
-              BillStatus: this.itemList[this.idx - 1].BillStatus
-                ? this.itemList[this.idx - 1].BillStatus
-                : '***',
-              FreightCat: this.itemList[this.idx - 1].FreightCat
-                ? this.itemList[this.idx - 1].FreightCat
-                : '***',
-            });
-          }
+    } else {
+      if (this.service.flgEdit) {
+        //do nothing -- InvoiceDetailsList
+        // this.service.formData.patchValue({
+        //   Interest:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Interest,
+        //   Serial:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Serial,
+        //   BillCategory:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
+        //       .BillCategory,
+        //   BillStatus:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
+        //       .BillStatus,
+        //   FreightCat:
+        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].FreightCat,
+        // });
+      } else {
+        //new entry
+        if (this.itemList) {
+          // this.idx = ctrl.selectedIndex;
+          this.idx = this.itemList.findIndex((p) => p.BillItem == ctrl);
+          this.idx += 1; //just to avoid editing below code lines
+          this.service.formData.patchValue({
+            Interest: this.itemList[this.idx - 1].MarkUp
+              ? this.itemList[this.idx - 1].MarkUp
+              : 0,
+            Serial: this.itemList[this.idx - 1].Serial
+              ? this.itemList[this.idx - 1].Serial
+              : 0,
+            BillCategory: this.itemList[this.idx - 1].BillCategory
+              ? this.itemList[this.idx - 1].BillCategory
+              : '***',
+            BillStatus: this.itemList[this.idx - 1].BillStatus
+              ? this.itemList[this.idx - 1].BillStatus
+              : '***',
+            FreightCat: this.itemList[this.idx - 1].FreightCat
+              ? this.itemList[this.idx - 1].FreightCat
+              : '***',
+          });
         }
+      }
     }
   }
 

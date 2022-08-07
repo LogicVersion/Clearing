@@ -149,6 +149,7 @@ export class InvoiceService {
     //const bDate: Date = new Date("2011-09-24T00:00:00".replace(/-/g, '\/').replace(/T.+/, ''));
 
     this.amountBal = inv.AmountBilled - inv.AmountPaid;
+    this.balance = this.amountBal;
 
     this.form.setValue({
       ID: 0, //inv.ID,
@@ -177,7 +178,7 @@ export class InvoiceService {
       profFee: 0,
       AmtBF: 0,
       AmountPaid: inv.AmountPaid,
-      Balance: this.amountBal.toFixed(2), //(inv.AmountBilled - inv.AmountPaid),
+      Balance: this.balance.toFixed(2), //(inv.AmountBilled - inv.AmountPaid),
       BillingMonth: '',
       BillingYear: 0,
       diagnosis: '',
@@ -193,24 +194,70 @@ export class InvoiceService {
   }
 
   invoiceList: InvoiceList[] = [];
-  invoiceByIdList: any; //InvoiceList[]
   invoiceMasterArr: Invoice[] = [];
   invoiceDetailsArr: InvoiceDetails[] = [];
 
   readonly appURL = environment.appURL + '/invoices';
   //readonly appURL ='http://localhost:8081/api/invoices'
 
-  // getListCombo() {
-  //   return this.http.get(this.appURL).toPromise();
-  //   //.then((res) => (this.invoiceMasterArr = res as Invoice[]));
-  //   //console.log(this.customerGroupList);
-  // }
+  invoiceByIdList: any; //InvoiceList[]
+  AmtBilled: any = 0;
+  AmtPaid: any = 0;
+  balance: any = 0;
+  AmtBilledInWord: string = '';
 
-  getListByID(id: string)  {
-    return this.http
-      .get(this.appURL + '/' + id)
-      // .toPromise();
-      // .then((res) => (this.invoiceByIdList = res as Invoice[]));
+  updateTotal(billNO: string) {
+    // this.form.patchValue({ Balance: 0 });
+    this.AmtBilled = 0;
+    this.AmtPaid = 0;
+    this.balance= 0;
+    this.AmtBilledInWord = '';
+    if (true) {
+      this.getListByID(billNO).subscribe((res) => {
+        this.invoiceByIdList = res as Invoice[];
+        this.AmtBilledInWord = this.invoiceByIdList['AmountBilledInWord'];
+        this.AmtBilled = this.invoiceByIdList['AmountBilled'];
+        this.AmtPaid = this.invoiceByIdList['AmountPaid'];
+        this.balance = (this.AmtBilled - this.AmtPaid).toFixed(2);
+        this.form.patchValue({
+          AmountBilled: this.AmtBilled,
+          AmountPaid: this.AmtPaid,
+          Balance: this.balance,
+          AmountBilledInWord: this.AmtBilledInWord,
+        });
+      });
+
+      //   this.invoiceService
+      //     .getListByID(billNO)
+      //     .then((res) => {
+      //       (this.invoiceService.invoiceByIdList = res as Invoice[])
+      //       const arr=this.invoiceService.invoiceByIdList
+      //       const AmtBilled=this.invoiceService.invoiceByIdList[0].AmountBilled;
+      //       const AmtPaid = this.invoiceService.invoiceByIdList[0].AmountPaid;
+      //       const balance=(AmtBilled-AmtPaid).toFixed(2)
+      //       this.formData.patchValue({
+      //       Total: balance});
+      //     }, (error)=>{
+      //   console.log("Promise rejected with " + JSON.stringify(error));
+      // })
+
+      //console.log(this.invoiceService.invoiceByIdList);
+      //  console.log(this.invoiceService.invoiceByIdList)
+
+      // this.InvoiceDetailsList.reduce((sum, curr) => {
+      //   return sum + curr.Total; //sum=prev Value
+      // }, 0),
+      //this.service.formData.GTotal = parseFloat(this.service.formData.GTotal.toFixed(2));
+      // });
+    } else {
+      this.form.patchValue({Balance: 0});
+    }
+  }
+
+  getListByID(id: string) {
+    return this.http.get(this.appURL + '/' + id);
+    // .toPromise();
+    // .then((res) => (this.invoiceByIdList = res as Invoice[]));
     // console.log(this.invoiceByIdList);
   }
 
@@ -247,6 +294,12 @@ export class InvoiceService {
   // getListFirebase() {
   //   this.employeeList = this.firebase.list('employees');
   //   return this.employeeList.snapshotChanges();
+  // }
+
+  // getListCombo() {
+  //   return this.http.get(this.appURL).toPromise();
+  //   //.then((res) => (this.invoiceMasterArr = res as Invoice[]));
+  //   //console.log(this.customerGroupList);
   // }
 
   insertRecord(formData: Invoice): Observable<Invoice> {

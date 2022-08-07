@@ -162,16 +162,10 @@ export class InvoiceDetailsService {
   updateTotal(billNO: string) {
   this.formData.patchValue({ Total: 0 });
   if (this.InvoiceDetailsList.length > 0) {
-    this.invoiceService.getListByID(billNO).subscribe((res) => {
-      this.invoiceService.invoiceByIdList = res as Invoice[];
-            const arr=this.invoiceService.invoiceByIdList
-            const AmtBilled =
-              this.invoiceService.invoiceByIdList['AmountBilled'];
-            const AmtPaid = this.invoiceService.invoiceByIdList['AmountPaid'];
-            const balance=(AmtBilled-AmtPaid).toFixed(2)
-            this.formData.patchValue({
-            Total: balance});
-    });
+    this.invoiceService.updateTotal(billNO)
+    const balance=(this.invoiceService.balance).toFixed(2)
+    this.formData.patchValue({
+    Total: balance});
 
     //   this.invoiceService
     //     .getListByID(billNO)

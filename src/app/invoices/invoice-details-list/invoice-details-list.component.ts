@@ -72,7 +72,7 @@ export class InvoiceDetailsListComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.service.InvoiceDetailsList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      this.service.updateTotal(this.billNoChild);
+      // this.service.updateTotal(this.billNoChild);
     });
   }
 

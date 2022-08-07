@@ -235,7 +235,7 @@ export class InvoiceComponent implements OnInit {
     this.showSuccessMessage = true;
     setTimeout(() => (this.showSuccessMessage = false), 3000);
     this.submitted = false;
-    if ((updateVal = 'insert'))
+    if ((updateVal == 'insert'))
       this.toastr.success('Record saved successfully', 'Clearing Saved');
     else this.toastr.success('Record updated successfully', 'Clearing Updated');
     this.utilSvc.setButtons(true);
@@ -280,6 +280,7 @@ export class InvoiceComponent implements OnInit {
     dialogConfig.data = {
       billNO: this.service.billNoVal,
       bDate: this.service.bDateVal,
+      balance: this.service.amountBal,
     };
     this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
