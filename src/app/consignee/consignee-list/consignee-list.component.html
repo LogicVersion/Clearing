@@ -48,6 +48,12 @@
       <mat-cell *matCellDef="let element"> {{element.ConsigneeAddress}} </mat-cell>
     </ng-container>
 
+    <!-- isSpecial Column -->
+    <ng-container matColumnDef="isSpecial">
+      <mat-header-cell *matHeaderCellDef> ClientType </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.isSpecial? 'SPECIAL':'REGULAR'}} </mat-cell>
+    </ng-container>
+
     <!-- Action Column-->
     <!-- <mat-header-cell > Action </mat-header-cell>
     <mat-cell  > <button mat-raised-button >Edit</button> </mat-cell> -->

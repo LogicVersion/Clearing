@@ -18,11 +18,12 @@ import { UtilityService } from 'src/app/shared/utility.service';
 })
 export class   ConsigneeListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = [
-    'SNo',
+    // 'SNo',
     'ConsigneeCode',
     'ConsigneeName',
     'GroupName',
     'ConsigneeAddress',
+    'isSpecial',
     'actions',
   ];
 

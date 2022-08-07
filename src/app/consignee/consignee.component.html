@@ -47,6 +47,18 @@
                 <input id="ConsigneeAddress"  formControlName="ConsigneeAddress" class="form-control">
               </div>
 
+              <div class="form-group mb-3">
+                  <label for="isSpecial">Client Type</label>
+                  <select  id="isSpecial"  formControlName="isSpecial" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['isSpecial'].errors}" >
+                    <option value="false" >REGULAR</option>
+                    <option value="true" >SPECIAL</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="submitted && formControls['isSpecial'].errors">
+                    <label *ngIf="formControls['isSpecial'].errors['required']">This field is required.</label>
+                  </div>
+              </div>
+
+
               <div *ngIf="!utilSvc.addButtVisible" class="form-group mb-3 ">
                 <input type="submit" class="btn btn-primary btn-space" value="Submit">
                 <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()">

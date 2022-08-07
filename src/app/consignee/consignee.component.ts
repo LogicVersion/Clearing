@@ -94,6 +94,12 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
         return;
       }
 
+      if (this.service.form.controls['isSpecial'].value == 'true') {
+        this.service.isSpecial = true;
+      } else {
+        this.service.isSpecial = false;
+      }
+
 
       if (this.service.flgEdit) {
         this.service.updateRecord(this.service.form.value).subscribe(
@@ -102,7 +108,7 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
             this.notifyForm('update');
           },
           (err) => {
-            this.handleErrors(err);
+            // this.handleErrors(err);
             this.toastr.error(err, 'Clearing');
           }
         );
@@ -114,7 +120,7 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
             this.notifyForm('insert');
           },
           (err) => {
-            this.handleErrors(err);
+            // this.handleErrors(err);
             this.toastr.error(err, 'Clearing');
           }
         );
@@ -122,7 +128,7 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private handleErrors              (errors: any) {
+  private handleErrors(errors: any) {
     this.messages = [];
     for (let msg of errors) {
       this.messages.push(msg);
@@ -134,7 +140,7 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
     this.showSuccessMessage = true;
     setTimeout(() => (this.showSuccessMessage = false), 3000);
     this.submitted = false;
-    if ((updateVal = 'insert'))
+    if ((updateVal == 'insert'))
       this.toastr.success('Record saved successfully', 'Clearing Saved');
     else this.toastr.success('Record updated successfully', 'Clearing Updated');
     this.utilSvc.setButtons(true);
@@ -152,6 +158,7 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
       ConsigneeName: '',
       GroupName: '0',
       ConsigneeAddress: '',
+      isSpecial: false,
     });
     this.service.flgEdit = false;
   }

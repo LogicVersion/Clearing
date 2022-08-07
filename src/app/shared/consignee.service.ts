@@ -13,11 +13,12 @@ export class ConsigneeService {
   form = this.fb.group({
     //$key: []null),
     //email: [''], Validators.email),
-    SNo: [0],
+    SNo: 0,
     ConsigneeCode: ['', [Validators.required, Validators.maxLength(5)]],
     ConsigneeName: ['', [Validators.required]],
     GroupName: ['0', [Validators.required]],
     ConsigneeAddress: [''],
+    isSpecial: false,
   });
 
   flgEdit = false;
@@ -64,6 +65,7 @@ export class ConsigneeService {
       ConsigneeName: '',
       GroupName: '0',
       ConsigneeAddress: '',
+      isSpecial: false,
     });
   }
 
@@ -75,6 +77,7 @@ export class ConsigneeService {
       ConsigneeName: cust.ConsigneeName,
       GroupName: cust.GroupName,
       ConsigneeAddress: cust.ConsigneeAddress,
+      isSpecial: cust.isSpecial,
     });
   }
 
@@ -101,8 +104,15 @@ export class ConsigneeService {
   //   return this.employeeList.snapshotChanges();
   // }
 
+
+   isSpecial: boolean=false;
+
   insertRecord(formData: Customer) {
     // console.log(formData);
+    formData.isSpecial=this.isSpecial;
+
+    const formData2=JSON.stringify(formData);
+
     return this.http.post(this.rootURL, formData);
   }
 
@@ -116,6 +126,11 @@ export class ConsigneeService {
   // }
 
   updateRecord(formData: Customer) {
+
+   formData.isSpecial = this.isSpecial;
+
+   const formData2 = JSON.stringify(formData);
+
     return this.http.put(this.rootURL + '/' + formData.ConsigneeCode, formData);
   }
 
