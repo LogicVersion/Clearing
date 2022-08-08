@@ -57,8 +57,8 @@ export class InvoiceDetailsComponent implements OnInit {
       this.billNoParam = this.data.billNO;
       this.service.formData.patchValue({
         billNO: this.billNoParam,
+        Total: 0, // this.data.balance.toFixed(2),
         // dtDate: this.data.bDate,
-        Total: this.data.balance.toFixed(2),
       });
       this.utilSvc.setButtons(true);
       this.itemService
@@ -180,6 +180,12 @@ export class InvoiceDetailsComponent implements OnInit {
         return;
       }
 
+      if (this.service.formData.controls['Total'].value == '') {
+        //this.toastr.warning('Specify Bill Type (Freight)');
+        this.service.formData.patchValue({ Total: 0 });
+        // return;
+      }
+
       if (this.service.flgEdit) {
         // this.service.updateRecord(this.service.formData.value).subscribe(
         this.service.insertRecord(this.service.formData.value).subscribe(
@@ -241,7 +247,7 @@ export class InvoiceDetailsComponent implements OnInit {
     this.service.formData.patchValue({
       billNO: this.billNoParam,
       dtDate: new Date(),
-      Total:this.invoiceService.balance.toFixed(2),
+      // Total:this.invoiceService.balance.toFixed(2),
     });
 
     ////this is to be done for proper reset operation
@@ -283,11 +289,23 @@ export class InvoiceDetailsComponent implements OnInit {
     this.service.enableFields(true);
   }
 
+  @ViewChild(InvoiceListComponent) invListChildRef?: InvoiceListComponent;
+
   onClose() {
     this.service.formData.reset();
     this.service.clearFields();
+    this.invoiceService.flgEdit = false;
+    this.invoiceService.enableFields(false);
+    if (this.invoiceService.form) this.invoiceService.form.reset();
+    this.invoiceService.clearFields();
+    this.utilSvc.setButtons(true);
+    this.invListChildRef?.reLoadData();
     this.dialogRef.close();
-    this.invoiceService.updateTotal(this.billNoParam);
+
+    // this.invoiceService.updateTotal(this.billNoParam);
+    // this.service.flgEdit = false;
+    // this.service.enableFields(false);
+    // this.utilSvc.setButtons(true);
     // this.service.formData.controls['billNO'].value
     // this.billNoParam = this.data.billNO;
   }
@@ -373,7 +391,40 @@ export class InvoiceDetailsComponent implements OnInit {
     }
   }
 
-  // updateTotal() {
+  updateTotal(
+    Qty: number,
+    Price: number,
+    VAT: number,
+    AmtPaid: number,
+    markUp: number
+  ) {
+    this.service.formData.patchValue({ Total: 0 });
+    if (true) {
+      this.service.PerformAddition();
+      if (Number.isNaN(AmtPaid)) {
+        AmtPaid = +this.service.formData.controls['AmountPaid'].value;
+      }
+      const amtPay = +AmtPaid;
+      const subTot = Qty * Price;
+      const pCentMargin = markUp / 100;
+      const Interest = subTot * pCentMargin;
+      const vatVal = VAT / 100;
+      const VAT2 = (subTot - amtPay) * vatVal;
+      const subTotal = subTot;
+      const Total = subTot + Interest + VAT2; //--'AmtBilled   VAT is included for now
+      const balance = (Total - amtPay).toFixed(2);
+
+      this.service.formData.patchValue({
+        Total: balance,
+      });
+    } else {
+      this.service.formData.patchValue({
+        Total: 0,
+      });
+    }
+  }
+
+  // updateTotal2() {
   //   if (this.service.InvoiceDetailsList.length > 0){
   //     this.service.formData.patchValue({
   //       Total: this.service.InvoiceDetailsList.reduce((sum, curr) => {

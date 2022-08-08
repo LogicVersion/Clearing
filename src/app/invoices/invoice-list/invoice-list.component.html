@@ -34,15 +34,21 @@
       <mat-cell *matCellDef="let element"> {{element.billNO}} </mat-cell>
     </ng-container>
 
-    <!-- JobStartDate Column -->
-    <ng-container matColumnDef="JobStartDate">
-      <mat-header-cell mat-sort-header *matHeaderCellDef> JobStartDate </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.JobStartDate | date}} </mat-cell>
+    <!-- AmountBilled Column -->
+    <ng-container matColumnDef="AmountBilled">
+      <mat-header-cell mat-sort-header *matHeaderCellDef> AmountBilled </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.AmountBilled | number}} </mat-cell>
     </ng-container>
-    <!-- JobEndDate Column -->
-    <ng-container matColumnDef="JobEndDate">
-      <mat-header-cell *matHeaderCellDef> JobEndDate </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.JobEndDate | date}} </mat-cell>
+    <!-- AmountPaid Column -->
+    <ng-container matColumnDef="AmountPaid">
+      <mat-header-cell *matHeaderCellDef> AmountPaid </mat-header-cell>
+      <mat-cell  *matCellDef="let element"> {{element.AmountPaid | number}} </mat-cell>
+    </ng-container>
+
+    <!-- Balance Column -->
+    <ng-container matColumnDef="Balance">
+      <mat-header-cell *matHeaderCellDef> Balance </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{(element.AmountBilled - element.AmountPaid) | number}} </mat-cell>
     </ng-container>
 
   <ng-container matColumnDef="actions">

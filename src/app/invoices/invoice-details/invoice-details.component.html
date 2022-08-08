@@ -67,7 +67,7 @@
       <div class="row">
         <div class="form-group col-md-3 mb-3">
           <label for="Qty">Qty</label>
-          <input id="Qty" formControlName="Qty" type="text" #qty (blur)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
+          <input id="Qty" formControlName="Qty" type="text" #qty (blur)="updateSubTotal(+qty.value,+price.value)"  (blur)="updateTotal(+qty.value,+price.value,+VAT.value,+amtPaid.value,+markUp.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Qty'].errors">
             <label *ngIf="formControls['Qty'].errors['required']">This field is required.</label>
           </div>
@@ -75,7 +75,7 @@
 
         <div class="form-group col-md-5 mb-3">
           <label for="Price">Rate</label>
-          <input id="Price"  formControlName="Price" type="text" (blur)="service.PerformAddition()" #price (blur)="updateSubTotal(+qty.value,+price.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
+          <input id="Price"  formControlName="Price" type="text" (blur)="service.PerformAddition()" #price (blur)="updateSubTotal(+qty.value,+price.value)" (blur)="updateTotal(+qty.value,+price.value,+VAT.value,+amtPaid.value,+markUp.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Price'].errors">
             <label *ngIf="formControls['Price'].errors['required']">This field is required.</label>
           </div>
@@ -91,7 +91,7 @@
 
         <div class="form-group col-md-4 mb-3">
           <label for="AmountPaid">AmountPaid</label>
-          <input id="AmountPaid" FormatNumerLocal formControlName="AmountPaid" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountPaid'].errors}">
+          <input id="AmountPaid" FormatNumerLocal formControlName="AmountPaid" #amtPaid (blur)="updateTotal(+qty.value,+price.value,+VAT.value,+amtPaid.value,+markUp.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['AmountPaid'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['AmountPaid'].errors">
             <label *ngIf="formControls['AmountPaid'].errors['required']">This field is required.</label>
           </div>
@@ -163,7 +163,7 @@
       <div class="row">
         <div class="form-group col-md-4 mb-3">
           <label for="Interest">MarkUp (%)</label>
-          <input id="Interest" formControlName="Interest" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Interest'].errors}">
+          <input id="Interest" formControlName="Interest" #markUp (blur)="updateTotal(+qty.value,+price.value,+VAT.value,+amtPaid.value,+markUp.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Interest'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Interest'].errors">
             <label *ngIf="formControls['Interest'].errors['required']">This field is required.</label>
           </div>
@@ -171,7 +171,7 @@
 
         <div class="form-group col-md-4 mb-3">
           <label for="VAT">VAT</label>
-          <input id="VAT" formControlName="VAT" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['VAT'].errors}">
+          <input id="VAT" formControlName="VAT" #VAT (blur)="updateTotal(+qty.value,+price.value,+VAT.value,+amtPaid.value,+markUp.value)" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['VAT'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['VAT'].errors">
             <label *ngIf="formControls['VAT'].errors['required']">This field is required.</label>
           </div>
@@ -205,7 +205,7 @@
         </div>
 
         <div class="form-group col-md-6 mb-3">
-          <label for="Total">Total</label>
+          <label for="Total">AmountDue / Item</label>
           <input  readonly id="Total" FormatNumerLocal formControlName="Total" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Total'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Total'].errors">
             <label *ngIf="formControls['Total'].errors['required']">This field is required.</label>

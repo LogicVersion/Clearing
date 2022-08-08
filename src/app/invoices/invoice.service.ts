@@ -193,7 +193,7 @@ export class InvoiceService {
     });
   }
 
-  invoiceList: InvoiceList[] = [];
+  invoiceList: Invoice[] = []; //InvoiceList[] = [];
   invoiceMasterArr: Invoice[] = [];
   invoiceDetailsArr: InvoiceDetails[] = [];
 
@@ -313,6 +313,10 @@ export class InvoiceService {
     formData.JobStartDate = JobStartDate;
     formData.JobEndDate = JobEndDate;
     formData.CoyFullName = formData.ConsigneeCode;
+    formData.profFee = 0;
+    formData.AmtBF = 0;
+    formData.NoOf20Ft = +formData.NoOf20Ft;
+    formData.NoOf40Ft = +formData.NoOf40Ft;
 
     // delete formData.Balance;
     // assign the key regex to the variable _ indicating it will be unused

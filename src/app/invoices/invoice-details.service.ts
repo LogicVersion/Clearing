@@ -26,7 +26,7 @@ export class InvoiceDetailsService {
     billNO: ['***', [Validators.required]],
     drgName: [null, [Validators.required]],
     Price: [0, [Validators.required]],
-    Qty: [0, [Validators.required]],
+    Qty: [1, [Validators.required]],
     subTotal: [0, [Validators.required]],
     VAT: [0, [Validators.required]],
     Interest: [0],
@@ -78,7 +78,7 @@ export class InvoiceDetailsService {
       billNO: '***',
       drgName: null,
       Price: 0,
-      Qty: 0,
+      Qty: 1,
       subTotal: 0,
       VAT: 0,
       Interest: 0,
@@ -159,54 +159,26 @@ export class InvoiceDetailsService {
   invoiceDetailsArr: InvoiceDetails[] = [];
 
 
-  updateTotal(billNO: string) {
-  this.formData.patchValue({ Total: 0 });
-  if (this.InvoiceDetailsList.length > 0) {
-    this.invoiceService.updateTotal(billNO)
-    const balance=(this.invoiceService.balance).toFixed(2)
-    this.formData.patchValue({
-    Total: balance});
-
-    //   this.invoiceService
-    //     .getListByID(billNO)
-    //     .then((res) => {
-    //       (this.invoiceService.invoiceByIdList = res as Invoice[])
-    //       const arr=this.invoiceService.invoiceByIdList
-    //       const AmtBilled=this.invoiceService.invoiceByIdList[0].AmountBilled;
-    //       const AmtPaid = this.invoiceService.invoiceByIdList[0].AmountPaid;
-    //       const balance=(AmtBilled-AmtPaid).toFixed(2)
-    //       this.formData.patchValue({
-    //       Total: balance});
-    //     }, (error)=>{
-    //   console.log("Promise rejected with " + JSON.stringify(error));
-    // })
-
-        //console.log(this.invoiceService.invoiceByIdList);
-        //  console.log(this.invoiceService.invoiceByIdList)
-
-        // this.InvoiceDetailsList.reduce((sum, curr) => {
-        //   return sum + curr.Total; //sum=prev Value
-        // }, 0),
-        //this.service.formData.GTotal = parseFloat(this.service.formData.GTotal.toFixed(2));
-      // });
-    } else {
-      this.formData.patchValue({
-        Total: 0,
-      });
-    }
-  }
-
   // valuesString: string = '';
   // valuesArray: number[] = [];
 
   PerformAddition() { // on blur
+    let results=0;
     const valuesString: string = this.formData.controls['Price'].value;
-    var valuesStr = valuesString.split('+'); //split based on ' ' and store on a variable
-    const valuesArray = valuesStr.map((x) => parseFloat(x)); //convert each item to int
-    //perform your computation
-    var results = valuesArray.reduce((sum,curr) => {
-      return sum+=curr
-    },0);
+    if (typeof valuesString != 'number') {
+      if (valuesString.indexOf('+')) {
+        var valuesStr = valuesString.split('+'); //split based on ' ' and store on a variable
+        const valuesArray = valuesStr.map((x) => parseFloat(x)); //convert each item to int
+        //perform your computation
+        results = valuesArray.reduce((sum, curr) => {
+          return (sum += curr);
+        }, 0);
+      } else {
+        results = +this.formData.controls['Price'].value;
+      }
+    } else {
+      results = +this.formData.controls['Price'].value;
+    }
 
     this.formData.patchValue({
       Price:results.toFixed(2)});

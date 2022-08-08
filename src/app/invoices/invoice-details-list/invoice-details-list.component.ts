@@ -157,6 +157,7 @@ export class InvoiceDetailsListComponent implements OnInit {
           this.service.enableFields(false);
           this.service.flgEdit = false;
           this.reLoadData();
+          // this.service.updateTotal(this.billNoChild);
           // const index = this.dataSource.indexOf(row, 0);
           // if (index > -1) {
           //   this.dataSource.splice(index, 1);

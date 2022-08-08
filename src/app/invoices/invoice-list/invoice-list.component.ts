@@ -21,12 +21,13 @@ import { DatePipe } from '@angular/common';
 })
 export class InvoiceListComponent implements OnInit {
   displayedColumns: string[] = [
-    'ID',
+    // 'ID',
     'bDate',
     'JobCode',
     'billNO',
-    'JobStartDate',
-    'JobEndDate',
+    'AmountBilled',
+    'AmountPaid',
+    'Balance',
     'actions',
   ];
 
@@ -55,7 +56,7 @@ export class InvoiceListComponent implements OnInit {
 
   reLoadData(): void {
     this.service.getList().subscribe((res) => {
-      this.service.invoiceList = res as InvoiceList[];
+      this.service.invoiceList = res as Invoice[];
       this.dataSource = new MatTableDataSource(this.service.invoiceList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

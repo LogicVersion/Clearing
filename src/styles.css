@@ -107,6 +107,55 @@ mat-footer-row mat-footer-cell{
   	  color: white !important;
   	} */
 
+        .example-container {
+          display: flex;
+          flex-direction: column;
+
+          flex-basis: 300px;
+        }
+
+        .mat-table {
+          overflow: auto;
+          max-height: 500px;
+        }
+
+        .mat-column-name {
+          border-right: 1px solid grey;
+          align-self: stretch;
+          text-align: center
+        }
+
+        .mat-column-position {
+          border-right: 1px solid grey;
+          align-self: stretch;
+          text-align: center;
+
+        }
+
+        .mat-column-weight {
+          border-right: 1px solid grey;
+          align-self: stretch;
+          text-align: center;
+
+        }
+
+        .mat-column-AmountPaid {
+
+          text-align: right;
+          align-self: stretch;
+        }
+
+        .mat-column-JobCode {
+          align-self: stretch;
+        }
+
+    .mat-cell {
+      /* font-size: 14px;
+      min-height: 48px;
+      text-align: center;
+      border-right: 1px solid black; */
+      padding: 5px;
+    }
 
 
 /* ------------------------------------- */

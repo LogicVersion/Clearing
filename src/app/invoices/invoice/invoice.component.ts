@@ -280,7 +280,7 @@ export class InvoiceComponent implements OnInit {
     dialogConfig.data = {
       billNO: this.service.billNoVal,
       bDate: this.service.bDateVal,
-      balance: this.service.amountBal,
+      // balance: this.service.amountBal,
     };
     this.dialog.open(InvoiceDetailsComponent, dialogConfig);
   }
