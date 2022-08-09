@@ -1,11 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {  observable, Observable, throwError } from 'rxjs'; //catchError,
 import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -210,7 +213,7 @@ export class InvoiceService {
     // this.form.patchValue({ Balance: 0 });
     this.AmtBilled = 0;
     this.AmtPaid = 0;
-    this.balance= 0;
+    this.balance = 0;
     this.AmtBilledInWord = '';
     if (true) {
       this.getListByID(billNO).subscribe((res) => {
@@ -250,7 +253,7 @@ export class InvoiceService {
       //this.service.formData.GTotal = parseFloat(this.service.formData.GTotal.toFixed(2));
       // });
     } else {
-      this.form.patchValue({Balance: 0});
+      this.form.patchValue({ Balance: 0 });
     }
   }
 
@@ -274,6 +277,24 @@ export class InvoiceService {
     // 'content-type: 'application/json',
     // 'Authorization': 'Bearer ' + localStorage.getItem('userToken'),
     // }) })
+  }
+
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatTable) table!: MatTable<any>;
+  //@ViewChild(MatTable) table!: MatTable<DatatableItem>;
+  //dataSource: DatatableDataSource;
+  //dataSource= this.service.customerList; //this.service.customerList; //ELEMENT_DATA;
+  dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
+  searchKey?: string;
+
+  reLoadData(): void {
+    this.getList().subscribe((res) => {
+      this.invoiceList = res as Invoice[];
+      this.dataSource = new MatTableDataSource(this.invoiceList); //ELEMENT_DATA;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   // handleError(error: any) {

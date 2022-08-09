@@ -9,7 +9,7 @@
 </div>
 
 <div class="mat-elevation-z8">
-  <mat-table [dataSource]="dataSource" matSort >
+  <mat-table [dataSource]="service.dataSource" matSort >
     <!-- ID Column -->
     <ng-container matColumnDef="ID">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
@@ -76,8 +76,8 @@
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></mat-footer-row>
-    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':service.dataSource!=null}"></mat-footer-row>
+    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(service.dataSource!=null && service.dataSource.data.length==0)}"></mat-footer-row>
 
   </mat-table>
 

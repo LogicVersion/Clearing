@@ -242,6 +242,7 @@ export class InvoiceComponent implements OnInit {
     this.service.enableFields(false);
     this.service.flgEdit = false;
     this.childRef?.reLoadData();
+    // this.service.reLoadData();
   }
 
   resetForm() {

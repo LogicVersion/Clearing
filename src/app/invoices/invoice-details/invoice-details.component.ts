@@ -299,7 +299,8 @@ export class InvoiceDetailsComponent implements OnInit {
     if (this.invoiceService.form) this.invoiceService.form.reset();
     this.invoiceService.clearFields();
     this.utilSvc.setButtons(true);
-    this.invListChildRef?.reLoadData();
+    // this.invListChildRef?.reLoadData();
+    this.invoiceService.reLoadData();
     this.dialogRef.close();
 
     // this.invoiceService.updateTotal(this.billNoParam);
@@ -309,6 +310,7 @@ export class InvoiceDetailsComponent implements OnInit {
     // this.service.formData.controls['billNO'].value
     // this.billNoParam = this.data.billNO;
   }
+
 
   addToGrid() {
     // const dialogConfig = new MatDialogConfig();

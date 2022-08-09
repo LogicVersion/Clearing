@@ -246,7 +246,7 @@
 
         <div class="d-grid gap-2">
           <!-- <input type="submit" class="btn btn-primary " value="Submit"> -->
-          <input type="button" [mat-dialog-close] class="btn btn-outline-warning " value="Close">
+          <input type="button" [mat-dialog-close] (click)="onClose()" class="btn btn-outline-warning " value="Close">
           <!-- <button type="submit" class="btn btn-primary btn-lg">Submit</button> -->
         </div>
         <!-- <button type="button" class="btn btn-outline-warning">Warning</button>

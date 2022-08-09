@@ -37,12 +37,12 @@ export class InvoiceListComponent implements OnInit {
   //@ViewChild(MatTable) table!: MatTable<DatatableItem>;
   //dataSource: DatatableDataSource;
   //dataSource= this.service.customerList; //this.service.customerList; //ELEMENT_DATA;
-  dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
+  // dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey?: string;
 
   constructor(
     private utilSvc: UtilityService,
-    private service: InvoiceService,
+    public service: InvoiceService,
     private toastr: ToastrService
   ) {
     //this.dataSource = new DatatableDataSource();
@@ -55,12 +55,15 @@ export class InvoiceListComponent implements OnInit {
   }
 
   reLoadData(): void {
-    this.service.getList().subscribe((res) => {
-      this.service.invoiceList = res as Invoice[];
-      this.dataSource = new MatTableDataSource(this.service.invoiceList); //ELEMENT_DATA;
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
+    // this.service.getList().subscribe((res) => {
+    //   this.service.invoiceList = res as Invoice[];
+    //   this.dataSource = new MatTableDataSource(this.service.invoiceList); //ELEMENT_DATA;
+    //   this.dataSource.sort = this.sort;
+    //   this.dataSource.paginator = this.paginator;
+    // });
+
+    this.service.reLoadData();
+
   }
 
   // ngOnInitFirebase() {
@@ -107,7 +110,7 @@ export class InvoiceListComponent implements OnInit {
 
   applyFilter(filterText: string) {
     // if (filterText!=null)
-    this.dataSource.filter = filterText.trim().toLowerCase();
+    this.service.dataSource.filter = filterText.trim().toLowerCase();
   }
 
   // format date in typescript
