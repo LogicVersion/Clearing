@@ -288,6 +288,21 @@ export class InvoiceService {
   dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey?: string;
 
+  getSearchList(strVal: string) {
+    const searchURL = `${this.appURL}/search/${strVal}`;
+    return this.http.get(searchURL);
+  }
+
+  reLoadDataSearch(str: string): void {
+    this.invoiceList = [];
+    this.getSearchList(str).subscribe((res) => {
+      this.invoiceList = res as Invoice[];
+      this.dataSource = new MatTableDataSource(this.invoiceList); //ELEMENT_DATA;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
   reLoadData(): void {
     this.getList().subscribe((res) => {
       this.invoiceList = res as Invoice[];

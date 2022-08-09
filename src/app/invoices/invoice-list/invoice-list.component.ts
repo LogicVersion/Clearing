@@ -38,7 +38,7 @@ export class InvoiceListComponent implements OnInit {
   //dataSource: DatatableDataSource;
   //dataSource= this.service.customerList; //this.service.customerList; //ELEMENT_DATA;
   // dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
-  searchKey?: string;
+  searchKey: string='';
 
   constructor(
     private utilSvc: UtilityService,
@@ -102,6 +102,12 @@ export class InvoiceListComponent implements OnInit {
   //   this.utilSvc.setButtons(false);
   //   this.service.enableFields(true);
   // }
+
+
+    onSearch() {
+    if(this.searchKey)
+    this.service.reLoadDataSearch(this.searchKey);
+  }
 
   onSearchClear() {
     this.searchKey = '';
