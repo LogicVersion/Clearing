@@ -2,7 +2,7 @@
   <!-- <span>{{service.form.controls['$key'].value?"Modify Employee":"New Employee"}}</span> -->
   <span>Add / Modify Bill Items</span>
   <span class="fill-remaining-space"></span>
-  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabindex="-1"><mat-icon>clear</mat-icon></button>
 </mat-toolbar>
 
 <form [formGroup]="this.service.formData" (ngSubmit)="onSubmit()">
@@ -35,7 +35,7 @@
       <div class="row">
         <div class="form-group mb-3 mt-3 ">
           <label for="drgName">Bill Item</label>
-                <ng-select id="drgName" formControlName="drgName" #itmX (change)="updateFields($event)"
+                <ng-select id="drgName"  formControlName="drgName" #itmX (change)="updateFields($event)"
                 placeholder="Select an Item"
                 class="form-control" [ngClass]="{'is-invalid': submitted && formControls['drgName'].errors}">
                   <ng-option value="0">--Select--</ng-option>
@@ -106,7 +106,7 @@
     <div class="row">
       <div class="form-group col-md-5 mb-3 mt-3">
         <label for="billNO">InvoiceNo</label>
-        <input readonly id="billNO" formControlName="billNO" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['billNO'].errors}">
+        <input tabindex="-1" readonly id="billNO" formControlName="billNO" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['billNO'].errors}">
         <div class="invalid-feedback" *ngIf="submitted && formControls['billNO'].errors">
           <label *ngIf="formControls['billNO'].errors['required']">This field is required.</label>
         </div>
@@ -114,7 +114,7 @@
 
       <div class="form-group col-md-6 mb-3 mt-3 ">
         <label for="dtDate">InvoiceDate</label>
-        <input type="date" readonly
+        <input tabindex="-1" type="date" readonly
           id="dtDate"
           [formControl]="$any(this.service.formData.controls['dtDate'])"
           class="form-control" [ngClass]="{'is-invalid':submitted && formControls['dtDate'].errors}">
@@ -137,7 +137,7 @@
 
         <div class="form-group col-md-5 mb-3">
           <label for="BillCategory">Expense Cat</label>
-          <input  id="BillCategory" formControlName="BillCategory" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillCategory'].errors}">
+          <input id="BillCategory" formControlName="BillCategory" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillCategory'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['BillCategory'].errors">
             <label *ngIf="formControls['BillCategory'].errors['required']">This field is required.</label>
           </div>
@@ -198,7 +198,7 @@
       <div class="row">
         <div class="form-group col-md-6 mb-3">
           <label for="subTotal">SubTotal</label>
-          <input readonly  id="subTotal" FormatNumerLocal formControlName="subTotal" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['subTotal'].errors}">
+          <input tabindex="-1" readonly  id="subTotal" FormatNumerLocal formControlName="subTotal" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['subTotal'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['subTotal'].errors">
             <label *ngIf="formControls['subTotal'].errors['required']">This field is required.</label>
           </div>
@@ -206,7 +206,7 @@
 
         <div class="form-group col-md-6 mb-3">
           <label for="Total">AmountDue / Item</label>
-          <input  readonly id="Total" FormatNumerLocal formControlName="Total" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Total'].errors}">
+          <input tabindex="-1"  readonly id="Total" FormatNumerLocal formControlName="Total" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Total'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Total'].errors">
             <label *ngIf="formControls['Total'].errors['required']">This field is required.</label>
           </div>
