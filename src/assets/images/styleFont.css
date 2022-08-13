@@ -12,6 +12,7 @@
     justify-content: center;
     align-items: center;
     /* background-color: navy; */
+    /* background: #00abb7; */
     padding: 20px;
     font-size: 3rem;
 
@@ -24,7 +25,7 @@ h1{
   font-size: 6rem;
     font-weight: 800;
     /* line-height: 75px; */
-    background-image: linear-gradient(to left, #40E0D0,#ff8c00,#ff0080
+    background-image: linear-gradient(to left, #40E0D0,#6dd5ed,#ff0080
     );
         -webkit-background-clip: text;
         -moz-background-clip: text;

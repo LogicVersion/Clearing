@@ -271,6 +271,11 @@ div.sm-jumbotron{
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+        /*#F6F6F6 */
+        /* body {
+    		  background: #F6F6F6;
+    		} */
+
 .btn-space {
     margin-right: 15px;
 }

@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { concatMap } from 'rxjs/operators';
 import { LoadingService } from './shared/loading.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +17,18 @@ export class AppComponent {
   coyID = environment.coyID;
   loading$ = this.loader.loading$;
 
-  constructor(public loader: LoadingService, private http: HttpClient) {}
+  constructor(
+    public loader: LoadingService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
+
+  Logout() {
+    localStorage.removeItem('userToken');
+    this.router.navigate(['/login']);
+  }
+
+
 
   // selectedCar: number=0;
 
@@ -27,7 +39,7 @@ export class AppComponent {
   //   { id: 4, name: 'Audi' },
   // ];
 
-  fruits = ["apple", "orange", "banana", "grapes"];
+  // fruits = ["apple", "orange", "banana", "grapes"];
 
   // fetchData() {
   //   this.http

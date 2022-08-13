@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: 'forbidden',
     component: ForbiddenComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'adminPanel',
