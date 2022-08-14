@@ -49,6 +49,8 @@ import { AppResolve } from './_resolvers/app.resolver';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ErrorInterceptor } from './shared/error.interceptor';
+import { ValidateEqualModule } from 'ng-validate-equal';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,13 +90,14 @@ import { ErrorInterceptor } from './shared/error.interceptor';
     AuthModule,
     AppRoutingModule,
     NgSelectModule,
+    ValidateEqualModule,
   ],
   providers: [
     ClearingItemService,
     ConsigneeService,
     ConsigneeGroupService,
     { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor,   multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     UtilityService,
     InvoiceService,
     InvoiceDetailsService,

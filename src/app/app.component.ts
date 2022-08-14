@@ -28,7 +28,10 @@ export class AppComponent {
     this.router.navigate(['/login']);
   }
 
-
+  Login() {
+    // localStorage.removeItem('userToken');
+    this.router.navigate(['/login']);
+  }
 
   // selectedCar: number=0;
 

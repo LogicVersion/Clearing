@@ -32,15 +32,23 @@ export class SignUpComponent implements OnInit {
     this.user = {
       UserName: '',
       Password: '',
+      ConfirmPassword: '',
       Email: '',
       FirstName: '',
-      LastName: ''
-    }
+      LastName: '',
+    };
     if (this.roles)
       this.roles.map(x => x.selected = false);
   }
 
   OnSubmit(form: NgForm) {
+
+      if (!form.valid) {
+
+            this.toastr.warning('Entries not Valid! Please check your Passwords Or Email');
+            return;
+      }
+
         let x: any[]=[];
         if (this.roles){
           x = this.roles.filter((x) => x.selected).map((y) => y.name);
@@ -48,7 +56,7 @@ export class SignUpComponent implements OnInit {
             this.toastr.warning('No User Role(s) Selected');
             return;
           }
-        } 
+        }
         else{
           this.toastr.warning('User Roles Required! Please Register one or more Roles');
           return;

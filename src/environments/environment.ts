@@ -9,7 +9,7 @@ export const environment = {
   appURL: 'http://sapidholdingsonline.com/sapi/api/clearing', //billingAPI
   // apiURL_Admin: 'http://localhost:8082/api/authenticate', //http://localhost:5000/api',
   // apiURL_Admin: 'http://localhost:5000/api/authenticate', //http://localhost:5000/api',
-  apiURL_Admin: 'http://sapidholdingsonline.com/apix', // /api/authenticate', //AuthAPI
+  apiURL_Admin: 'http://sapidholdingsonline.com/apix/api/authenticate', // /api/authenticate', //AuthAPI
   coyID: 'Clearing',
   coyName: 'Sapid Agencies Ltd',
   imgLogo: '',

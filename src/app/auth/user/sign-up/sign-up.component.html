@@ -11,8 +11,35 @@
     <div class="mt-3 mb-3 row">
       <label data-error="Required field!">Password</label>
       <div class="col-sm-10">
-        <input type="password" class="form-control" name="Password" #Password="ngModel" [(ngModel)]="user.Password" required minlength="3">
+        <input id="Password" type="password" class="form-control" name="Password" #Password="ngModel" [(ngModel)]="user.Password" required minlength="3">
       </div>
+    </div>
+
+    <div class="mt-3 mb-3 row">
+      <label data-error="Required field!">Confirm Password</label>
+      <div class="col-sm-10">
+        <input type="password" ngValidateEqual="Password"
+        class="form-control" name="ConfirmPassword" #ConfirmPassword="ngModel"
+        [(ngModel)]="user.ConfirmPassword" required minlength="3">
+      </div>
+    </div>
+
+    <div *ngIf="(ConfirmPassword.dirty || ConfirmPassword.touched) && ConfirmPassword.invalid">
+        <p class="warning-text" *ngIf="ConfirmPassword.hasError('notEqual') && Password.valid">
+          Passwords Don't Match
+        </p>
+    </div>
+
+    <div *ngIf="ConfirmPassword.invalid && (ConfirmPassword.dirty || ConfirmPassword.touched)"
+      class="alert">
+      <div *ngIf="ConfirmPassword.errors?.['notEqual']">
+        Passwords Don't Match.
+      </div>
+
+      <div *ngIf="ConfirmPassword.hasError('notEqual')">
+        Passwords Don't Match.
+      </div>
+
     </div>
 
   </div>
