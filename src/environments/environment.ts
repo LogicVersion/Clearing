@@ -13,7 +13,8 @@ export const environment = {
   coyID: 'Clearing',
   coyName: 'Sapid Agencies Ltd',
   imgLogo: '',
-  imgHome: 'assets/images/SapidInTheCloud2.png',
+  imgHome: 'assets/images/sapidHol.jpg',
+  imgHomeLogo: 'assets/images/sapidLogo2.jpg',
   VAT: 7.5,
 };
 
