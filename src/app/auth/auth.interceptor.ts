@@ -11,7 +11,7 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private router: Router) { }
+    constructor(private router: Router,private userService: UserService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (req.headers.get('No-Auth') == "True")
@@ -23,8 +23,11 @@ export class AuthInterceptor implements HttpInterceptor {
             });
             return next.handle(clonedreq)
                 .pipe(tap(
-                    (succ: any) => { },
+                    (succ: any) => {
+                      this.userService.isLoggedIn = true;
+                     },
                     (err: any) => {
+                      this.userService.isLoggedIn = false;
                         if (err.status === 401)
                             this.router.navigateByUrl('/login');
                         else (err.status === 403)

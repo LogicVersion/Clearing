@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { concatMap } from 'rxjs/operators';
 import { LoadingService } from './shared/loading.service';
 import { Router } from '@angular/router';
+import { UserService } from './auth/shared/user.service';
 
 
 @Component({
@@ -20,17 +21,21 @@ export class AppComponent {
   constructor(
     public loader: LoadingService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    public service: UserService
   ) {}
 
   Logout() {
     localStorage.removeItem('userToken');
+    this.service.isLoggedIn = false;
     this.router.navigate(['/login']);
   }
 
   Login() {
     // localStorage.removeItem('userToken');
+    this.service.isLoggedIn = true;
     this.router.navigate(['/login']);
+
   }
 
   // selectedCar: number=0;

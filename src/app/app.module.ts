@@ -119,6 +119,6 @@ import { ValidateUserNameDirective } from './directives/validate-user-name.direc
   ],
   entryComponents: [InvoiceDetailsComponent, InvoiceDetailsListComponent],
   bootstrap: [AppComponent, LoadingService],
-  exports: [FormatNumerLocalDirective],
+  exports: [FormatNumerLocalDirective, MatchPasswordDirective],
 })
 export class AppModule {}

@@ -14,8 +14,12 @@ export class AuthGuard implements CanActivate {
         let roles = next.data["roles"] as Array<string>;
         if (roles) {
           var match = this.userService.roleMatch(roles);
-          if (match) return true;
+          if (match) {
+            this.userService.isLoggedIn = true;
+            return true;
+          }
           else {
+            this.userService.isLoggedIn = false;
             this.router.navigate(['/forbidden']);
             return false;
           }

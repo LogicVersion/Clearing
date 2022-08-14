@@ -1,4 +1,7 @@
-<form #userRegistrationForm="ngForm" class="row " (ngSubmit)="OnSubmit(userRegistrationForm)">
+
+
+<form #userRegistrationForm="ngForm" class="row " (ngSubmit)="OnSubmit(userRegistrationForm)"
+appMatchpassword="['password', 'confirmPassword']" >
   <div class="row">
 
     <div class="mt-3 mb-3 row">
@@ -11,33 +14,43 @@
     <div class="mt-3 mb-3 row">
       <label data-error="Required field!">Password</label>
       <div class="col-sm-10">
-        <input id="Password" type="password" class="form-control" name="Password" #Password="ngModel" [(ngModel)]="user.Password" required minlength="3">
+        <input id="password" type="password" class="form-control" name="password" #password="ngModel" [(ngModel)]="user.password" required minlength="3">
       </div>
     </div>
 
     <div class="mt-3 mb-3 row">
       <label data-error="Required field!">Confirm Password</label>
       <div class="col-sm-10">
-        <input type="password" ngValidateEqual="Password"
-        class="form-control" name="ConfirmPassword" #ConfirmPassword="ngModel"
-        [(ngModel)]="user.ConfirmPassword" required minlength="3">
+        <input type="password" ngValidateEqual="password"
+        class="form-control" name="confirmPassword" #confirmPassword="ngModel"
+        [(ngModel)]="user.confirmPassword" required minlength="3">
+
+          <!-- <span class="text-danger"
+              *ngIf="(confirmPassword.touched || userRegistrationForm.submitted) && confirmPassword.errors?['required']">
+              Confirm Password is required
+          </span>
+          <span class="text-danger"
+              *ngIf="confirmPassword.touched && confirmPassword.errors?.passwordMismatch">
+              Passwords doesnot match
+          </span> -->
+
       </div>
     </div>
 
-    <div *ngIf="(ConfirmPassword.dirty || ConfirmPassword.touched) && ConfirmPassword.invalid">
-        <p class="warning-text" *ngIf="ConfirmPassword.hasError('notEqual') && Password.valid">
-          Passwords Don't Match
+    <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && confirmPassword.invalid">
+        <p class="warning-text" *ngIf="confirmPassword.hasError('notEqual') && password.valid">
+          passwords Don't Match
         </p>
     </div>
 
-    <div *ngIf="ConfirmPassword.invalid && (ConfirmPassword.dirty || ConfirmPassword.touched)"
+    <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)"
       class="alert">
-      <div *ngIf="ConfirmPassword.errors?.['notEqual']">
-        Passwords Don't Match.
+      <div *ngIf="confirmPassword.errors?.['notEqual']">
+        passwords Don't Match.
       </div>
 
-      <div *ngIf="ConfirmPassword.hasError('notEqual')">
-        Passwords Don't Match.
+      <div *ngIf="confirmPassword.hasError('notEqual')">
+        passwords Don't Match.
       </div>
 
     </div>

@@ -31,8 +31,8 @@ export class SignUpComponent implements OnInit {
       form.reset();
     this.user = {
       UserName: '',
-      Password: '',
-      ConfirmPassword: '',
+      password: '',
+      confirmPassword: '',
       Email: '',
       FirstName: '',
       LastName: '',
@@ -42,12 +42,6 @@ export class SignUpComponent implements OnInit {
   }
 
   OnSubmit(form: NgForm) {
-
-      if (!form.valid) {
-
-            this.toastr.warning('Entries not Valid! Please check your Passwords Or Email');
-            return;
-      }
 
         let x: any[]=[];
         if (this.roles){

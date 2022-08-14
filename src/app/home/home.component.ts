@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { UserService } from '../auth/shared/user.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,15 @@ export class HomeComponent implements OnInit {
   imgHome = environment.imgHome;
   imgHomeLogo = environment.imgHomeLogo;
 
-  constructor() {}
 
-  ngOnInit(): void {}
+
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+
+    this.userService.isLoggedIn=true;
+  }
+
+
 }

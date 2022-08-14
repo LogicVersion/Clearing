@@ -11,10 +11,12 @@ export class UserService {
   readonly apiUrl = environment.apiURL_Admin;
   constructor(private http: HttpClient) { }
 
+  isLoggedIn: boolean=true;
+
   registerUser(user: User,roles : string[]) {
     const body = JSON.stringify({
       UserName: user.UserName,
-      Password: user.Password,
+      password: user.password,
       Email: user.Email,
       FirstName: user.FirstName,
       LastName: user.LastName,
