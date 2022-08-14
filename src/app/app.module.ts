@@ -50,6 +50,9 @@ import { AppResolve } from './_resolvers/app.resolver';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ErrorInterceptor } from './shared/error.interceptor';
 import { ValidateEqualModule } from 'ng-validate-equal';
+import { PasswordPatternDirective } from './directives/password-pattern.directive';
+import { MatchPasswordDirective } from './directives/match-password.directive';
+import { ValidateUserNameDirective } from './directives/validate-user-name.directive';
 
 @NgModule({
   declarations: [
@@ -74,6 +77,9 @@ import { ValidateEqualModule } from 'ng-validate-equal';
     ReportsComponent,
     ContactUsComponent,
     ProductsAndServicesComponent,
+    PasswordPatternDirective,
+    MatchPasswordDirective,
+    ValidateUserNameDirective,
   ],
   imports: [
     BrowserModule,
