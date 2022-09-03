@@ -195,11 +195,16 @@ export class InvoiceDetailsComponent implements OnInit {
     +this.service.formData.controls['Qty'].value,
     +this.service.formData.controls['Price'].value,
     +this.service.formData.controls['VAT'].value,
-    +this.service.formData.controls['AmtPaid'].value,
-    +this.service.formData.controls['markUp'].value
+    +this.service.formData.controls['AmountPaid'].value,
+    +this.service.formData.controls['Interest'].value
   );
 
-  if (!confirm('Do you want to save'))
+  if (
+    !confirm(
+      'Do you want to save \n Total: ' +
+        this.service.formData.controls['Total'].value.toFixed(2)
+    )
+  )
     return;
 
       if (this.service.flgEdit) {
