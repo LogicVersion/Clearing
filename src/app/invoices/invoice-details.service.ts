@@ -256,6 +256,10 @@ export class InvoiceDetailsService {
     //return this.http.post(this.appURL, body, options);
     //'https://localhost:7118/api/invoices'
 
+            console.clear();
+            console.log(formValX);
+            console.log(body); //json
+
     return this.http
       .post<InvoiceDetails>(this.appURL, body, {
         headers: new HttpHeaders({
@@ -283,6 +287,11 @@ export class InvoiceDetailsService {
 
   updateRecord(formVal: InvoiceDetails) {
     let body = JSON.stringify(formVal);
+
+    console.clear();
+    console.log(formVal);
+    console.log(body); //json
+
     return this.http
       .put(this.appURL + '/' + formVal.PK_SNo, body, {
         headers: new HttpHeaders({

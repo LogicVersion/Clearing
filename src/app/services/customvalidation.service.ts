@@ -3,18 +3,18 @@ import { ValidatorFn, AbstractControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CustomvalidationService {
 
   patternValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
       if (!control.value) {
-        return { invalidPassword: null };
+        return null!; // as any;
       }
       const regex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
       const valid = regex.test(control.value);
-      return valid ? { invalidPassword: null } : { invalidPassword: true };
+      return valid ? null! : { invalidPassword: true };
     };
   }
 
@@ -24,13 +24,10 @@ export class CustomvalidationService {
       const confirmPasswordControl = formGroup.controls[confirmPassword];
 
       if (!passwordControl || !confirmPasswordControl) {
-        return {key: null};
+        return null;
       }
 
-      if (
-        confirmPasswordControl.errors &&
-        !confirmPasswordControl.errors['passwordMismatch']
-      ) {
+      if (confirmPasswordControl.errors && !confirmPasswordControl.errors['passwordMismatch']) {
         return null;
       }
 
@@ -40,12 +37,12 @@ export class CustomvalidationService {
         confirmPasswordControl.setErrors(null);
       }
 
-      return;
-    }
+      return null;
+    };
   }
 
   userNameValidator(userControl: AbstractControl) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         if (this.validateUserName(userControl.value)) {
           resolve({ userNameNotAvailable: true });
@@ -57,12 +54,11 @@ export class CustomvalidationService {
   }
 
   validateUserName(userName: string) {
-
     /* A static array is used to validate the availability of user names.
-    *  Ideally it should be a service call to the server to search the value from a database.
-    */
+     *  Ideally it should be a service call to the server to search the value from a database.
+     */
 
     const UserList = ['ankit', 'admin', 'user', 'superuser'];
-    return (UserList.indexOf(userName) > -1);
+    return UserList.indexOf(userName) > -1;
   }
 }

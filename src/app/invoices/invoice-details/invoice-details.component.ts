@@ -186,6 +186,22 @@ export class InvoiceDetailsComponent implements OnInit {
         // return;
       }
 
+  this.updateSubTotal(
+    +this.service.formData.controls['Qty'].value,
+    +this.service.formData.controls['Price'].value
+  );
+
+  this.updateTotal(
+    +this.service.formData.controls['Qty'].value,
+    +this.service.formData.controls['Price'].value,
+    +this.service.formData.controls['VAT'].value,
+    +this.service.formData.controls['AmtPaid'].value,
+    +this.service.formData.controls['markUp'].value
+  );
+
+  if (!confirm('Do you want to save'))
+    return;
+
       if (this.service.flgEdit) {
         // this.service.updateRecord(this.service.formData.value).subscribe(
         this.service.insertRecord(this.service.formData.value).subscribe(

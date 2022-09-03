@@ -53,6 +53,7 @@ import { ValidateEqualModule } from 'ng-validate-equal';
 import { PasswordPatternDirective } from './directives/password-pattern.directive';
 import { MatchPasswordDirective } from './directives/match-password.directive';
 import { ValidateUserNameDirective } from './directives/validate-user-name.directive';
+import { MustMatchDirective } from './directives/must-match.directive';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { ValidateUserNameDirective } from './directives/validate-user-name.direc
     PasswordPatternDirective,
     MatchPasswordDirective,
     ValidateUserNameDirective,
+    MustMatchDirective,
   ],
   imports: [
     BrowserModule,
@@ -119,6 +121,11 @@ import { ValidateUserNameDirective } from './directives/validate-user-name.direc
   ],
   entryComponents: [InvoiceDetailsComponent, InvoiceDetailsListComponent],
   bootstrap: [AppComponent, LoadingService],
-  exports: [FormatNumerLocalDirective, MatchPasswordDirective],
+  exports: [
+    FormatNumerLocalDirective,
+    MatchPasswordDirective,
+    PasswordPatternDirective,
+    MustMatchDirective,
+  ],
 })
 export class AppModule {}

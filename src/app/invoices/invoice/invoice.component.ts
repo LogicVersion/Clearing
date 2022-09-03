@@ -181,6 +181,9 @@ export class InvoiceComponent implements OnInit {
       //     End If
       // End If
 
+        if (!confirm('Do you want to save'))
+          return;
+
       if (this.service.flgEdit) {
         this.service.updateRecord(this.service.form.value).subscribe(
           (res) => {

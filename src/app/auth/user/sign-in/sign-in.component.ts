@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../shared/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,9 +11,11 @@ import { Router } from '@angular/router';
 })
 export class SignInComponent implements OnInit {
   isLoginError : boolean = false;
-  constructor(private userService : UserService,private router : Router) { }
+  constructor(private toastr: ToastrService,
+private userService : UserService,private router : Router) { }
 
   ngOnInit() {
+    this.userService.isLoggedIn=false;
   }
 
   OnSubmit(userName: string,password: string){
@@ -22,10 +25,12 @@ export class SignInComponent implements OnInit {
       const roles =
         payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
       localStorage.setItem('userRoles', roles);
-      this.router.navigate(['/DataEntry']);
+      this.router.navigate(['/home']);
     },
     (err : HttpErrorResponse)=>{
       this.isLoginError = true;
+      this.toastr.warning(err.error, 'Clearing');
+
     });
   }
 

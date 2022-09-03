@@ -25,17 +25,22 @@ export class AppComponent {
     public service: UserService
   ) {}
 
-  Logout() {
-    localStorage.removeItem('userToken');
+  CreateUser() {
+    // localStorage.removeItem('userToken');
     this.service.isLoggedIn = false;
-    this.router.navigate(['/login']);
+    this.router.navigate(['/signup']);
   }
 
   Login() {
     // localStorage.removeItem('userToken');
     this.service.isLoggedIn = true;
     this.router.navigate(['/login']);
+  }
 
+  Logout() {
+    localStorage.removeItem('userToken');
+    this.service.isLoggedIn = false;
+    this.router.navigate(['/login']);
   }
 
   // selectedCar: number=0;

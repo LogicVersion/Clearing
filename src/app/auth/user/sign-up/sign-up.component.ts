@@ -1,8 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../shared/user.model';
 import { UserService } from '../../shared/user.service';
+// import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-up',
@@ -60,7 +62,10 @@ export class SignUpComponent implements OnInit {
       .subscribe((data: any)=> {
           this.resetForm(form);
           this.toastr.success('User registration successful'),
-          this.toastr.error(data.Errors[0]);
+        (err : HttpErrorResponse)=>{
+          this.toastr.warning(err.error, 'Clearing');
+        }
+
       });
   }
 

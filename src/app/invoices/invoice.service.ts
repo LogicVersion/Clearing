@@ -385,6 +385,10 @@ export class InvoiceService {
     //return this.http.post(this.appURL, body, options);
     //'https://localhost:7118/api/invoices'
 
+    console.clear();
+    console.log(formDataNew)
+    console.log(body);
+
     return this.http.post<Invoice>(this.appURL, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -415,6 +419,11 @@ export class InvoiceService {
     // delete formData.Balance;
 
     let body = JSON.stringify(formDataEdit);
+
+    console.clear();
+    console.log(formDataEdit);
+    console.log(body);
+
     return this.http.put(this.appURL + '/' + formData.billNO, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
