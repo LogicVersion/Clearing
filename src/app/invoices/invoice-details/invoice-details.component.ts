@@ -203,7 +203,7 @@ export class InvoiceDetailsComponent implements OnInit {
       // if (Number.isNaN(AmtPaid))
 
     this.service.formData.patchValue({ Total: balance });
-
+  
 
   if (!confirm('Do you want to save Bill Item'))
         return;

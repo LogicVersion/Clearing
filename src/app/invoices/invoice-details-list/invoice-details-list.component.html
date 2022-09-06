@@ -61,7 +61,7 @@
 
     <ng-container matColumnDef="Total">
       <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.Total}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.Total | number}} </mat-cell>
     </ng-container>
 
   <ng-container matColumnDef="actions">
