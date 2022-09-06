@@ -191,6 +191,7 @@ export class InvoiceDetailsComponent implements OnInit {
     +this.service.formData.controls['Price'].value
   );
 
+  const balance=
   this.updateTotal(
     +this.service.formData.controls['Qty'].value,
     +this.service.formData.controls['Price'].value,
@@ -198,14 +199,14 @@ export class InvoiceDetailsComponent implements OnInit {
     +this.service.formData.controls['AmountPaid'].value,
     +this.service.formData.controls['Interest'].value
   );
+      // this.service.formData.controls['Total'].value.toFixed(2)
+      // if (Number.isNaN(AmtPaid))
 
-  if (
-    !confirm(
-      'Do you want to save \n Total: ' +
-        this.service.formData.controls['Total'].value.toFixed(2)
-    )
-  )
-    return;
+    this.service.formData.patchValue({ Total: balance });
+
+
+  if (!confirm('Do you want to save Bill Item'))
+        return;
 
       if (this.service.flgEdit) {
         // this.service.updateRecord(this.service.formData.value).subscribe(
@@ -419,10 +420,7 @@ export class InvoiceDetailsComponent implements OnInit {
     Price: number,
     VAT: number,
     AmtPaid: number,
-    markUp: number
-  ) {
-    this.service.formData.patchValue({ Total: 0 });
-    if (true) {
+    markUp: number) : number {
       this.service.PerformAddition();
       if (Number.isNaN(AmtPaid)) {
         AmtPaid = +this.service.formData.controls['AmountPaid'].value;
@@ -435,17 +433,11 @@ export class InvoiceDetailsComponent implements OnInit {
       const VAT2 = (subTot - amtPay) * vatVal;
       const subTotal = subTot;
       const Total = subTot + Interest + VAT2; //--'AmtBilled   VAT is included for now
-      const balance = (Total - amtPay).toFixed(2);
+      const balance = (Total - amtPay);
+      return balance;
 
-      this.service.formData.patchValue({
-        Total: balance,
-      });
-    } else {
-      this.service.formData.patchValue({
-        Total: 0,
-      });
-    }
   }
+
 
   // updateTotal2() {
   //   if (this.service.InvoiceDetailsList.length > 0){

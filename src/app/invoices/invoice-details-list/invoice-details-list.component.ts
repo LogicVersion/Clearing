@@ -36,7 +36,7 @@ export class InvoiceDetailsListComponent implements OnInit {
     'subTotal',
     // 'VAT',
     // 'Interest',
-    // 'Total',
+    'Total',
     'actions',
   ];
 
