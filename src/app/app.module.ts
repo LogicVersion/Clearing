@@ -54,6 +54,8 @@ import { PasswordPatternDirective } from './directives/password-pattern.directiv
 import { MatchPasswordDirective } from './directives/match-password.directive';
 import { ValidateUserNameDirective } from './directives/validate-user-name.directive';
 import { MustMatchDirective } from './directives/must-match.directive';
+import { LoadingSpinnerComponent } from './loading/loading-spinner/loading-spinner.component';
+import { LoadingDirective } from './loading/loading-directive/loading.directive';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,8 @@ import { MustMatchDirective } from './directives/must-match.directive';
     MatchPasswordDirective,
     ValidateUserNameDirective,
     MustMatchDirective,
+    LoadingSpinnerComponent,
+    LoadingDirective,
   ],
   imports: [
     BrowserModule,

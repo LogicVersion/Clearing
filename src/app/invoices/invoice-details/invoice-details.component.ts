@@ -21,6 +21,7 @@ import { InvoiceDetailsListComponent } from '../invoice-details-list/invoice-det
 
 import { formatNumber } from '@angular/common';
 import {LOCALE_ID } from '@angular/core';
+import { LoadingService } from 'src/app/loading/loading.service';
 
 @Component({
   selector: 'app-invoice-details',
@@ -36,8 +37,10 @@ export class InvoiceDetailsComponent implements OnInit {
     private toastr: ToastrService,
     private dialogRef: MatDialogRef<InvoiceDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    @Inject(LOCALE_ID) public locale: string
+    @Inject(LOCALE_ID) public locale: string,
+    public loadingService: LoadingService // accessed from the template
   ) {}
+
 
   isValid: boolean = true;
   submitted: boolean = false;
@@ -186,31 +189,39 @@ export class InvoiceDetailsComponent implements OnInit {
         // return;
       }
 
-  this.updateSubTotal(
-    +this.service.formData.controls['Qty'].value,
-    +this.service.formData.controls['Price'].value
-  );
+      this.updateSubTotal(
+        +this.service.formData.controls['Qty'].value,
+        +this.service.formData.controls['Price'].value
+      );
 
-  const balance=
-  this.updateTotal(
-    +this.service.formData.controls['Qty'].value,
-    +this.service.formData.controls['Price'].value,
-    +this.service.formData.controls['VAT'].value,
-    +this.service.formData.controls['AmountPaid'].value,
-    +this.service.formData.controls['Interest'].value
-  );
+      const balance = this.updateTotal(
+        +this.service.formData.controls['Qty'].value,
+        +this.service.formData.controls['Price'].value,
+        +this.service.formData.controls['VAT'].value,
+        +this.service.formData.controls['AmountPaid'].value,
+        +this.service.formData.controls['Interest'].value
+      );
       // this.service.formData.controls['Total'].value.toFixed(2)
       // if (Number.isNaN(AmtPaid))
 
-    this.service.formData.patchValue({ Total: balance });
-  
+      this.service.formData.patchValue({ Total: balance });
 
-  if (!confirm('Do you want to save Bill Item'))
-        return;
+      if (!confirm('Do you want to save Bill Item')) return;
+
+      //   this.loadingService.doLoading(
+      //   this.itemService.getItems(),
+      //   this
+      // ).pipe(
+      //   untilDestroyed(this),
+      // ).subscribe(items => {
+      //   this.items = items;
+      // });
 
       if (this.service.flgEdit) {
         // this.service.updateRecord(this.service.formData.value).subscribe(
-        this.service.insertRecord(this.service.formData.value).subscribe(
+        this.loadingService.doLoading(
+        this.service.insertRecord(this.service.formData.value),this)
+        .subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('update');
@@ -223,7 +234,9 @@ export class InvoiceDetailsComponent implements OnInit {
         );
       } else {
         //form.get('SNo')!.value == 0
-        this.service.insertRecord(this.service.formData.value).subscribe(
+        this.loadingService.doLoading(
+        this.service.insertRecord(this.service.formData.value),this)
+        .subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('insert');
@@ -333,7 +346,6 @@ export class InvoiceDetailsComponent implements OnInit {
     // this.billNoParam = this.data.billNO;
   }
 
-
   addToGrid() {
     // const dialogConfig = new MatDialogConfig();
     // dialogConfig.disableClose = true;
@@ -420,24 +432,23 @@ export class InvoiceDetailsComponent implements OnInit {
     Price: number,
     VAT: number,
     AmtPaid: number,
-    markUp: number) : number {
-      this.service.PerformAddition();
-      if (Number.isNaN(AmtPaid)) {
-        AmtPaid = +this.service.formData.controls['AmountPaid'].value;
-      }
-      const amtPay = +AmtPaid;
-      const subTot = Qty * Price;
-      const pCentMargin = markUp / 100;
-      const Interest = subTot * pCentMargin;
-      const vatVal = VAT / 100;
-      const VAT2 = (subTot - amtPay) * vatVal;
-      const subTotal = subTot;
-      const Total = subTot + Interest + VAT2; //--'AmtBilled   VAT is included for now
-      const balance = (Total - amtPay);
-      return balance;
-
+    markUp: number
+  ): number {
+    this.service.PerformAddition();
+    if (Number.isNaN(AmtPaid)) {
+      AmtPaid = +this.service.formData.controls['AmountPaid'].value;
+    }
+    const amtPay = +AmtPaid;
+    const subTot = Qty * Price;
+    const pCentMargin = markUp / 100;
+    const Interest = subTot * pCentMargin;
+    const vatVal = VAT / 100;
+    const VAT2 = (subTot - amtPay) * vatVal;
+    const subTotal = subTot;
+    const Total = subTot + Interest + VAT2; //--'AmtBilled   VAT is included for now
+    const balance = Total - amtPay;
+    return balance;
   }
-
 
   // updateTotal2() {
   //   if (this.service.InvoiceDetailsList.length > 0){
