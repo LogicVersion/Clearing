@@ -52,7 +52,7 @@ export class InvoiceDetailsListComponent implements OnInit {
 
   constructor(
     private utilSvc: UtilityService,
-    private service: InvoiceDetailsService,
+    public service: InvoiceDetailsService,
     private toastr: ToastrService
   ) {
     //this.dataSource = new DatatableDataSource();
@@ -152,10 +152,12 @@ export class InvoiceDetailsListComponent implements OnInit {
     const id = row.PK_SNo;
     if (id != 0) {
       if (confirm('Are you sure to delete this record?')) {
+        this.service.isLoading = true;
         this.service.deleteRecord(id).subscribe((res: any) => {
           this.utilSvc.setButtons(true);
           this.service.enableFields(false);
           this.service.flgEdit = false;
+          this.service.isLoading = false;
           this.reLoadData();
           // this.service.updateTotal(this.billNoChild);
           // const index = this.dataSource.indexOf(row, 0);

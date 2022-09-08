@@ -71,7 +71,10 @@
           <mat-icon  (click)="populateForm(row)" aria-label="Edit">edit</mat-icon>
       </button>
       <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn">
-          <mat-icon (click)="onDelete(row)" aria-label="Delete">delete</mat-icon>
+          <mat-icon (click)="onDelete(row)" aria-label="Delete">
+            <span *ngIf="this.service.isLoading" class="spinner-border spinner-border-sm"></span>
+            delete
+          </mat-icon>
       </button>
     </mat-cell>
   </ng-container>

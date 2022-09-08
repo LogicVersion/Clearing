@@ -222,7 +222,11 @@
     <div class="col-md-5 mx-auto ">
       <!-- *ngIf="utilSvc.saveButtVisible" -->
       <div class="form-group mb-3 ">
-        <input type="submit" class="btn btn-primary " value="Submit">
+        <!-- <input type="submit" class="btn btn-primary " value="Submit"> -->
+      <button type="submit" class="btn btn-primary">
+        <span *ngIf="this.service.isLoading" class="spinner-border spinner-border-sm"></span>
+        Submit
+      </button>
         <!-- <input type="button" class="btn btn-link " value="Add to Grid" (click)="addToGrid()"> -->
         <!-- <button type="button" class="btn btn-primary">Primary</button>
         <button type="button" class="btn btn-secondary">Secondary</button>

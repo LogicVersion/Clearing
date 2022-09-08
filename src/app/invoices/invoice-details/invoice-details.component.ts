@@ -56,6 +56,7 @@ export class InvoiceDetailsComponent implements OnInit {
 
   ngOnInit() {
     //this.reloadData
+    this.service.isLoading = false;
     if (this.data.billNO != null) {
       this.billNoParam = this.data.billNO;
       this.service.formData.patchValue({
@@ -217,33 +218,39 @@ export class InvoiceDetailsComponent implements OnInit {
       //   this.items = items;
       // });
 
+      this.service.isLoading = true;
+
       if (this.service.flgEdit) {
         // this.service.updateRecord(this.service.formData.value).subscribe(
         this.loadingService.doLoading(
-        this.service.insertRecord(this.service.formData.value),this)
+        this.service.insertRecord(this.service.formData.value),this,1)
         .subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('update');
             //this.dialogRef.close();
+          this.service.isLoading = false;
           },
           (err) => {
             // this.handleErrors(err);
             this.toastr.error(err, 'Clearing');
+          this.service.isLoading = false;
           }
         );
       } else {
         //form.get('SNo')!.value == 0
         this.loadingService.doLoading(
-        this.service.insertRecord(this.service.formData.value),this)
+        this.service.insertRecord(this.service.formData.value),this,1)
         .subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('insert');
+            this.service.isLoading = false;
           },
           (err) => {
             // this.handleErrors(err);
             this.toastr.error(err, 'Clearing');
+            this.service.isLoading = false;
           }
         );
       }
