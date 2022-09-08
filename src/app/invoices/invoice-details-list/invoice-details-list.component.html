@@ -8,6 +8,14 @@
   </mat-form-field>
 </div>
 
+  <!-- <span *ngIf="this.isLoadingDel" class="spinner-border spinner-border-sm"></span> -->
+
+  <div *ngIf="this.isLoadingDel" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Deleting...</span>
+    </div>
+  </div>
+
 <div class="mat-elevation-z8">
   <mat-table [dataSource]="dataSource" matSort >
     <!-- ID Column -->
@@ -72,7 +80,6 @@
       </button>
       <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn">
           <mat-icon (click)="onDelete(row)" aria-label="Delete">
-            <span *ngIf="this.service.isLoading" class="spinner-border spinner-border-sm"></span>
             delete
           </mat-icon>
       </button>

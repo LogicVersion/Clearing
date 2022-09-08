@@ -49,6 +49,7 @@ export class InvoiceDetailsListComponent implements OnInit {
   dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey?: string;
   @Input() billNoChild: string = '';
+  isLoadingDel: boolean=false;
 
   constructor(
     private utilSvc: UtilityService,
@@ -59,8 +60,9 @@ export class InvoiceDetailsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoadingDel = false;
     this.service.enableFields(true);
-      this.utilSvc.setButtons(false);
+    this.utilSvc.setButtons(false);
     this.reLoadData();
     // this.dataSource.sort = this.sort;
     // this.dataSource.paginator = this.paginator;
@@ -152,12 +154,12 @@ export class InvoiceDetailsListComponent implements OnInit {
     const id = row.PK_SNo;
     if (id != 0) {
       if (confirm('Are you sure to delete this record?')) {
-        this.service.isLoading = true;
+        this.isLoadingDel = true;
         this.service.deleteRecord(id).subscribe((res: any) => {
           this.utilSvc.setButtons(true);
-          this.service.enableFields(false);
+          this.service.enableFields(true);
           this.service.flgEdit = false;
-          this.service.isLoading = false;
+          this.isLoadingDel = false;
           this.reLoadData();
           // this.service.updateTotal(this.billNoChild);
           // const index = this.dataSource.indexOf(row, 0);

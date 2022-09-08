@@ -354,6 +354,12 @@ export class InvoiceService {
     formData.NoOf20Ft = +formData.NoOf20Ft;
     formData.NoOf40Ft = +formData.NoOf40Ft;
 
+    formData.AmountBilledInWord = '';
+    formData.billNO  = '***';
+    formData.Weight = '';
+
+
+
     // delete formData.Balance;
     // assign the key regex to the variable _ indicating it will be unused
     const { Balance: _, ...formDataNew } = formData;

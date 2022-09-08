@@ -29,6 +29,9 @@ import { LoadingService } from 'src/app/loading/loading.service';
   styleUrls: ['./invoice-details.component.css'],
 })
 export class InvoiceDetailsComponent implements OnInit {
+
+  isLoadingSubmit: boolean=false;
+
   constructor(
     public utilSvc: UtilityService,
     public service: InvoiceDetailsService,
@@ -56,7 +59,7 @@ export class InvoiceDetailsComponent implements OnInit {
 
   ngOnInit() {
     //this.reloadData
-    this.service.isLoading = false;
+    this.isLoadingSubmit = false;
     if (this.data.billNO != null) {
       this.billNoParam = this.data.billNO;
       this.service.formData.patchValue({
@@ -218,39 +221,39 @@ export class InvoiceDetailsComponent implements OnInit {
       //   this.items = items;
       // });
 
-      this.service.isLoading = true;
+      this.isLoadingSubmit = true;
 
       if (this.service.flgEdit) {
         // this.service.updateRecord(this.service.formData.value).subscribe(
-        this.loadingService.doLoading(
-        this.service.insertRecord(this.service.formData.value),this,1)
+        // this.loadingService.doLoading(
+        this.service.insertRecord(this.service.formData.value)  //,this,1)
         .subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('update');
             //this.dialogRef.close();
-          this.service.isLoading = false;
+          this.isLoadingSubmit = false;
           },
           (err) => {
             // this.handleErrors(err);
             this.toastr.error(err, 'Clearing');
-          this.service.isLoading = false;
+          this.isLoadingSubmit = false;
           }
         );
       } else {
         //form.get('SNo')!.value == 0
-        this.loadingService.doLoading(
-        this.service.insertRecord(this.service.formData.value),this,1)
+        // this.loadingService.doLoading(
+        this.service.insertRecord(this.service.formData.value) //,this,1)
         .subscribe(
           (res) => {
             this.resetForm();
             this.notifyForm('insert');
-            this.service.isLoading = false;
+            this.isLoadingSubmit = false;
           },
           (err) => {
             // this.handleErrors(err);
             this.toastr.error(err, 'Clearing');
-            this.service.isLoading = false;
+            this.isLoadingSubmit = false;
           }
         );
       }
