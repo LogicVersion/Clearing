@@ -1,0 +1,94 @@
+
+<div class="search-div">
+  <mat-form-field class="search-form-field" floatLabel="never">
+    <input matInput autocomplete="off" (keyup)="applyFilter($any($event.target).value)" [(ngModel)]="searchKey" placeholder="Search by JobCode">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button mat-button matSuffix mat-icon-button aria-label="search" *ngIf="searchKey"  (click)="onSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+</div>
+
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="service.dataSource" matSort >
+    <!-- ID Column -->
+    <ng-container matColumnDef="ID">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.ID}} </mat-cell>
+    </ng-container>
+
+    <!-- bDate Column -->
+    <ng-container matColumnDef="bDate">
+      <mat-header-cell *matHeaderCellDef>BillDate</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.bDate | date}} </mat-cell>
+    </ng-container>
+
+    <!-- ConsigeeName Column -->
+    <ng-container matColumnDef="JobCode">
+      <mat-header-cell mat-sort-header *matHeaderCellDef > JobCode </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.JobCode}} </mat-cell>
+    </ng-container>
+
+    <!-- billNO Column -->
+    <ng-container matColumnDef="billNO">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>BillNO</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.billNO}} </mat-cell>
+    </ng-container>
+
+    <!-- AmountBilled Column -->
+    <ng-container matColumnDef="AmountBilled">
+      <mat-header-cell mat-sort-header *matHeaderCellDef> AmountBilled </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.AmountBilled | number}} </mat-cell>
+    </ng-container>
+    <!-- AmountPaid Column -->
+    <ng-container matColumnDef="AmountPaid">
+      <mat-header-cell *matHeaderCellDef> AmountPaid </mat-header-cell>
+      <mat-cell  *matCellDef="let element"> {{element.AmountPaid | number}} </mat-cell>
+    </ng-container>
+
+    <!-- Balance Column -->
+    <ng-container matColumnDef="Balance">
+      <mat-header-cell *matHeaderCellDef> Balance </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{(element.AmountBilled - element.AmountPaid) | number}} </mat-cell>
+    </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>Actions </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary">
+          <mat-icon  (click)="populateForm(row)" aria-label="Edit">edit</mat-icon>
+        </button>
+      <!-- <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn">
+          <mat-icon (click)="onDelete(row)" aria-label="Delete">delete</mat-icon>
+        </button> -->
+    </mat-cell>
+  </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <mat-footer-cell *matFooterCellDef colspan="6">
+        Loading data...
+      </mat-footer-cell>
+    </ng-container>
+    <ng-container matColumnDef="noData">
+      <mat-footer-cell *matFooterCellDef colspan="6">
+        No data.
+      </mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':service.dataSource!=null}"></mat-footer-row>
+    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(service.dataSource!=null && service.dataSource.data.length==0)}"></mat-footer-row>
+
+  </mat-table>
+
+
+  <mat-paginator
+  [pageSizeOptions]="[5,10,20]"
+  showFirstLastButtons></mat-paginator>
+</div>
+
+
+<div class="mb-3"></div>

@@ -13,4 +13,9 @@ export const environment = {
   imgHome: 'assets/images/sapidHol.jpg',
   imgHomeLogo: 'assets/images/sapidLogo2.jpg',
   VAT: 7.5,
+  // version: env.npm_package_version,
+  serverUrl: 'https://api.chucknorris.io',
+  defaultLanguage: 'en-US',
+  supportedLanguages: ['en-US'],
+  // reportServer: 'http://localhost:8095',
 };

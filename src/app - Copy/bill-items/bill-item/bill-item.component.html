@@ -1,0 +1,191 @@
+<div class="row">
+  <div class="col-md-10 col-md-offset-1 mx-auto">
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+      <div class="row">
+        <div class="col-md-6">
+          <input
+            type="hidden"
+            name="SNo"
+            #SNo="ngModel"
+            [(ngModel)]="service.formData.SNo"
+          />
+          <div class="form-group mb-3 ">
+            <label for="billItem">Bill Item</label>
+            <input id="billItem"
+              name="billItem"
+              #billItem="ngModel"
+              [(ngModel)]="service.formData.BillItem"
+              class="form-control"
+              required
+            />
+            <div
+              class="validation-error"
+              *ngIf="billItem.invalid && billItem.touched"
+            >
+              This field is required.
+            </div>
+          </div>
+          <div class="form-group mb-3 ">
+            <label>Mark Up</label>
+            <input
+              name="markup"
+              #markup="ngModel"
+              [(ngModel)]="service.formData.MarkUp"
+              class="form-control"
+              required
+            />
+            <div
+              class="validation-error"
+              *ngIf="markup.invalid && markup.touched"
+            >
+              This field is required.
+            </div>
+          </div>
+
+          <div class="form-group mb-3  col-md-6">
+            <label>Serial</label>
+            <select
+              name="Serial"
+              #Serial="ngModel"
+              [(ngModel)]="service.formData.Serial"
+              class="form-control"
+              required
+            >
+              <option value="0">--Select--</option>
+              <!-- <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]">{{number}} </option> -->
+              <option
+                value="{{ i + 1 }}"
+                *ngFor="let in of counter(25); let i = index"
+              >
+                {{ i + 1 }}
+              </option>
+            </select>
+            <div
+              class="validation-error"
+              *ngIf="Serial.invalid && Serial.touched"
+            >
+              This field is required.
+            </div>
+          </div>
+
+          <div class="form-group mb-3  col-md-6">
+            <label>Amount</label>
+            <input
+              name="Amount"
+              #Amount="ngModel"
+              [(ngModel)]="service.formData.Amount"
+              class="form-control"
+              required
+            />
+            <div
+              class="validation-error"
+              *ngIf="Amount.invalid && Amount.touched"
+            >
+              This field is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-row">
+            <div class="form-group mb-3  col-md-6">
+              <label>Active</label>
+              <select
+                name="isActive"
+                #isActive="ngModel"
+                [(ngModel)]="service.formData.isActive"
+                class="form-control"
+                required
+              >
+                <option value="YES">YES</option>
+                <!-- <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]">{{number}} </option> -->
+                <option value="NO">NO</option>
+              </select>
+              <div
+                class="validation-error"
+                *ngIf="isActive.invalid && isActive.touched"
+              >
+                This field is required.
+              </div>
+            </div>
+
+            <div class="form-group mb-3 col-md-6">
+              <label>BillCategory</label>
+              <select
+                name="BillCategory"
+                #BillCategory="ngModel"
+                [(ngModel)]="service.formData.BillCategory"
+                class="form-control"
+                required
+              >
+                <option value="CLEARING">CLEARING</option>
+                <!-- <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]">{{number}} </option> -->
+                <option value="TERMINAL">TERMINAL</option>
+              </select>
+              <div
+                class="validation-error"
+                *ngIf="BillCategory.invalid && BillCategory.touched"
+              >
+                This field is required.
+              </div>
+            </div>
+
+            <div class="form-group mb-3  col-md-6">
+              <label>BillStatus</label>
+              <select
+                name="BillStatus"
+                #BillStatus="ngModel"
+                [(ngModel)]="service.formData.BillStatus"
+                class="form-control"
+                required
+              >
+                <option value="INCOME">INCOME</option>
+                <option value="EXPENSE">EXPENSE</option>
+                <!-- <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]">{{number}} </option> -->
+                <option value="BOTH">BOTH</option>
+              </select>
+              <div
+                class="validation-error"
+                *ngIf="BillStatus.invalid && BillStatus.touched"
+              >
+                This field is required.
+              </div>
+            </div>
+
+            <div class="form-group mb-3  col-md-6">
+              <label>FreightCat</label>
+              <select
+                name="FreightCat"
+                #FreightCat="ngModel"
+                [(ngModel)]="service.formData.FreightCat"
+                class="form-control"
+                required
+              >
+                <option value="REGULAR">REGULAR</option>
+                <!-- <option value="EXPENSE" > EXPENSE </option> -->
+                <!-- <option *ngFor="let number of [1,2,3,4,5,6,7,8,9,10]">{{number}} </option> -->
+                <!-- <option value="BOTH" > BOTH </option> -->
+              </select>
+              <div
+                class="validation-error"
+                *ngIf="FreightCat.invalid && FreightCat.touched"
+              >
+                This field is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group mb-3 ">
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+          class="btn btn-lg btn-block"
+        >
+          SUBMIT
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

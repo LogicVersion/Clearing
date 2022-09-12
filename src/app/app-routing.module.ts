@@ -38,9 +38,9 @@ const routes: Routes = [
     path: 'Reports',
     component: ReportsComponent,
     canActivate: [AuthGuard],
-    resolve: {
-      appResolve: AppResolve,
-    },
+    // resolve: {
+    //   appResolve: AppResolve,
+    // },
   },
   {
     path: 'DataEntry',
