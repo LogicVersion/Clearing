@@ -1,3 +1,76 @@
+  <div class="container-fluid">
+    <form [formGroup]="this.service.rptForm">
+      <div class="row">
+        <div class="col-md-6 ">
+          <div class="row">
+            <div class="form-group col-md-3 mt-3 ">
+              <label for="startDate">StartDate</label>
+              <input id="startDate"
+                type="date"
+                valueAsDate="new Date()"
+                [formControl]="$any(this.service.rptForm.controls['startDate'])"
+                class="form-control" >
+            </div>
+
+            <div class="form-group col-md-3 mb-3 mt-3 ">
+              <label for="endDate">EndDate</label>
+              <input id="endDate"
+                type="date"
+                valueAsDate="new Date()"
+                [formControl]="$any(this.service.rptForm.controls['endDate'])"
+                class="form-control" >
+            </div>
+
+            <div class="form-group col-md-6 mb-3 mt-3 ">
+              <label for="coyID"> Select</label>
+              <!-- (change)="updateFields($event)" -->
+              <!-- class="form-control"  mt-3  -->
+                <ng-select id="coyID" formControlName="coyID"
+                  placeholder="Client">
+                  <ng-option value="(ALL***)">(ALL***)</ng-option>
+                  <ng-option value="(ALL-SP)">(ALL-SP)</ng-option>
+                  <ng-option *ngFor="let item of itemList" [value]="item.ConsigneeCode">{{item.ConsigneeName}}</ng-option>
+                </ng-select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-md-6 ">
+          <div class="row">
+            <div class="form-group col-md-2 mb-3 mt-3 ">
+              <!-- <label for="detl">   </label> -->
+              <button class="btn btn-primary form-control mt-3 " type="button" >Details</button>
+            </div>
+
+            <div class="form-group col-md-2 mb-3 mt-3 ">
+              <!-- <label for="lessDetl">   </label> -->
+              <button class="btn btn-primary form-control mt-3 " type="button">Less...</button>
+            </div>
+
+            <div class="form-group col-md-3 mb-3 mt-3 ">
+              <input class="form-control me-2 mt-3" type="text" placeholder="Invoice No">
+            </div>
+
+            <div class="form-group col-md-3 mb-3 mt-3 ">
+              <button class="btn btn-primary mt-3" type="button">Show</button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+
+<!-- <div class="d-flex p-2 bd-highlight">I'm a flexbox container!</div> -->
+
+
+
+
     <!-- /* blue colors*/
     /*
     #2193b0
@@ -10,15 +83,15 @@
     #F49867
     */ -->
 
-<nav class="navbar navbar-expand-sm bg-light navbar-light" >
+<!-- <nav class="navbar navbar-expand-sm bg-light navbar-light" >
   <div class="container-fluid">
-    <!-- <a class="navbar-brand" href="javascript:void(0)">Reports</a> -->
+    <a class="navbar-brand" href="javascript:void(0)">Reports</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="mynavbar">
 
-      <!-- <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)">Link</a>
         </li>
@@ -28,84 +101,7 @@
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)">Link</a>
         </li>
-      </ul> -->
-
-      <form id="form1" class="d-flex me-auto">
-        <!-- <input class="form-control me-2" type="text" placeholder="Invoice No"> -->
-            <!-- <label class="form-control me-2">StartDate</label> -->
-
-
-      <div class="row">
-        <div class="form-group col-md-3 mb-3">
-          <!-- <label for="Qty">Qty</label> -->
-            <input type="date" class="form-control me-2"
-              data-date-inline-picker="true"
-              data-date-format="dd-MMM-yy"
-              placeholder="dd-mmm-yy"
-              id="StartDate"
-              valueAsDate="new Date()">
-        </div>
-
-        <div class="form-group col-md-3 mb-3">
-            <!-- <label class="form-control me-2">EndDate</label> -->
-            <input type="date" class="form-control me-2"
-              data-date-format="dd-MMM-yy"
-              placeholder="dd-mmm-yy"
-              id="StartDate"
-              valueAsDate="new Date()">
-
-        </div>
-
-        <div class="form-group col-md-4 mb-3">
-            <!-- <label for="Price">Rate</label> -->
-          <div class="form-group mb-3 mt-3 ">
-              <ng-select id="ConsigneeCode"  placeholder="Select a Client"
-              class="form-control" >
-                <ng-option value="0">--Select--</ng-option>
-                <ng-option *ngFor="let item of itemList" value="{{item.ConsigneeCode}}">{{item.ConsigneeName}}</ng-option>
-              </ng-select>
-          </div>
-        </div>
-
-
-      </div>
-
-
-
-
-                <!-- <div class="form-group ">
-                    <label>First Name</label>
-                    <input type="text" name="firstName" class="form-control" >
-
-                </div> -->
-
-            <!-- <div class="row">
-          <div class="form-group col-md-5 mb-3 ">
-            <label for="JobStartDate">JobStartDate</label>
-            <input type="date"
-              data-date-inline-picker="true"
-              data-date-format="dd-MMM-yy"
-              placeholder="dd-mmm-yy"
-              id="JobStartDate"
-              valueAsDate="new Date()">
-          </div>
-
-          <div class="form-group col-md-5 mb-3 ">
-            <label for="JobEndDate">JobEndDate</label>
-            <input type="date"
-              data-date-inline-picker="true"
-              data-date-format="dd-MMM-yy"
-              placeholder="dd-mmm-yy"
-              id="JobEndDate"
-              valueAsDate="new Date()">
-
-          </div>
-
-        </div> -->
-
-        <button class="btn btn-primary me-2" type="button">Detail</button>
-        <button class="btn btn-primary" type="button">Less...</button>
-      </form>
+      </ul>
 
       <form id="form2" class="d-flex">
         <input class="form-control me-2" type="text" placeholder="Invoice No">
@@ -113,5 +109,5 @@
       </form>
     </div>
   </div>
-</nav>
+</nav> -->
 

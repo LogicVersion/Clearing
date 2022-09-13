@@ -56,6 +56,7 @@ import { ValidateUserNameDirective } from './directives/validate-user-name.direc
 import { MustMatchDirective } from './directives/must-match.directive';
 import { LoadingSpinnerComponent } from './loading/loading-spinner/loading-spinner.component';
 import { LoadingDirective } from './loading/loading-directive/loading.directive';
+import { ReportService } from './services/report.service';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { LoadingDirective } from './loading/loading-directive/loading.directive'
       multi: true,
     },
     AppResolve,
+    ReportService,
   ],
   entryComponents: [InvoiceDetailsComponent, InvoiceDetailsListComponent],
   bootstrap: [AppComponent, LoadingService],

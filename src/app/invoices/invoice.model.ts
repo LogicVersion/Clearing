@@ -133,3 +133,11 @@ export class InvoiceDetailsList {
   BillStatus: string = '';
   FreightCat: string = '';
 }
+
+export class Report {
+  coyID: string = '';
+  startDate: Date = new Date();
+  endDate: Date = new Date();
+  billNO: string = '';
+  isLess: boolean = false; //less details for Auditors
+}
