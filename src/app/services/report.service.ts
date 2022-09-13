@@ -34,7 +34,7 @@ export class ReportService {
       endDate: this.formatStringToDate(new Date()),
       billNO: '',
       coyID: null,
-      isLess: false
+      isLess: false,
     });
   }
 
@@ -50,7 +50,17 @@ export class ReportService {
     return new Date(yrNum, mthNum, dayNum);
   }
 
-  getInvoice(): Observable<any> {
+  getInvoice(invNo: string): Observable<any> {
+    //localhost:8095/api/Reports/Invoice?billNo=000002544
+    //  /api/Reports/ClosedJob
+    // /api/Reoprst / Invoice; coyID,startDate,endDate,isLessDetls;
+
+    http: this.srvURL = this.reportServer + '/api/Reports/Invoice?invNo=' + invNo;
+
+    return this.httpClient.get(this.srvURL, { responseType: 'blob' });
+  }
+
+  getInvoice2(): Observable<any> {
     this.srvURL =
       this.reportServer + '/api/Reports/VersatileandPrecise/Invoice';
 

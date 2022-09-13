@@ -26,6 +26,13 @@ export class ReportsComponent implements OnInit {
       .getListCombo()
       .then((res) => (this.itemList = res as Customer[]));
 
-      this.service.clearFields;
+    this.service.clearFields;
+  }
+  pdfSource: any;
+
+  displyInvoice(invNo: string) {
+    this.service.getInvoice(invNo).subscribe((data) => {
+      this.pdfSource = data;
+    });
   }
 }

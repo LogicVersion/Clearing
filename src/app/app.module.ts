@@ -58,6 +58,10 @@ import { LoadingSpinnerComponent } from './loading/loading-spinner/loading-spinn
 import { LoadingDirective } from './loading/loading-directive/loading.directive';
 import { ReportService } from './services/report.service';
 
+// import { TranslateModule } from '@ngx-translate/core';
+// import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -104,6 +108,9 @@ import { ReportService } from './services/report.service';
     AppRoutingModule,
     NgSelectModule,
     ValidateEqualModule,
+    // TranslateModule,
+    // PdfViewerModule,
+    NgxExtendedPdfViewerModule,
   ],
   providers: [
     ClearingItemService,

@@ -1,6 +1,6 @@
-  <div class="container-fluid">
+  <div class="container-fluid" >
     <form [formGroup]="this.service.rptForm">
-      <div class="row">
+      <div class="row" style="background-color: #e3f2fd;">
         <div class="col-md-6 ">
           <div class="row">
             <div class="form-group col-md-3 mt-3 ">
@@ -51,11 +51,11 @@
             </div>
 
             <div class="form-group col-md-3 mb-3 mt-3 ">
-              <input class="form-control me-2 mt-3" type="text" placeholder="Invoice No">
+              <input #invNo formControlName="billNO" class="form-control me-2 mt-3" type="text" placeholder="Invoice No">
             </div>
 
             <div class="form-group col-md-3 mb-3 mt-3 ">
-              <button class="btn btn-primary mt-3" type="button">Show</button>
+              <button (click)="displyInvoice(invNo.value)" class="btn btn-primary mt-3 " type="button">Show</button>
             </div>
 
           </div>
@@ -64,6 +64,10 @@
       </div>
 
     </form>
+
+    <div class="container">
+      <ngx-extended-pdf-viewer [src]="pdfSource" [useBrowserLocale]="true"> </ngx-extended-pdf-viewer>
+    </div>
   </div>
 
 <!-- <div class="d-flex p-2 bd-highlight">I'm a flexbox container!</div> -->
