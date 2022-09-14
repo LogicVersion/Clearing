@@ -24,12 +24,18 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                "output": "/assets/"
+              }
             ],
             "styles": ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
-              "src/styles.css","node_modules/ngx-toastr/toastr.css"],
+              "src/styles.css","node_modules/ngx-toastr/toastr.css"
+          ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/jquery/dist/jquery.js",
@@ -96,7 +102,12 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

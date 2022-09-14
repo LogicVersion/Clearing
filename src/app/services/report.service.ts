@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Report } from '../invoices/invoice.model';
@@ -24,7 +24,7 @@ export class ReportService {
     startDate: new Date(),
     endDate: new Date(),
     billNO: '',
-    coyID: null,
+    coyID: '(ALL***)',
     isLess: false,
   });
 
@@ -33,7 +33,7 @@ export class ReportService {
       startDate: this.formatStringToDate(new Date()),
       endDate: this.formatStringToDate(new Date()),
       billNO: '',
-      coyID: null,
+      coyID: '(ALL***)',
       isLess: false,
     });
   }
@@ -52,25 +52,56 @@ export class ReportService {
 
   getInvoice(invNo: string): Observable<any> {
     //localhost:8095/api/Reports/Invoice?billNo=000002544
-    //  /api/Reports/ClosedJob
-    // /api/Reoprst / Invoice; coyID,startDate,endDate,isLessDetls;
 
-    http: this.srvURL = this.reportServer + '/api/Reports/Invoice?invNo=' + invNo;
+    http: this.srvURL =
+      this.reportServer + '/api/Reports/Invoice?invNo=' + invNo;
+
+    console.clear();
+    console.log(this.srvURL);
 
     return this.httpClient.get(this.srvURL, { responseType: 'blob' });
   }
 
-  getInvoice2(): Observable<any> {
-    this.srvURL =
-      this.reportServer + '/api/Reports/VersatileandPrecise/Invoice';
+  getClosedJobs(
+    coyID: string,
+    startDate: string,
+    endDate: string,
+    isLessDetls = false
+  ): Observable<any> {
+    //  /api/Reports/ClosedJob
+    // coyID,startDate,endDate,isLessDetls;
 
-    return this.httpClient.get(this.srvURL, { responseType: 'blob' });
+    // const queryParams = {
+    //   'coyID': coyID,
+    //   'startDate': startDate,
+    //   'endDate': endDate,
+    //   'isLessDetls': isLessDetls,
+    // };
+
+    const queryParams = new HttpParams()
+      .append('coyID', coyID)
+      .append('startDate', startDate)
+      .append('endDate', endDate)
+      .append('isLessDetls', isLessDetls);
+
+    this.srvURL = this.reportServer + '/api/Reports/ClosedJob';
+
+    console.clear();
+    console.log(this.srvURL + '\n' + queryParams);
+
+    return this.httpClient.get(this.srvURL, {
+      params: queryParams,
+      responseType: 'blob',
+    });
   }
 
   getSaving(): Observable<any> {
     this.srvURL =
       this.reportServer +
       '/api/Reports/VersatileandPrecise/FortifyFinancialAllinOneRetirementSavings';
+
+    console.clear();
+    console.log(this.srvURL);
 
     return this.httpClient.get(this.srvURL, { responseType: 'blob' });
   }

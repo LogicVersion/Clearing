@@ -5,7 +5,7 @@
           <div class="row">
             <div class="form-group col-md-3 mt-3 ">
               <label for="startDate">StartDate</label>
-              <input id="startDate"
+              <input #startDate  id="startDate"
                 type="date"
                 valueAsDate="new Date()"
                 [formControl]="$any(this.service.rptForm.controls['startDate'])"
@@ -14,7 +14,7 @@
 
             <div class="form-group col-md-3 mb-3 mt-3 ">
               <label for="endDate">EndDate</label>
-              <input id="endDate"
+              <input #endDate id="endDate"
                 type="date"
                 valueAsDate="new Date()"
                 [formControl]="$any(this.service.rptForm.controls['endDate'])"
@@ -25,7 +25,7 @@
               <label for="coyID"> Select</label>
               <!-- (change)="updateFields($event)" -->
               <!-- class="form-control"  mt-3  -->
-                <ng-select id="coyID" formControlName="coyID"
+                <ng-select #coyID id="coyID" formControlName="coyID"
                   placeholder="Client">
                   <ng-option value="(ALL***)">(ALL***)</ng-option>
                   <ng-option value="(ALL-SP)">(ALL-SP)</ng-option>
@@ -42,12 +42,13 @@
           <div class="row">
             <div class="form-group col-md-2 mb-3 mt-3 ">
               <!-- <label for="detl">   </label> -->
-              <button class="btn btn-primary form-control mt-3 " type="button" >Details</button>
+              <button (click)="displayClosedJobs(false)" class="btn btn-primary form-control mt-3 " type="button" >Details</button>
             </div>
+            <!-- coyID.,startDate.valueAsDate!,endDate.valueAsDate!,false -->
 
             <div class="form-group col-md-2 mb-3 mt-3 ">
               <!-- <label for="lessDetl">   </label> -->
-              <button class="btn btn-primary form-control mt-3 " type="button">Less...</button>
+              <button (click)="displayClosedJobs(true)" class="btn btn-primary form-control mt-3 " type="button">Less...</button>
             </div>
 
             <div class="form-group col-md-3 mb-3 mt-3 ">
@@ -65,10 +66,19 @@
 
     </form>
 
-    <div class="container">
-      <ngx-extended-pdf-viewer [src]="pdfSource" [useBrowserLocale]="true"> </ngx-extended-pdf-viewer>
+    <div class="container-fluid">
+      <ngx-extended-pdf-viewer
+      *ngIf="visible"
+      [src]="pdfSource"
+      [useBrowserLocale]="true">
+    </ngx-extended-pdf-viewer>
     </div>
   </div>
+
+
+      <!-- [zoom]="'page-fit'" -->
+  <!-- <ngx-extended-pdf-viewer *ngIf="visible" [src]="'/assets/dummy.pdf'" [zoom]="'page-fit'"></ngx-extended-pdf-viewer> -->
+
 
 <!-- <div class="d-flex p-2 bd-highlight">I'm a flexbox container!</div> -->
 
