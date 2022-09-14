@@ -41,7 +41,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   }
 
   displyInvoice(invNo: string) {
-    if (this.service.rptForm.controls['billNo'].value == '') {
+    if (this.service.rptForm.controls['billNO'].value == '') {
       this.toastr.warning('Specify Invoice No');
       return;
     }
@@ -72,5 +72,5 @@ export class ReportsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  
+
 }

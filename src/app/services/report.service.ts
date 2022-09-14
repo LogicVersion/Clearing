@@ -95,16 +95,16 @@ export class ReportService {
     });
   }
 
-  getSaving(): Observable<any> {
-    this.srvURL =
-      this.reportServer +
-      '/api/Reports/VersatileandPrecise/FortifyFinancialAllinOneRetirementSavings';
+  // getSaving(): Observable<any> {
+  //   this.srvURL =
+  //     this.reportServer +
+  //     '/api/Reports/VersatileandPrecise/FortifyFinancialAllinOneRetirementSavings';
 
-    console.clear();
-    console.log(this.srvURL);
+  //   console.clear();
+  //   console.log(this.srvURL);
 
-    return this.httpClient.get(this.srvURL, { responseType: 'blob' });
-  }
+  //   return this.httpClient.get(this.srvURL, { responseType: 'blob' });
+  // }
 
   getFinancial(): Observable<any> {
     this.srvURL =
