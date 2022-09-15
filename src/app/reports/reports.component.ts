@@ -30,8 +30,8 @@ export class ReportsComponent implements OnInit, AfterViewInit {
 
     this.service.clearFields;
   }
-  pdfSource: any;
 
+  pdfSource: any;
   public visible = false;
 
   public ngAfterViewInit(): void {

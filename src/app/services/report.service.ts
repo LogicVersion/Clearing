@@ -51,10 +51,9 @@ export class ReportService {
   }
 
   getInvoice(invNo: string): Observable<any> {
-    //localhost:8095/api/Reports/Invoice?billNo=000002544
 
     http: this.srvURL =
-      this.reportServer + '/api/Reports/Invoice?invNo=' + invNo;
+      this.reportServer + '/Invoice?invNo=' + invNo;
 
     console.clear();
     console.log(this.srvURL);
@@ -68,7 +67,7 @@ export class ReportService {
     endDate: string,
     isLessDetls = false
   ): Observable<any> {
-    //  /api/Reports/ClosedJob
+
     // coyID,startDate,endDate,isLessDetls;
 
     // const queryParams = {
@@ -84,7 +83,7 @@ export class ReportService {
       .append('endDate', endDate)
       .append('isLessDetls', isLessDetls);
 
-    this.srvURL = this.reportServer + '/api/Reports/ClosedJob';
+    this.srvURL = this.reportServer + '/ClosedJob';
 
     console.clear();
     console.log(this.srvURL + '\n' + queryParams);
@@ -98,7 +97,7 @@ export class ReportService {
   // getSaving(): Observable<any> {
   //   this.srvURL =
   //     this.reportServer +
-  //     '/api/Reports/VersatileandPrecise/FortifyFinancialAllinOneRetirementSavings';
+  //     '/VersatileandPrecise/FortifyFinancialAllinOneRetirementSavings';
 
   //   console.clear();
   //   console.log(this.srvURL);
@@ -108,14 +107,14 @@ export class ReportService {
 
   getFinancial(): Observable<any> {
     this.srvURL =
-      this.reportServer + '/api/Reports/Financial/VarianceAnalysisReport';
+      this.reportServer + '/Financial/VarianceAnalysisReport';
 
     return this.httpClient.get(this.srvURL, { responseType: 'blob' });
   }
   getIncome(): Observable<any> {
     this.srvURL =
       this.reportServer +
-      '/api/Reports/Demonstration/ComparativeIncomeStatement';
+      '/Demonstration/ComparativeIncomeStatement';
 
     return this.httpClient.get(this.srvURL, { responseType: 'blob' });
   }
