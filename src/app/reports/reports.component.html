@@ -51,6 +51,11 @@
               <button (click)="displayClosedJobs(true)" class="btn btn-primary form-control mt-3 " type="button">Less...</button>
             </div>
 
+            <div class="form-group col-md-2 mb-3 mt-3 ">
+              <!-- <label for="lessDetl">   </label> -->
+              <button (click)="exportClosedJobs()" class="btn btn-primary form-control mt-3 " type="button">Export</button>
+            </div>
+
             <div class="form-group col-md-3 mb-3 mt-3 ">
               <input #invNo formControlName="billNO" class="form-control me-2 mt-3" type="text" placeholder="Invoice No">
             </div>

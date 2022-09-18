@@ -1,4 +1,6 @@
+import { HttpParams } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.model';
@@ -20,7 +22,8 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   constructor(
     private customerService: ConsigneeService,
     public service: ReportService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -72,5 +75,45 @@ export class ReportsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  srvURL: string = '';
+  reportServer: string  = environment.reportServer;
+  exportClosedJobs() {
+    if (this.service.rptForm.controls['coyID'].value == '') {
+      this.toastr.warning('Specify Client Name');
+      return;
+    }
 
+    const coyID = this.service.rptForm.controls['coyID'].value;
+    let startDate = this.service.rptForm.controls['startDate'].value;
+    let endDate = this.service.rptForm.controls['endDate'].value;
+
+    const dtStartStr = this.service
+      .formatDateToString(startDate)
+      .substring(0, 10);
+    const dtEndStr = this.service.
+      formatDateToString(endDate)
+      .substring(0, 10);
+
+    this.srvURL = 'http://sapidholdingsonline.com/reports.aspx?coyID=';
+
+    const queryParams = coyID +
+      '&startDate=' + dtStartStr +
+      '&endDate=' + dtEndStr;
+    const url=this.srvURL + queryParams;
+    window.open(url, '_blank');
+
+    //   this.router.navigate(['/RptExport'], {
+    //   queryParams: { coyID, startDate, endDate },
+    // });
+
+    // const queryParams = new HttpParams()
+    //   .append('coyID', coyID)
+    //   .append('startDate', startDate)
+    //   .append('endDate', endDate);
+
+    // const queryParams='?coyID=coyID&startDate=startDate&endDate=endDate'
+
+    // this.srvURL = this.reportServer + '/ClosedJob';
+    // this.router.navigateByUrl(this.srvURL + queryParams);
+  }
 }

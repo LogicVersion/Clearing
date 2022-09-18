@@ -13,7 +13,7 @@ export const environment = {
   coyName: 'Sapid Agencies Ltd',
   imgLogo: '',
   imgHome: 'assets/images/sapidHol.jpg',
-  imgHomeLogo: 'assets/images/sapidLogo2.jpg',
+  imgHomeLogo: 'assets/images/sapidLogo22.png',
   VAT: 7.5,
   // version: env.npm_package_version,
   // serverUrl: 'https://api.chucknorris.io',

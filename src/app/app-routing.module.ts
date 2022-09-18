@@ -42,6 +42,15 @@ const routes: Routes = [
     //   appResolve: AppResolve,
     // },
   },
+  // {
+  //   path: 'RptExport',
+  //   // component: ReportsComponent,
+  //   canActivate: [AuthGuard],
+  //   resolve: {
+  //     appResolve: AppResolve,
+  //   },
+  // },
+
   {
     path: 'DataEntry',
     component: DataEntryComponent,
