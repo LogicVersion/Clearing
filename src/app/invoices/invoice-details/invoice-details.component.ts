@@ -65,6 +65,7 @@ export class InvoiceDetailsComponent implements OnInit {
       this.service.formData.patchValue({
         billNO: this.billNoParam,
         Total: 0, // this.data.balance.toFixed(2),
+        BillStatus: this.data.billStatus,
         // dtDate: this.data.bDate,
       });
       this.utilSvc.setButtons(true);
@@ -133,14 +134,34 @@ export class InvoiceDetailsComponent implements OnInit {
         return;
       }
 
-      if (typeof this.service.formData.controls['drgName'].value == 'object') {
-        // an array object
-        if (this.service.formData.controls['drgName'].value[0] == null) {
-          //ret an array with one value, null ie [null]
-          this.toastr.warning('Select a Bill Item');
-          return;
-        }
+      // if (typeof this.service.formData.controls['drgName'].value == 'object') {
+      //   // an array object
+      //   if (this.service.formData.controls['drgName'].value[0] == null) {
+      //     //ret an array with one value, null ie [null]
+      //     this.toastr.warning('Select a Bill Item');
+      //     return;
+      //   }
+      // }
+
+
+      if (this.service.formData.controls['drgName'].value == '') {
+        //ret an array with one value, null ie [null]
+        this.toastr.warning('Select a Bill Item');
+        return;
       }
+
+      if (this.service.formData.controls['BillStatus'].value == '') {
+        //ret an array with one value, null ie [null]
+        this.toastr.warning('Select Item Status ( Invoice OR Expense)');
+        return;
+      }
+
+      // if (this.service.formData.controls['BillCategory'].value == '') {
+      //   //ret an array with one value, null ie [null]
+      //   this.toastr.warning('Select a Bill Category');
+      //   return;
+      // }
+
 
       if (
         this.service.formData.controls['Qty'].value == '0' ||

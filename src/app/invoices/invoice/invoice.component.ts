@@ -270,9 +270,9 @@ export class InvoiceComponent implements OnInit {
 
     // this.resetForm();
   }
-  AddToBill() {
+  AddToBill(strval: string) {
     if (this.service.form.controls['billNO'].value == '***') {
-      this.toastr.warning('Select a Bill to Add Items to');
+      this.toastr.warning('Select a Bill to Add Items to (Pencil Icon)');
       return;
     }
 
@@ -284,6 +284,8 @@ export class InvoiceComponent implements OnInit {
     dialogConfig.data = {
       billNO: this.service.billNoVal,
       bDate: this.service.bDateVal,
+      billStatus: strval //this.service.billStatus,
+
       // balance: this.service.amountBal,
     };
     this.dialog.open(InvoiceDetailsComponent, dialogConfig);

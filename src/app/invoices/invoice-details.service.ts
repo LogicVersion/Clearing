@@ -15,7 +15,11 @@ import { InvoiceService } from './invoice.service';
   providedIn: 'root',
 })
 export class InvoiceDetailsService {
-  constructor(private http: HttpClient,private invoiceService: InvoiceService, private fb: FormBuilder) {}
+  constructor(
+    private http: HttpClient,
+    private invoiceService: InvoiceService,
+    private fb: FormBuilder
+  ) {}
 
   // isLoading: boolean=false;
 
@@ -38,8 +42,8 @@ export class InvoiceDetailsService {
     Serial: [0],
     VatScope: ['0'],
     AmountPaid: [0],
-    BillCategory: ['***'],
-    BillStatus: ['***'],
+    BillCategory: [''],
+    BillStatus: ['', [Validators.required]],
     FreightCat: ['***'],
     FrightCat: [''],
   });
@@ -58,7 +62,7 @@ export class InvoiceDetailsService {
       Qty: +inv.Qty,
       subTotal: +inv.subTotal,
       VAT: +((inv.VAT / (inv.subTotal - inv.AmountPaid)) * 100), //.toFixed(2),
-      Interest: +((inv.Interest / (inv.subTotal)) * 100), //.toFixed(2),
+      Interest: +((inv.Interest / inv.subTotal) * 100), //.toFixed(2),
       Total: +inv.Total,
       billType: inv.billType,
       ExchRate: inv.ExchRate,
@@ -90,8 +94,8 @@ export class InvoiceDetailsService {
       Serial: 0,
       VatScope: '0',
       AmountPaid: 0,
-      BillCategory: '***',
-      BillStatus: '***',
+      BillCategory: '',
+      BillStatus: '',
       FreightCat: '***',
       FrightCat: '',
     });
@@ -160,12 +164,12 @@ export class InvoiceDetailsService {
   invoiceMasterArr: Invoice[] = [];
   invoiceDetailsArr: InvoiceDetails[] = [];
 
-
   // valuesString: string = '';
   // valuesArray: number[] = [];
 
-  PerformAddition() { // on blur
-    let results=0;
+  PerformAddition() {
+    // on blur
+    let results = 0;
     const valuesString: string = this.formData.controls['Price'].value;
     if (typeof valuesString != 'number') {
       if (valuesString.indexOf('+')) {
@@ -183,7 +187,8 @@ export class InvoiceDetailsService {
     }
 
     this.formData.patchValue({
-      Price:results.toFixed(2)});
+      Price: results.toFixed(2),
+    });
   }
 
   readonly appURL = environment.appURL + '/invoicedetails';
@@ -222,7 +227,6 @@ export class InvoiceDetailsService {
     formVal.VAT = +formVal.VAT;
     formVal.Total = 0; //done in sproc  //+formVal.Total;
 
-
     formVal.AmountPaid = +formVal.AmountPaid;
     formVal.Interest = +formVal.Interest;
     formVal.Serial = +formVal.Serial;
@@ -258,17 +262,16 @@ export class InvoiceDetailsService {
     //return this.http.post(this.appURL, body, options);
     //'https://localhost:7118/api/invoices'
 
-            console.clear();
-            console.log(formValX);
-            console.log(body); //json
+    console.clear();
+    console.log(formValX);
+    console.log(body); //json
 
-    return this.http
-      .post<InvoiceDetails>(this.appURL, body, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      })
-      // .pipe(catchError((error) => this.handleError(error))); //this.handleError(error)
+    return this.http.post<InvoiceDetails>(this.appURL, body, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
+    // .pipe(catchError((error) => this.handleError(error))); //this.handleError(error)
   }
 
   // handleError(error: any) {
@@ -288,14 +291,11 @@ export class InvoiceDetailsService {
   // }
 
   updateRecord(formVal: InvoiceDetails) {
-
-     //  updateRecord fn is NOT used! only insert
-
+    //  updateRecord fn is NOT used! only insert
     // let body = JSON.stringify(formVal);
     // console.clear();
     // console.log(formVal);
     // console.log(body); //json
-
     // return this.http
     //   .put(this.appURL + '/' + formVal.PK_SNo, body, {
     //     headers: new HttpHeaders({

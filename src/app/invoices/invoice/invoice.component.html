@@ -335,12 +335,12 @@
       <!-- style="text-align: right;" -->
       <!-- https://getbootstrap.com/docs/5.0/utilities/float/ -->
       <div *ngIf="!utilSvc.addButtVisible"  class="form-group mb-3 float-end" >
-        <input type="button" class="btn btn-primary " value="Add to Expense" (click)="AddToBill()">
+        <input type="button" class="btn btn-primary " value="Add to Expense" (click)="AddToBill('EXPENSE')">
         <!-- <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()"> -->
       </div>
 
       <div *ngIf="!utilSvc.addButtVisible"  class="form-group mb-3 " >
-        <input type="button" class="btn btn-primary " value="Add to Invoice" (click)="AddToBill()">
+        <input type="button" class="btn btn-primary " value="Add to Invoice" (click)="AddToBill('INVOICE')">
         <!-- <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()"> -->
       </div>
 

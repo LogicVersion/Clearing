@@ -138,18 +138,28 @@
 
         <div class="form-group col-md-5 mb-3">
           <label for="BillCategory">Expense Cat</label>
-          <input id="BillCategory" formControlName="BillCategory" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillCategory'].errors}">
-          <div class="invalid-feedback" *ngIf="submitted && formControls['BillCategory'].errors">
-            <label *ngIf="formControls['BillCategory'].errors['required']">This field is required.</label>
-          </div>
+          <select id="BillCategory" formControlName="BillCategory" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillCategory'].errors}">
+                  <!-- <option value="0">--Select--</option> -->
+                  <option value="CLEARING">CLEARING</option>
+                  <option value="HAULAGE">HAULAGE</option>
+                  <option value="SHIPPING">SHIPPING</option>
+                  <option value="TERMINAL">TERMINAL</option>
+            <div class="invalid-feedback" *ngIf="submitted && formControls['BillCategory'].errors">
+              <label *ngIf="formControls['BillCategory'].errors['required']">This field is required.</label>
+            </div>
+          </select>
         </div>
 
         <div class="form-group col-md-5 mb-3">
-          <label for="BillStatus">Bill Status</label>
-          <input  id="BillStatus" formControlName="BillStatus" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillStatus'].errors}">
-          <div class="invalid-feedback" *ngIf="submitted && formControls['BillStatus'].errors">
-            <label *ngIf="formControls['BillStatus'].errors['required']">This field is required.</label>
-          </div>
+          <label for="BillStatus">Item Status</label> <!--(Invoice or Expense)-->
+          <select  id="BillStatus" formControlName="BillStatus" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillStatus'].errors}">
+                  <option value="INVOICE">INVOICE</option>
+                  <option value="EXPENSE">EXPENSE</option>
+                  <option value="BOTH">BOTH</option>
+            <div class="invalid-feedback" *ngIf="submitted && formControls['BillStatus'].errors">
+              <label *ngIf="formControls['BillStatus'].errors['required']">This field is required.</label>
+            </div>
+          </select>
         </div>
 
       </div>

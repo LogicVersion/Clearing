@@ -68,6 +68,7 @@ export class InvoiceService {
   key: string = '';
   billNoVal: string = '';
   bDateVal: Date = new Date();
+  billStatus: string = '';
 
   enableFields(blnVal = true) {
     if (blnVal) {
@@ -355,12 +356,9 @@ export class InvoiceService {
     formData.NoOf40Ft = +formData.NoOf40Ft;
 
     formData.AmountBilledInWord = '';
-    formData.billNO  = '***';
+    formData.billNO = '***';
     formData.Weight = '';
     formData.consultDate = bDate;
-
-
-
 
     // delete formData.Balance;
     // assign the key regex to the variable _ indicating it will be unused
@@ -394,7 +392,7 @@ export class InvoiceService {
     //'https://localhost:7118/api/invoices'
 
     console.clear();
-    console.log(formDataNew)
+    console.log(formDataNew);
     console.log(body);
 
     return this.http.post<Invoice>(this.appURL, body, {
