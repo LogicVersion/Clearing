@@ -381,20 +381,6 @@ export class InvoiceDetailsComponent implements OnInit {
     } else {
       if (this.service.flgEdit) {
         //do nothing -- InvoiceDetailsList
-        // this.service.formData.patchValue({
-        //   Interest:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Interest,
-        //   Serial:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].Serial,
-        //   BillCategory:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
-        //       .BillCategory,
-        //   BillStatus:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1]
-        //       .BillStatus,
-        //   FreightCat:
-        //     this.service.InvoiceDetailsList[ctrl.selectedIndex - 1].FreightCat,
-        // });
       } else {
         //new entry
         if (this.itemList) {
@@ -402,18 +388,18 @@ export class InvoiceDetailsComponent implements OnInit {
           this.idx = this.itemList.findIndex((p) => p.BillItem == ctrl);
           this.idx += 1; //just to avoid editing below code lines
           this.service.formData.patchValue({
-            Interest: this.itemList[this.idx - 1].MarkUp
-              ? this.itemList[this.idx - 1].MarkUp
-              : 0,
+            // Interest: this.itemList[this.idx - 1].MarkUp
+            //   ? this.itemList[this.idx - 1].MarkUp
+            //   : 0,
             Serial: this.itemList[this.idx - 1].Serial
               ? this.itemList[this.idx - 1].Serial
               : 0,
             BillCategory: this.itemList[this.idx - 1].BillCategory
               ? this.itemList[this.idx - 1].BillCategory
-              : '***',
-            BillStatus: this.itemList[this.idx - 1].BillStatus
-              ? this.itemList[this.idx - 1].BillStatus
-              : '***',
+              : '',
+            // BillStatus: this.itemList[this.idx - 1].BillStatus
+            //   ? this.itemList[this.idx - 1].BillStatus
+            //   : '',
             FreightCat: this.itemList[this.idx - 1].FreightCat
               ? this.itemList[this.idx - 1].FreightCat
               : '***',

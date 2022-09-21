@@ -7,7 +7,7 @@
         <div  *ngIf="utilSvc.addButtVisible" class="form-group mb-3 mt-3 ">
           <!-- <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()"> -->
           <button mat-raised-button (click)="addNew()" >
-            <mat-icon>add</mat-icon>Add
+            <mat-icon>add</mat-icon>New Bill
           </button>
         </div>
     </div>
@@ -335,7 +335,12 @@
       <!-- style="text-align: right;" -->
       <!-- https://getbootstrap.com/docs/5.0/utilities/float/ -->
       <div *ngIf="!utilSvc.addButtVisible"  class="form-group mb-3 float-end" >
-        <input type="button" class="btn btn-primary " value="Add to Bill" (click)="AddToBill()">
+        <input type="button" class="btn btn-primary " value="Add to Expense" (click)="AddToBill()">
+        <!-- <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()"> -->
+      </div>
+
+      <div *ngIf="!utilSvc.addButtVisible"  class="form-group mb-3 " >
+        <input type="button" class="btn btn-primary " value="Add to Invoice" (click)="AddToBill()">
         <!-- <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()"> -->
       </div>
 
