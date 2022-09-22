@@ -9,6 +9,7 @@ import { UtilityService } from '../../shared/utility.service';
 import { Invoice } from '../invoice.model';
 import { MatDialog ,MatDialogConfig} from '@angular/material/dialog';
 import { InvoiceDetailsComponent } from '../invoice-details/invoice-details.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-invoice',
@@ -16,6 +17,8 @@ import { InvoiceDetailsComponent } from '../invoice-details/invoice-details.comp
   styleUrls: ['./invoice.component.css'],
 })
 export class InvoiceComponent implements OnInit {
+  paginator: any;
+  sort: any;
   constructor(
     public utilSvc: UtilityService,
     public service: InvoiceService,
@@ -112,6 +115,37 @@ export class InvoiceComponent implements OnInit {
     return dateVal.toISOString();
   }
 
+
+  JobCodeExists(){
+
+
+   if (this.service.form.controls['JobCode'].value == '') {
+     //this.toastr.warning('Specify JobCode');
+     return;
+   }
+    //check for dup JobCode -- new rec
+    if (this.service.flgEdit == false) {
+      const searchKey = this.service.form.controls['JobCode'].value.trim();
+      this.service.invoiceList = [];
+      this.service.getSearchList(searchKey).subscribe((res) => {
+        this.service.invoiceList = res as Invoice[];
+        this.service.dataSource = new MatTableDataSource(
+          this.service.invoiceList
+        ); //ELEMENT_DATA;
+        this.service.dataSource.sort = this.sort;
+        this.service.dataSource.paginator = this.paginator;
+      if (this.service.invoiceList.length > 0) {
+        this.toastr.warning(
+          `This JobCode already exists! \n ${searchKey} \n see table grid below`
+        );
+        this.service.form.patchValue({ JobCode: '' });
+        return;
+      }
+    });
+
+    }
+  }
+
   onSubmit() {
     this.submitted = true;
     if (this.service.form.valid) {
@@ -179,17 +213,6 @@ export class InvoiceComponent implements OnInit {
    if (this.service.form.controls['JobCode'].value == '') {
      this.toastr.warning('Specify JobCode');
      return;
-   }
-
-   //check for dup JobCode -- new rec
-   if (this.service.flgEdit == false) {
-     const searchKey = this.service.form.controls['JobCode'].value.trim();
-     this.service.invoiceList = [];
-     this.service.reLoadDataSearch(searchKey);
-     if (this.service.invoiceList.length > 0) {
-       this.toastr.warning('This JobCode already exists! see table grid below');
-       return;
-     }
    }
 
       if (!confirm('Do you want to save')) return;

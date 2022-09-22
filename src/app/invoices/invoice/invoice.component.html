@@ -61,7 +61,7 @@
       <div class="row">
         <div class="form-group col-md-5 mb-3">
           <label for="JobCode">JobCode</label>
-          <input id="JobCode" formControlName="JobCode" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['JobCode'].errors}">
+          <input id="JobCode" (blur)="JobCodeExists()" formControlName="JobCode" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['JobCode'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['JobCode'].errors">
             <label *ngIf="formControls['JobCode'].errors['required']">This field is required.</label>
           </div>
