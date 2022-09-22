@@ -152,15 +152,15 @@ export class InvoiceDetailsComponent implements OnInit {
 
       if (this.service.formData.controls['BillStatus'].value == '') {
         //ret an array with one value, null ie [null]
-        this.toastr.warning('Select Item Status ( Invoice OR Expense)');
+        this.toastr.warning('Select Entry For ( Invoice OR Expense)');
         return;
       }
 
-      // if (this.service.formData.controls['BillCategory'].value == '') {
-      //   //ret an array with one value, null ie [null]
-      //   this.toastr.warning('Select a Bill Category');
-      //   return;
-      // }
+      if (this.service.formData.controls['BillCategory'].value == '') {
+        this.service.formData.patchValue({ BillCategory: '***' });
+        // this.toastr.warning('Select a Bill Category');
+        // return;
+      }
 
 
       if (

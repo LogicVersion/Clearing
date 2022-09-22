@@ -290,7 +290,8 @@ export class InvoiceService {
   searchKey?: string;
 
   getSearchList(strVal: string) {
-    const searchURL = `${this.appURL}/search/${strVal}`;
+    // https://localhost:7118/api/clearing/Invoices/search?id=OMA%2F09%2F22%2F01
+    const searchURL = `${this.appURL}/search?id=${strVal}`;
     return this.http.get(searchURL);
   }
 
@@ -345,6 +346,7 @@ export class InvoiceService {
     const JobStartDate = this.formatDateToString(formData.JobStartDate);
     const JobEndDate = this.formatDateToString(formData.JobEndDate);
 
+    formData.JobCode = formData.JobCode.trim();
     formData.clientID = clientID;
     formData.bDate = bDate;
     formData.JobStartDate = JobStartDate;
@@ -420,6 +422,8 @@ export class InvoiceService {
   // }
 
   updateRecord(formData: Invoice) {
+
+    formData.JobCode = formData.JobCode.trim();
     formData.CoyFullName = formData.ConsigneeCode;
     formData.consultDate = formData.bDate;
 

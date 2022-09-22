@@ -138,11 +138,6 @@ export class InvoiceComponent implements OnInit {
         }
       }
 
-      if (this.service.form.controls['JobCode'].value == '') {
-        this.toastr.warning('Specify JobCode');
-        return;
-      }
-
       if (this.service.form.controls['BLNo'].value == '') {
         this.toastr.warning('Specify BLNo or AWB');
         return;
@@ -181,8 +176,23 @@ export class InvoiceComponent implements OnInit {
       //     End If
       // End If
 
-        if (!confirm('Do you want to save'))
-          return;
+   if (this.service.form.controls['JobCode'].value == '') {
+     this.toastr.warning('Specify JobCode');
+     return;
+   }
+
+   //check for dup JobCode -- new rec
+   if (this.service.flgEdit == false) {
+     const searchKey = this.service.form.controls['JobCode'].value.trim();
+     this.service.invoiceList = [];
+     this.service.reLoadDataSearch(searchKey);
+     if (this.service.invoiceList.length > 0) {
+       this.toastr.warning('This JobCode already exists! see table grid below');
+       return;
+     }
+   }
+
+      if (!confirm('Do you want to save')) return;
 
       if (this.service.flgEdit) {
         this.service.updateRecord(this.service.form.value).subscribe(
@@ -192,7 +202,7 @@ export class InvoiceComponent implements OnInit {
           },
           (err) => {
             // this.handleError(err);
-            this.toastr.error('Error has Occured: '+ err, 'Clearing');
+            this.toastr.error('Error has Occured: ' + err, 'Clearing');
           }
         );
       } else {
@@ -204,7 +214,7 @@ export class InvoiceComponent implements OnInit {
           },
           (err) => {
             // this.handleError(err);
-            this.toastr.error('Error has Occured: '+ err, 'Clearing');
+            this.toastr.error('Error has Occured: ' + err, 'Clearing');
           }
         );
       }
