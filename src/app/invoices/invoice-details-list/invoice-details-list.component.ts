@@ -18,6 +18,7 @@ import { Invoice, InvoiceDetailsList, InvoiceList } from '../invoice.model';
 import { DatePipe } from '@angular/common';
 import { InvoiceDetails } from 'src/app/invoices/invoice.model';
 import { InvoiceDetailsService } from '../invoice-details.service';
+import { DialogService } from 'src/app/shared/dialog.service';
 //import { DateFormatPipe } from 'src/app/shared/utili                                                                    ty.service';
 
 @Component({
@@ -49,12 +50,13 @@ export class InvoiceDetailsListComponent implements OnInit {
   dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey?: string;
   @Input() billNoChild: string = '';
-  isLoadingDel: boolean=false;
+  isLoadingDel: boolean = false;
 
   constructor(
     private utilSvc: UtilityService,
     public service: InvoiceDetailsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialogService: DialogService
   ) {
     //this.dataSource = new DatatableDataSource();
   }
@@ -153,23 +155,45 @@ export class InvoiceDetailsListComponent implements OnInit {
     // console.log(`id is: ${id}`);
     const id = row.PK_SNo;
     if (id != 0) {
-      if (confirm('Are you sure to delete this record?')) {
-        this.isLoadingDel = true;
-        this.service.deleteRecord(id).subscribe((res: any) => {
-          this.utilSvc.setButtons(true);
-          this.service.enableFields(true);
-          this.service.flgEdit = false;
-          this.isLoadingDel = false;
-          this.reLoadData();
-          // this.service.updateTotal(this.billNoChild);
-          // const index = this.dataSource.indexOf(row, 0);
-          // if (index > -1) {
-          //   this.dataSource.splice(index, 1);
-          // }
-          //this.table.renderRows();
-          this.toastr.warning('Deleted successfully', 'Clearing');
+      this.dialogService
+        .openConfirmDialog('Are you sure to delete this record ?')
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+          this.isLoadingDel = true;
+          this.service.deleteRecord(id).subscribe((res: any) => {
+            this.utilSvc.setButtons(true);
+            this.service.enableFields(true);
+            this.service.flgEdit = false;
+            this.isLoadingDel = false;
+            this.reLoadData();
+            // this.service.updateTotal(this.billNoChild);
+            // const index = this.dataSource.indexOf(row, 0);
+            // if (index > -1) {
+            //   this.dataSource.splice(index, 1);
+            // }
+            //this.table.renderRows();
+            this.toastr.warning('Deleted successfully', 'Clearing');
+          });          }
         });
-      }
+
+      // if (confirm('Are you sure to delete this record?')) {
+        // this.isLoadingDel = true;
+        // this.service.deleteRecord(id).subscribe((res: any) => {
+        //   this.utilSvc.setButtons(true);
+        //   this.service.enableFields(true);
+        //   this.service.flgEdit = false;
+        //   this.isLoadingDel = false;
+        //   this.reLoadData();
+        //   // this.service.updateTotal(this.billNoChild);
+        //   // const index = this.dataSource.indexOf(row, 0);
+        //   // if (index > -1) {
+        //   //   this.dataSource.splice(index, 1);
+        //   // }
+        //   //this.table.renderRows();
+        //   this.toastr.warning('Deleted successfully', 'Clearing');
+        // });
+      // }
     }
   }
 

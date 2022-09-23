@@ -61,6 +61,10 @@ import { ReportService } from './services/report.service';
 // import { TranslateModule } from '@ngx-translate/core';
 // import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { DialogService } from './shared/dialog.service';
 
 @NgModule({
   declarations: [
@@ -91,6 +95,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MustMatchDirective,
     LoadingSpinnerComponent,
     LoadingDirective,
+    MatConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -111,6 +116,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     // TranslateModule,
     // PdfViewerModule,
     NgxExtendedPdfViewerModule,
+    // MatButtonModule,
+    // MatIconModule,
   ],
   providers: [
     ClearingItemService,
@@ -131,8 +138,13 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     },
     AppResolve,
     ReportService,
+    DialogService,
   ],
-  entryComponents: [InvoiceDetailsComponent, InvoiceDetailsListComponent],
+  entryComponents: [
+    InvoiceDetailsComponent,
+    InvoiceDetailsListComponent,
+    MatConfirmDialogComponent,
+  ],
   bootstrap: [AppComponent, LoadingService],
   exports: [
     FormatNumerLocalDirective,

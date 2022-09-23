@@ -22,6 +22,7 @@ import { InvoiceDetailsListComponent } from '../invoice-details-list/invoice-det
 import { formatNumber } from '@angular/common';
 import {LOCALE_ID } from '@angular/core';
 import { LoadingService } from 'src/app/loading/loading.service';
+import { DialogService } from 'src/app/shared/dialog.service';
 
 @Component({
   selector: 'app-invoice-details',
@@ -41,7 +42,8 @@ export class InvoiceDetailsComponent implements OnInit {
     private dialogRef: MatDialogRef<InvoiceDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     @Inject(LOCALE_ID) public locale: string,
-    public loadingService: LoadingService // accessed from the template
+    public loadingService: LoadingService, // accessed from the template
+    private dialogService: DialogService
   ) {}
 
 
@@ -198,15 +200,17 @@ export class InvoiceDetailsComponent implements OnInit {
         //return;
         this.service.formData.patchValue({ VAT: 0 });
       }
-
-      if (
-        this.service.formData.controls['Serial'].value == '0' ||
-        this.service.formData.controls['Serial'].value == ''
-      ) {
-        this.toastr.warning('Specify Serial');
-        //this.service.formData.patchValue({ Qty: 1 });
-        return;
+      if (this.service.formData.controls['BillStatus'].value != 'EXPENSE') {
+        if (
+          this.service.formData.controls['Serial'].value == '0' ||
+          this.service.formData.controls['Serial'].value == ''
+        ) {
+          this.toastr.warning('Specify Serial');
+          //this.service.formData.patchValue({ Qty: 1 });
+          return;
+        }
       }
+
 
       if (this.service.formData.controls['Total'].value == '') {
         //this.toastr.warning('Specify Bill Type (Freight)');
