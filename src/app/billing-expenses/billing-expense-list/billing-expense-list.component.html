@@ -1,0 +1,117 @@
+
+<!-- <p>{{dataSource | json}}</p> -->
+<div class="search-div">
+  <mat-form-field class="search-form-field" floatLabel="never">
+    <input matInput autocomplete="off" (keyup)="applyFilter($any($event.target).value)" [(ngModel)]="searchKey" placeholder="Search">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear"*ngIf="searchKey"  (click)="onSearchClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+  </mat-form-field>
+</div>
+
+  <!-- <span *ngIf="this.isLoadingDel" class="spinner-border spinner-border-sm"></span> -->
+
+  <div *ngIf="this.isLoadingDel" class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Deleting...</span>
+    </div>
+  </div>
+
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="dataSource" matSort >
+    <!-- ID Column -->
+    <ng-container matColumnDef="PK_SNo">
+      <mat-header-cell *matHeaderCellDef>PK_SNo</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.PK_SNo}} </mat-cell>
+    </ng-container>
+
+    <!-- Serial Column -->
+    <ng-container matColumnDef="Serial">
+      <mat-header-cell *matHeaderCellDef>Serial</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Serial}} </mat-cell>
+    </ng-container>
+
+    <!-- billNO Column -->
+    <ng-container matColumnDef="billNO">
+      <mat-header-cell mat-sort-header *matHeaderCellDef > BillNo </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.billNO}} </mat-cell>
+    </ng-container>
+
+    <!-- drgName Column -->
+    <ng-container matColumnDef="drgName">
+      <mat-header-cell mat-sort-header *matHeaderCellDef>Item</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.drgName}} </mat-cell>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="Price">
+      <mat-header-cell mat-sort-header *matHeaderCellDef> Rate </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Price | number}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Qty">
+      <mat-header-cell *matHeaderCellDef> Qty </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Qty | number}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="subTotal">
+      <mat-header-cell *matHeaderCellDef> SubTotal </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.subTotal | number}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="VAT">
+      <mat-header-cell *matHeaderCellDef> VAT </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.VAT}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Interest">
+      <mat-header-cell *matHeaderCellDef> MarkUp </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Interest}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Total">
+      <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.Total | number}} </mat-cell>
+    </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef>Actions </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary">
+          <mat-icon  (click)="populateForm(row)" aria-label="Edit">edit</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn">
+          <mat-icon (click)="onDelete(row)" aria-label="Delete">
+            delete
+          </mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+    <ng-container matColumnDef="loading">
+      <mat-footer-cell *matFooterCellDef colspan="6">
+        Loading data...
+      </mat-footer-cell>
+    </ng-container>
+    <ng-container matColumnDef="noData">
+      <mat-footer-cell *matFooterCellDef colspan="6">
+        No data.
+      </mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <!-- <mat-row (click)="mtdCall()" *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
+
+    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></mat-footer-row>
+    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+
+  </mat-table>
+
+
+  <mat-paginator
+  [pageSizeOptions]="[10,15,20]"
+  showFirstLastButtons></mat-paginator>
+</div>
+
+
+<div class="mb-3"></div>

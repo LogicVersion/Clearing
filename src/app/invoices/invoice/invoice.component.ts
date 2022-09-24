@@ -10,6 +10,7 @@ import { Invoice } from '../invoice.model';
 import { MatDialog ,MatDialogConfig} from '@angular/material/dialog';
 import { InvoiceDetailsComponent } from '../invoice-details/invoice-details.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { BillingExpenseComponent } from 'src/app/billing-expenses/billing-expense/billing-expense.component';
 
 @Component({
   selector: 'app-invoice',
@@ -321,8 +322,13 @@ export class InvoiceComponent implements OnInit {
 
       // balance: this.service.amountBal,
     };
-    this.dialog.open(InvoiceDetailsComponent, dialogConfig);
+    if (strval=='INVOICE')
+      this.dialog.open(InvoiceDetailsComponent, dialogConfig);
+    else //expense
+      this.dialog.open(BillingExpenseComponent, dialogConfig);
   }
+
+
   idx = -1;
   updateFields(ctrl: any) {
     console.log(ctrl);

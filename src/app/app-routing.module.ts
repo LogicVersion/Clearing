@@ -26,6 +26,9 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 
 import { AppResolve } from './_resolvers/app.resolver';
 import { AuthGuard } from './auth/auth.guard';
+import { BillingExpenseComponent } from './billing-expenses/billing-expense/billing-expense.component';
+import { InvoiceDetailsComponent } from './invoices/invoice-details/invoice-details.component';
+import { BillingExpensesComponent } from './billing-expenses/billing-expenses.component';
 // import { BlankComponent } from './blank.component';
 
 
@@ -65,6 +68,10 @@ const routes: Routes = [
       { path: 'invoices', component: InvoiceComponent }, //invoices
       { path: 'printinvoice', redirectTo: 'Reports', pathMatch: 'full' }, //invoices
       { path: '', component: InvoiceComponent }, //invoices
+
+      // { path: 'billingExpenses', component: BillingExpensesComponent }, //invoices
+      // { path: 'billingExpense', component: BillingExpenseComponent }, //invoices
+      // { path: 'invoiceDetails', component: InvoiceDetailsComponent }, //invoices
     ],
   },
 

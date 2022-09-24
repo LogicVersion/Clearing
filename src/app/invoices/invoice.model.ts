@@ -134,6 +134,28 @@ export class InvoiceDetailsList {
   FreightCat: string = '';
 }
 
+
+export class BillingExpense {
+  JobCode: string = '';
+  SNO: number = 0;
+  dtDate: Date = new Date();
+  drgName: string = '';
+  Price: number = 0;
+  Qty: number = 0;
+  subTotal: number = 0;
+  Interest: number = 0;
+  Total: number = 0;
+  billType: string = '';
+  VAT: number = 0;
+  ExchRate: number = 0;
+  Serial: number = 0;
+  VatScope: string = '';
+  AmountPaid: number = 0;
+  BillStatus: string = '';
+  BillCategory: string = '';
+  BillNo: string = '';
+}
+
 export class Report {
   coyID: string = '';
   startDate: Date = new Date();

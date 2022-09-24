@@ -65,6 +65,10 @@ import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dial
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DialogService } from './shared/dialog.service';
+import { BillingExpensesComponent } from './billing-expenses/billing-expenses.component';
+import { BillingExpenseComponent } from './billing-expenses/billing-expense/billing-expense.component';
+import { BillingExpenseListComponent } from './billing-expenses/billing-expense-list/billing-expense-list.component';
+import { BillingExpenseService } from './billing-expenses/billing-expense.service';
 
 @NgModule({
   declarations: [
@@ -96,6 +100,9 @@ import { DialogService } from './shared/dialog.service';
     LoadingSpinnerComponent,
     LoadingDirective,
     MatConfirmDialogComponent,
+    BillingExpensesComponent,
+    BillingExpenseComponent,
+    BillingExpenseListComponent,
   ],
   imports: [
     BrowserModule,
@@ -139,10 +146,14 @@ import { DialogService } from './shared/dialog.service';
     AppResolve,
     ReportService,
     DialogService,
+    BillingExpenseService,
   ],
   entryComponents: [
     InvoiceDetailsComponent,
     InvoiceDetailsListComponent,
+    BillingExpensesComponent,
+    BillingExpenseComponent,
+    BillingExpenseListComponent,
     MatConfirmDialogComponent,
   ],
   bootstrap: [AppComponent, LoadingService],
