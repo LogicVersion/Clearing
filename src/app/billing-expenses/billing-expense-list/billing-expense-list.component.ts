@@ -35,8 +35,8 @@ import { DialogService } from 'src/app/shared/dialog.service';
 export class BillingExpenseListComponent implements OnInit {
   displayedColumns: string[] = [
     // 'PK_SNo',
-    'Serial',
-    'billNO',
+    // 'Serial',
+    'BillNo',
     'drgName',
     'Qty',
     'Price',

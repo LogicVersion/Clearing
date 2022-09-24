@@ -81,7 +81,7 @@ export class InvoiceDetailsService {
       SNO: 0,
       PK_SNo: 0,
       dtDate: this.formatStringToDate(new Date()),
-      billNO: '***',
+      // billNO: '***',
       drgName: null,
       Price: 0,
       Qty: 1,

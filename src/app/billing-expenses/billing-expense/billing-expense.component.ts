@@ -3,6 +3,7 @@ import { FormArray, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { BillingExpense } from 'src/app/invoices/invoice.model';
+import { InvoiceService } from 'src/app/invoices/invoice.service';
 import { LoadingService } from 'src/app/loading/loading.service';
 import { ClearingItem } from 'src/app/shared/bill-item.model';
 import { ClearingItemService } from 'src/app/shared/bill-item.service';
@@ -22,7 +23,7 @@ export class BillingExpenseComponent implements OnInit {
   constructor(
     public utilSvc: UtilityService,
     public service: BillingExpenseService,
-    // public invoiceService: InvoiceService,
+    public invoiceService: InvoiceService,
     private itemService: ClearingItemService,
     private toastr: ToastrService,
     private dialogRef: MatDialogRef<BillingExpenseComponent>,
@@ -53,6 +54,7 @@ export class BillingExpenseComponent implements OnInit {
         billNO: this.billNoParam,
         Total: 0, // this.data.balance.toFixed(2),
         BillStatus: this.data.billStatus,
+        JobCode: this.data.JobCode,
         // dtDate: this.data.bDate,
       });
       this.utilSvc.setButtons(true);
@@ -116,6 +118,11 @@ export class BillingExpenseComponent implements OnInit {
         (item) => item.drgName == Importer
       );
 
+      // if (this.service.formData.controls['JobCode'].value == '') {
+      //   this.service.formData.patchValue({ JobCode: '***' });
+
+      // }
+
       if (duplicateArr.length > 0 && this.service.flgEdit == false) {
         this.toastr.warning('Duplicate Item Entry NOT Allowed');
         return;
@@ -147,6 +154,7 @@ export class BillingExpenseComponent implements OnInit {
         // this.toastr.warning('Select a Bill Category');
         // return;
       }
+
 
       if (
         this.service.formData.controls['Qty'].value == '0' ||
@@ -183,16 +191,17 @@ export class BillingExpenseComponent implements OnInit {
         //return;
         this.service.formData.patchValue({ VAT: 0 });
       }
-      if (this.service.formData.controls['BillStatus'].value != 'EXPENSE') {
-        if (
-          this.service.formData.controls['Serial'].value == '0' ||
-          this.service.formData.controls['Serial'].value == ''
-        ) {
-          this.toastr.warning('Specify Serial');
-          //this.service.formData.patchValue({ Qty: 1 });
-          return;
-        }
-      }
+
+      // if (this.service.formData.controls['BillStatus'].value != 'EXPENSE') {
+      //   if (
+      //     this.service.formData.controls['Serial'].value == '0' ||
+      //     this.service.formData.controls['Serial'].value == ''
+      //   ) {
+      //     this.toastr.warning('Specify Serial');
+      //     //this.service.formData.patchValue({ Qty: 1 });
+      //     return;
+      //   }
+      // }
 
       if (this.service.formData.controls['Total'].value == '') {
         //this.toastr.warning('Specify Bill Type (Freight)');
@@ -231,11 +240,11 @@ export class BillingExpenseComponent implements OnInit {
       this.isLoadingSubmit = true;
 
       if (this.service.flgEdit) {
-        // this.service.updateRecord(this.service.formData.value).subscribe(
+        this.service.updateRecord(this.service.formData.value).subscribe(
         // this.loadingService.doLoading(
-        this.service
-          .insertRecord(this.service.formData.value) //,this,1)
-          .subscribe(
+        // this.service
+        //   .insertRecord(this.service.formData.value) //,this,1)
+        //   .subscribe(
             (res) => {
               this.resetForm();
               this.notifyForm('update');
@@ -299,7 +308,7 @@ export class BillingExpenseComponent implements OnInit {
     this.service.clearFields();
     //this.ngOnInit();
     this.service.formData.patchValue({
-      billNO: this.billNoParam,
+      BillNo: this.billNoParam,
       dtDate: new Date(),
       // Total:this.invoiceService.balance.toFixed(2),
     });
@@ -349,11 +358,11 @@ export class BillingExpenseComponent implements OnInit {
   onClose() {
     this.service.formData.reset();
     this.service.clearFields();
-    this.service.flgEdit = false;
-    this.service.enableFields(false);
-    if (this.service.formData) this.service.formData.reset();
-    this.service.clearFields();
-    this.utilSvc.setButtons(true);
+    this.invoiceService.flgEdit = false;
+    this.invoiceService.enableFields(false);
+    if (this.invoiceService.form) this.invoiceService.form.reset();
+    this.invoiceService.clearFields();
+     this.utilSvc.setButtons(true);
     // this.invListChildRef?.reLoadData();
     // this.invoiceService.reLoadData();
     this.dialogRef.close();
@@ -401,9 +410,7 @@ export class BillingExpenseComponent implements OnInit {
             // Interest: this.itemList[this.idx - 1].MarkUp
             //   ? this.itemList[this.idx - 1].MarkUp
             //   : 0,
-            Serial: this.itemList[this.idx - 1].Serial
-              ? this.itemList[this.idx - 1].Serial
-              : 0,
+            Serial:  0,
             BillCategory: this.itemList[this.idx - 1].BillCategory
               ? this.itemList[this.idx - 1].BillCategory
               : '',

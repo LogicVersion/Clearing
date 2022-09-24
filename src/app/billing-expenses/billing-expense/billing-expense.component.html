@@ -30,7 +30,8 @@
   <div class="row">
     <div class="col-md-5 mx-auto ">
 
-      <input type="hidden" formControlName="PK_SNo">
+      <input type="hidden" formControlName="SNO">
+      <input type="hidden" formControlName="JobCode">
 
       <div class="row">
         <div class="form-group mb-3 mt-3 ">
@@ -106,10 +107,10 @@
 
     <div class="row">
       <div class="form-group col-md-5 mb-3 mt-3">
-        <label for="billNO">InvoiceNo</label>
-        <input tabindex="-1" readonly id="billNO" formControlName="billNO" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['billNO'].errors}">
-        <div class="invalid-feedback" *ngIf="submitted && formControls['billNO'].errors">
-          <label *ngIf="formControls['billNO'].errors['required']">This field is required.</label>
+        <label for="BillNo">InvoiceNo</label>
+        <input tabindex="-1" readonly id="BillNo" formControlName="BillNo" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillNo'].errors}">
+        <div class="invalid-feedback" *ngIf="submitted && formControls['BillNo'].errors">
+          <label *ngIf="formControls['BillNo'].errors['required']">This field is required.</label>
         </div>
       </div>
 
@@ -128,13 +129,13 @@
 
       <div class="row">
 
-        <!-- <div class="form-group col-md-4 mb-3">
+        <div class="form-group col-md-4 mb-3">
           <label for="Interest">Interest</label>
           <input id="Interest" formControlName="Interest" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Interest'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Interest'].errors">
             <label *ngIf="formControls['Interest'].errors['required']">This field is required.</label>
           </div>
-        </div> -->
+        </div>
 
         <div class="form-group col-md-5 mb-3">
           <label for="BillCategory">Expense Cat</label>
@@ -153,9 +154,9 @@
         <div class="form-group col-md-5 mb-3">
           <label for="BillStatus">Entry For</label> <!--(Invoice or Expense)-->
           <select  id="BillStatus" formControlName="BillStatus" class="form-control" [ngClass]="{'is-invalid':submitted && formControls['BillStatus'].errors}">
-                  <option value="INVOICE">INVOICE</option>
                   <option value="EXPENSE">EXPENSE</option>
-                  <option value="BOTH">BOTH</option>
+              <!-- <option value="INVOICE">INVOICE</option> -->
+                  <!-- <option value="BOTH">BOTH</option> -->
             <div class="invalid-feedback" *ngIf="submitted && formControls['BillStatus'].errors">
               <label *ngIf="formControls['BillStatus'].errors['required']">This field is required.</label>
             </div>
@@ -278,7 +279,7 @@
 <div class="table-responsive">
   <div class="row">
     <div class="col-md-10 col-md-offset-1 mx-auto" >
-      <app-invoice-details-list [billNoChild]="billNoParam"></app-invoice-details-list>
+      <app-billing-expense-list [billNoChild]="billNoParam"></app-billing-expense-list>
     </div>
   </div>
 </div>

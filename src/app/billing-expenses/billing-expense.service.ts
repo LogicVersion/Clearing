@@ -30,7 +30,7 @@ export class BillingExpenseService {
   ) {}
 
   formData = this.fb.group({
-    JobCode: '',
+    JobCode: ['', [Validators.required]],
     SNO: 0,
     dtDate: [new Date(), [Validators.required]],
     BillNo: ['***', [Validators.required]],
@@ -41,12 +41,12 @@ export class BillingExpenseService {
     VAT: 0, //.toFixed(2),
     Interest: 0, //.toFixed(2),
     Total: 0,
-    billType: ['', [Validators.required]],
+    billType: '',
     ExchRate: 1,
     Serial: 0,
-    VatScope: ['', [Validators.required]],
+    VatScope: '',
     AmountPaid: 0,
-    BillCategory: ['', [Validators.required]],
+    BillCategory: '',
     BillStatus: ['', [Validators.required]],
   });
 
@@ -61,7 +61,7 @@ export class BillingExpenseService {
       Qty: +inv.Qty,
       subTotal: +inv.subTotal,
       VAT: +((inv.VAT / (inv.subTotal - inv.AmountPaid)) * 100), //.toFixed(2),
-      Interest: 0, //.toFixed(2),
+      Interest: +((inv.Interest / inv.subTotal) * 100), //.toFixed(2),
       Total: +inv.Total,
       billType: inv.billType,
       ExchRate: inv.ExchRate,
@@ -75,10 +75,10 @@ export class BillingExpenseService {
 
   clearFields() {
     this.formData.patchValue({
-      JobCode: '',
+      // JobCode: '',
       SNO: 0,
       dtDate: new Date(),
-      BillNo: '***',
+      // BillNo: '***',
       drgName: '',
       Price: 0,
       Qty: 0,

@@ -20,9 +20,9 @@
 <div class="mat-elevation-z8">
   <mat-table [dataSource]="dataSource" matSort >
     <!-- ID Column -->
-    <ng-container matColumnDef="PK_SNo">
-      <mat-header-cell *matHeaderCellDef>PK_SNo</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.PK_SNo}} </mat-cell>
+    <ng-container matColumnDef="SNO">
+      <mat-header-cell *matHeaderCellDef>SNO</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.SNO}} </mat-cell>
     </ng-container>
 
     <!-- Serial Column -->
@@ -32,9 +32,9 @@
     </ng-container>
 
     <!-- billNO Column -->
-    <ng-container matColumnDef="billNO">
+    <ng-container matColumnDef="BillNo">
       <mat-header-cell mat-sort-header *matHeaderCellDef > BillNo </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.billNO}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.BillNo}} </mat-cell>
     </ng-container>
 
     <!-- drgName Column -->
