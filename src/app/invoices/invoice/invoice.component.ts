@@ -11,6 +11,7 @@ import { MatDialog ,MatDialogConfig} from '@angular/material/dialog';
 import { InvoiceDetailsComponent } from '../invoice-details/invoice-details.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { BillingExpenseComponent } from 'src/app/billing-expenses/billing-expense/billing-expense.component';
+import { DialogService } from 'src/app/shared/dialog.service';
 
 @Component({
   selector: 'app-invoice',
@@ -25,7 +26,8 @@ export class InvoiceComponent implements OnInit {
     public service: InvoiceService,
     private customerService: ConsigneeService,
     private toastr: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogService: DialogService
   ) {}
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
@@ -116,14 +118,11 @@ export class InvoiceComponent implements OnInit {
     return dateVal.toISOString();
   }
 
-
-  JobCodeExists(){
-
-
-   if (this.service.form.controls['JobCode'].value == '') {
-     //this.toastr.warning('Specify JobCode');
-     return;
-   }
+  JobCodeExists() {
+    if (this.service.form.controls['JobCode'].value == '') {
+      //this.toastr.warning('Specify JobCode');
+      return;
+    }
     //check for dup JobCode -- new rec
     if (this.service.flgEdit == false) {
       const searchKey = this.service.form.controls['JobCode'].value.trim();
@@ -135,15 +134,14 @@ export class InvoiceComponent implements OnInit {
         ); //ELEMENT_DATA;
         this.service.dataSource.sort = this.sort;
         this.service.dataSource.paginator = this.paginator;
-      if (this.service.invoiceList.length > 0) {
-        this.toastr.warning(
-          `This JobCode already exists! \n ${searchKey} \n see table grid below`
-        );
-        this.service.form.patchValue({ JobCode: '' });
-        return;
-      }
-    });
-
+        if (this.service.invoiceList.length > 0) {
+          this.toastr.warning(
+            `This JobCode already exists! \n ${searchKey} \n see table grid below`
+          );
+          this.service.form.patchValue({ JobCode: '' });
+          return;
+        }
+      });
     }
   }
 
@@ -211,37 +209,66 @@ export class InvoiceComponent implements OnInit {
       //     End If
       // End If
 
-   if (this.service.form.controls['JobCode'].value == '') {
-     this.toastr.warning('Specify JobCode');
-     return;
-   }
-
-      if (!confirm('Do you want to save')) return;
-
-      if (this.service.flgEdit) {
-        this.service.updateRecord(this.service.form.value).subscribe(
-          (res) => {
-            this.resetForm();
-            this.notifyForm('update');
-          },
-          (err) => {
-            // this.handleError(err);
-            this.toastr.error('Error has Occured: ' + err, 'Clearing');
-          }
-        );
-      } else {
-        //form.get('SNo')!.value == 0
-        this.service.insertRecord(this.service.form.value).subscribe(
-          (res) => {
-            this.resetForm();
-            this.notifyForm('insert');
-          },
-          (err) => {
-            // this.handleError(err);
-            this.toastr.error('Error has Occured: ' + err, 'Clearing');
-          }
-        );
+      if (this.service.form.controls['JobCode'].value == '') {
+        this.toastr.warning('Specify JobCode');
+        return;
       }
+
+      // if (!confirm('Do you want to save Bill Item')) return;
+      this.dialogService
+        .openConfirmDialog('Are you sure to save this record ?')
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+            //   this.loadingService.doLoading(
+            //   this.itemService.getItems(),
+            //   this
+            // ).pipe(
+            //   untilDestroyed(this),
+            // ).subscribe(items => {
+            //   this.items = items;
+            // });
+
+            // this.isLoadingSubmit = true;
+
+            if (this.service.flgEdit) {
+              this.service.updateRecord(this.service.form.value).subscribe(
+                // this.loadingService.doLoading(
+                // this.service
+                //   .insertRecord(this.service.formData.value) //,this,1)
+                //   .subscribe(
+                (res) => {
+                  this.resetForm();
+                  this.notifyForm('update');
+                  //this.dialogRef.close();
+                  // this.isLoadingSubmit = false;
+                },
+                (err) => {
+                  // this.handleErrors(err);
+                  this.toastr.error(err, 'Clearing');
+                  // this.isLoadingSubmit = false;
+                }
+              );
+            } else {
+              //form.get('SNo')!.value == 0
+              // this.loadingService.doLoading(
+              this.service
+                .insertRecord(this.service.form.value) //,this,1)
+                .subscribe(
+                  (res) => {
+                    this.resetForm();
+                    this.notifyForm('insert');
+                    // this.isLoadingSubmit = false;
+                  },
+                  (err) => {
+                    // this.handleErrors(err);
+                    this.toastr.error(err, 'Clearing');
+                    // this.isLoadingSubmit = false;
+                  }
+                );
+            }
+          }
+        });
     }
   }
 
@@ -258,7 +285,6 @@ export class InvoiceComponent implements OnInit {
     // return errorMessage;
   }
 
-
   private handleError2(errors: any) {
     // this.messages = [];
     // for (let msg of errors) {
@@ -272,7 +298,7 @@ export class InvoiceComponent implements OnInit {
     this.showSuccessMessage = true;
     setTimeout(() => (this.showSuccessMessage = false), 3000);
     this.submitted = false;
-    if ((updateVal == 'insert'))
+    if (updateVal == 'insert')
       this.toastr.success('Record saved successfully', 'Clearing Saved');
     else this.toastr.success('Record updated successfully', 'Clearing Updated');
     this.utilSvc.setButtons(true);
@@ -315,20 +341,30 @@ export class InvoiceComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '70%';
     dialogConfig.height = '70%';
-    dialogConfig.data = {
-      BillNo: this.service.billNoVal,
-      JobCode: this.service.form.controls['JobCode'].value,
-      bDate: this.service.bDateVal,
-      billStatus: strval, //this.service.billStatus,
 
-      // balance: this.service.amountBal,
-    };
-    if (strval=='INVOICE')
+    if (strval == 'INVOICE') {
+      dialogConfig.data = {
+        billNO: this.service.billNoVal,
+        JobCode: this.service.form.controls['JobCode'].value,
+        bDate: this.service.bDateVal,
+        billStatus: strval, //this.service.billStatus,
+
+        // balance: this.service.amountBal,
+      };
       this.dialog.open(InvoiceDetailsComponent, dialogConfig);
-    else //expense
-      this.dialog.open(BillingExpenseComponent, dialogConfig);
-  }
+    } //expense
+    else {
+      dialogConfig.data = {
+        BillNo: this.service.billNoVal,
+        JobCode: this.service.form.controls['JobCode'].value,
+        bDate: this.service.bDateVal,
+        billStatus: strval, //this.service.billStatus,
 
+        // balance: this.service.amountBal,
+      };
+      this.dialog.open(BillingExpenseComponent, dialogConfig);
+    }
+  }
 
   idx = -1;
   updateFields(ctrl: any) {

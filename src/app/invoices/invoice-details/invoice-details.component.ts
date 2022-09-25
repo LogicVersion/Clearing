@@ -30,8 +30,8 @@ import { DialogService } from 'src/app/shared/dialog.service';
   styleUrls: ['./invoice-details.component.css'],
 })
 export class InvoiceDetailsComponent implements OnInit {
-
-  isLoadingSubmit: boolean=false;
+  isLoadingSubmit: boolean = false;
+  isLoadingDel: boolean = false;
 
   constructor(
     public utilSvc: UtilityService,
@@ -45,7 +45,6 @@ export class InvoiceDetailsComponent implements OnInit {
     public loadingService: LoadingService, // accessed from the template
     private dialogService: DialogService
   ) {}
-
 
   isValid: boolean = true;
   submitted: boolean = false;
@@ -145,7 +144,6 @@ export class InvoiceDetailsComponent implements OnInit {
       //   }
       // }
 
-
       if (this.service.formData.controls['drgName'].value == '') {
         //ret an array with one value, null ie [null]
         this.toastr.warning('Select a Bill Item');
@@ -163,7 +161,6 @@ export class InvoiceDetailsComponent implements OnInit {
         // this.toastr.warning('Select a Bill Category');
         // return;
       }
-
 
       if (
         this.service.formData.controls['Qty'].value == '0' ||
@@ -211,7 +208,6 @@ export class InvoiceDetailsComponent implements OnInit {
         }
       }
 
-
       if (this.service.formData.controls['Total'].value == '') {
         //this.toastr.warning('Specify Bill Type (Freight)');
         this.service.formData.patchValue({ Total: 0 });
@@ -235,53 +231,64 @@ export class InvoiceDetailsComponent implements OnInit {
 
       this.service.formData.patchValue({ Total: balance });
 
-      if (!confirm('Do you want to save Bill Item')) return;
+      // if (!confirm('Do you want to save Bill Item')) return;
 
-      //   this.loadingService.doLoading(
-      //   this.itemService.getItems(),
-      //   this
-      // ).pipe(
-      //   untilDestroyed(this),
-      // ).subscribe(items => {
-      //   this.items = items;
-      // });
+      this.dialogService
+        .openConfirmDialog('Are you sure to save this record ?')
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+            //   this.loadingService.doLoading(
+            //   this.itemService.getItems(),
+            //   this
+            // ).pipe(
+            //   untilDestroyed(this),
+            // ).subscribe(items => {
+            //   this.items = items;
+            // });
 
-      this.isLoadingSubmit = true;
+            this.isLoadingSubmit = true;
 
-      if (this.service.flgEdit) {
-        // this.service.updateRecord(this.service.formData.value).subscribe(
-        // this.loadingService.doLoading(
-        this.service.insertRecord(this.service.formData.value)  //,this,1)
-        .subscribe(
-          (res) => {
-            this.resetForm();
-            this.notifyForm('update');
-            //this.dialogRef.close();
-          this.isLoadingSubmit = false;
-          },
-          (err) => {
-            // this.handleErrors(err);
-            this.toastr.error(err, 'Clearing');
-          this.isLoadingSubmit = false;
+            if (this.service.flgEdit) {
+              // this.service.updateRecord(this.service.formData.value).subscribe(
+              // this.loadingService.doLoading(
+              this.service
+                .insertRecord(this.service.formData.value) //,this,1)
+                .subscribe(
+                  (res) => {
+                    this.resetForm();
+                    this.notifyForm('update');
+                    //this.dialogRef.close();
+                    this.isLoadingSubmit = false;
+                  },
+                  (err) => {
+                    // this.handleErrors(err);
+                    this.toastr.error(err, 'Clearing');
+                    this.isLoadingSubmit = false;
+                  }
+                );
+            } else {
+              //form.get('SNo')!.value == 0
+              // this.loadingService.doLoading(
+              this.service
+                .insertRecord(this.service.formData.value) //,this,1)
+                .subscribe(
+                  (res) => {
+                    this.resetForm();
+                    this.notifyForm('insert');
+                    this.isLoadingSubmit = false;
+                  },
+                  (err) => {
+                    // this.handleErrors(err);
+                    this.toastr.error(err, 'Clearing');
+                    this.isLoadingSubmit = false;
+                  }
+                );
+            }
           }
-        );
-      } else {
-        //form.get('SNo')!.value == 0
-        // this.loadingService.doLoading(
-        this.service.insertRecord(this.service.formData.value) //,this,1)
-        .subscribe(
-          (res) => {
-            this.resetForm();
-            this.notifyForm('insert');
-            this.isLoadingSubmit = false;
-          },
-          (err) => {
-            // this.handleErrors(err);
-            this.toastr.error(err, 'Clearing');
-            this.isLoadingSubmit = false;
-          }
-        );
-      }
+        });
+
+
     }
   }
 
