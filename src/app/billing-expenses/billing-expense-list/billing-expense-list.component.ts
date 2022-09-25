@@ -157,9 +157,9 @@ export class BillingExpenseListComponent implements OnInit {
     this.service.bDateVal = row.dtDate;
   }
 
-  onDelete(row: InvoiceDetails) {
+  onDelete(row: BillingExpense) {
     // console.log(`id is: ${id}`);
-    const id = row.PK_SNo;
+    const id = row.SNO;
     if (id != 0) {
       this.dialogService
         .openConfirmDialog('Are you sure to delete this record ?')

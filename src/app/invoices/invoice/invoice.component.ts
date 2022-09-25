@@ -316,7 +316,7 @@ export class InvoiceComponent implements OnInit {
     dialogConfig.width = '70%';
     dialogConfig.height = '70%';
     dialogConfig.data = {
-      billNO: this.service.billNoVal,
+      BillNo: this.service.billNoVal,
       JobCode: this.service.form.controls['JobCode'].value,
       bDate: this.service.bDateVal,
       billStatus: strval, //this.service.billStatus,

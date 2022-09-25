@@ -41,6 +41,7 @@ export class BillingExpenseComponent implements OnInit {
   // snoVal = this.service.formData.get('SNo')?.value;
   messages: any[] = [];
   billNoParam: string = '';
+  JobCode: string = '';
   idx = 0;
 
   //curr = formatNumber(1000, this.locale, '7.1-5');
@@ -48,13 +49,14 @@ export class BillingExpenseComponent implements OnInit {
   ngOnInit() {
     //this.reloadData
     this.isLoadingSubmit = false;
-    if (this.data.billNO != null) {
-      this.billNoParam = this.data.billNO;
+    if (this.data.BillNo != null) {
+      this.JobCode = this.data.JobCode;
+      this.billNoParam = this.data.BillNo;
       this.service.formData.patchValue({
-        billNO: this.billNoParam,
+        BillNo: this.billNoParam,
         Total: 0, // this.data.balance.toFixed(2),
         BillStatus: this.data.billStatus,
-        JobCode: this.data.JobCode,
+        JobCode: this.JobCode,
         // dtDate: this.data.bDate,
       });
       this.utilSvc.setButtons(true);
@@ -155,7 +157,6 @@ export class BillingExpenseComponent implements OnInit {
         // return;
       }
 
-
       if (
         this.service.formData.controls['Qty'].value == '0' ||
         this.service.formData.controls['Qty'].value == ''
@@ -241,22 +242,22 @@ export class BillingExpenseComponent implements OnInit {
 
       if (this.service.flgEdit) {
         this.service.updateRecord(this.service.formData.value).subscribe(
-        // this.loadingService.doLoading(
-        // this.service
-        //   .insertRecord(this.service.formData.value) //,this,1)
-        //   .subscribe(
-            (res) => {
-              this.resetForm();
-              this.notifyForm('update');
-              //this.dialogRef.close();
-              this.isLoadingSubmit = false;
-            },
-            (err) => {
-              // this.handleErrors(err);
-              this.toastr.error(err, 'Clearing');
-              this.isLoadingSubmit = false;
-            }
-          );
+          // this.loadingService.doLoading(
+          // this.service
+          //   .insertRecord(this.service.formData.value) //,this,1)
+          //   .subscribe(
+          (res) => {
+            this.resetForm();
+            this.notifyForm('update');
+            //this.dialogRef.close();
+            this.isLoadingSubmit = false;
+          },
+          (err) => {
+            // this.handleErrors(err);
+            this.toastr.error(err, 'Clearing');
+            this.isLoadingSubmit = false;
+          }
+        );
       } else {
         //form.get('SNo')!.value == 0
         // this.loadingService.doLoading(
@@ -309,6 +310,7 @@ export class BillingExpenseComponent implements OnInit {
     //this.ngOnInit();
     this.service.formData.patchValue({
       BillNo: this.billNoParam,
+      JobCode: this.JobCode,
       dtDate: new Date(),
       // Total:this.invoiceService.balance.toFixed(2),
     });
@@ -362,7 +364,7 @@ export class BillingExpenseComponent implements OnInit {
     this.invoiceService.enableFields(false);
     if (this.invoiceService.form) this.invoiceService.form.reset();
     this.invoiceService.clearFields();
-     this.utilSvc.setButtons(true);
+    this.utilSvc.setButtons(true);
     // this.invListChildRef?.reLoadData();
     // this.invoiceService.reLoadData();
     this.dialogRef.close();
@@ -410,7 +412,7 @@ export class BillingExpenseComponent implements OnInit {
             // Interest: this.itemList[this.idx - 1].MarkUp
             //   ? this.itemList[this.idx - 1].MarkUp
             //   : 0,
-            Serial:  0,
+            Serial: 0,
             BillCategory: this.itemList[this.idx - 1].BillCategory
               ? this.itemList[this.idx - 1].BillCategory
               : '',

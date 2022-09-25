@@ -170,19 +170,19 @@ export class BillingExpenseService {
     formVal.Qty = +formVal.Qty;
     formVal.Price = +formVal.Price;
     formVal.VAT = +formVal.VAT;
-    formVal.Total = 0; //done in sproc  //+formVal.Total;
+    // formVal.Total = 0; //done in sproc  //+formVal.Total;
 
     formVal.AmountPaid = +formVal.AmountPaid;
     formVal.Interest = +formVal.Interest;
     formVal.Serial = +formVal.Serial;
 
-    const formValX: BillingExpense[] = [];
-    formValX.push(formVal);
+    // const formValX: BillingExpense[] = [];
+    // formValX.push(formVal);
 
-    let body = JSON.stringify(formValX);
+    let body = JSON.stringify(formVal);
 
     console.clear();
-    console.log(formValX);
+    console.log(formVal);
     console.log(body); //json
 
     return this.http.post<BillingExpense>(this.appURL, body, {
