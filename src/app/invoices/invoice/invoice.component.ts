@@ -162,13 +162,26 @@ export class InvoiceComponent implements OnInit {
         return;
       }
 
-      if (typeof this.service.form.controls['pNo'].value == 'object') {
-        // an array object
-        if (this.service.form.controls['pNo'].value[0] == null) {
-          //ret an array with one value, null ie [null]
-          this.toastr.warning('Select an Importer');
-          return;
-        }
+      //typeOf must be a string to be valid
+      // if (typeof this.service.form.controls['pNo'].value == 'object') {
+      //   // an array object
+      //   if (this.service.form.controls['pNo'].value[0] == null) {
+      //     //ret an array with one value, null ie [null]
+      //     this.toastr.warning('Select an Importer');
+      //     return;
+      //   }
+      // }
+
+      if (typeof this.service.form.controls['pNo'].value != 'string') {
+        //ret an array with one value, null ie [null]
+        this.toastr.warning('Select an Importer');
+        return;
+      }
+
+      if (this.service.form.controls['pNo'].value == '0') {
+        //ret an array with one value, null ie [null]
+        this.toastr.warning('Select an Importer');
+        return;
       }
 
       if (this.service.form.controls['BLNo'].value == '') {

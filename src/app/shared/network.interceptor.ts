@@ -36,5 +36,6 @@ export class NetworkInterceptor implements HttpInterceptor {
         }
       })
     );
+
   }
 }

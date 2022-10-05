@@ -17,7 +17,7 @@
     </div>
   </div>
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z2">
   <mat-table [dataSource]="dataSource" matSort >
     <!-- ID Column -->
     <ng-container matColumnDef="PK_SNo">
@@ -99,7 +99,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></mat-row>
     <!-- <mat-row (click)="mtdCall()" *matRowDef="let row; columns: displayedColumns;"></mat-row> -->
 
     <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':dataSource!=null}"></mat-footer-row>

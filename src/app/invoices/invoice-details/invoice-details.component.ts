@@ -287,8 +287,6 @@ export class InvoiceDetailsComponent implements OnInit {
             }
           }
         });
-
-
     }
   }
 
@@ -354,6 +352,13 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   cancelEntry() {
+    this.service.flgEdit = false;
+    this.utilSvc.setButtons(true);
+    // this.service.enableFields(false);
+    this.resetForm();
+  }
+
+  cancelEntry2() {
     this.service.flgEdit = false;
     this.utilSvc.setButtons(true);
     this.service.enableFields(false);

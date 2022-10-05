@@ -95,7 +95,7 @@ export class InvoiceDetailsService {
       VatScope: '0',
       AmountPaid: 0,
       BillCategory: '',
-      BillStatus: '',
+      BillStatus: 'INVOICE',
       FreightCat: '***',
       FrightCat: '',
     });

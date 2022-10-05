@@ -11,7 +11,7 @@
     </mat-form-field>
 </div>
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z2">
   <mat-table [dataSource]="service.dataSource" matSort >
     <!-- ID Column -->
     <ng-container matColumnDef="ID">
@@ -78,7 +78,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row *matRowDef="let row; let even = even; columns: displayedColumns;" [ngClass]="{gray: even}"></mat-row>
     <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':service.dataSource!=null}"></mat-footer-row>
     <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(service.dataSource!=null && service.dataSource.data.length==0)}"></mat-footer-row>
 

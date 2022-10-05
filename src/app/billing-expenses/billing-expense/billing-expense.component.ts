@@ -353,8 +353,8 @@ export class BillingExpenseComponent implements OnInit {
 
   cancelEntry() {
     this.service.flgEdit = false;
-    this.utilSvc.setButtons(true);
-    this.service.enableFields(false);
+    // this.utilSvc.setButtons(true);
+    // this.service.enableFields(false);
     this.resetForm();
   }
 

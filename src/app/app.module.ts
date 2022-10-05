@@ -69,6 +69,7 @@ import { BillingExpensesComponent } from './billing-expenses/billing-expenses.co
 import { BillingExpenseComponent } from './billing-expenses/billing-expense/billing-expense.component';
 import { BillingExpenseListComponent } from './billing-expenses/billing-expense-list/billing-expense-list.component';
 import { BillingExpenseService } from './billing-expenses/billing-expense.service';
+import { CachingInterceptor } from './shared/caching.interceptor';
 
 @NgModule({
   declarations: [
@@ -147,6 +148,11 @@ import { BillingExpenseService } from './billing-expenses/billing-expense.servic
     ReportService,
     DialogService,
     BillingExpenseService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CachingInterceptor,
+      multi: true,
+    },
   ],
   entryComponents: [
     InvoiceDetailsComponent,

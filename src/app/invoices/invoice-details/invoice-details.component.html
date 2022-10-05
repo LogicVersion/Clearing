@@ -232,22 +232,30 @@
   <div class="row">
     <div class="col-md-5 mx-auto ">
       <!-- *ngIf="utilSvc.saveButtVisible" -->
-      <div class="form-group mb-3 ">
-        <!-- <input type="submit" class="btn btn-primary " value="Submit"> -->
-      <button type="submit" class="btn btn-primary">
-        <span *ngIf="this.isLoadingSubmit" class="spinner-border spinner-border-sm"></span>
-        Submit
-      </button>
-        <!-- <input type="button" class="btn btn-link " value="Add to Grid" (click)="addToGrid()"> -->
-        <!-- <button type="button" class="btn btn-primary">Primary</button>
-        <button type="button" class="btn btn-secondary">Secondary</button>
-        <button type="button" class="btn btn-success">Success</button>
-        <button type="button" class="btn btn-danger">Danger</button>
-        <button type="button" class="btn btn-warning">Warning</button>
-        <button type="button" class="btn btn-info">Info</button>
-        <button type="button" class="btn btn-light">Light</button>
-        <button type="button" class="btn btn-dark">Dark</button>
-        <button type="button" class="btn btn-link">Link</button> -->
+      <div class="form-group  mb-3 ">
+          <!-- <input type="submit" class="btn btn-primary " value="Submit"> -->
+
+        <!-- <input type="submit" class="btn btn-primary btn-space" value="Submit" >
+        <input type="button" class="btn btn-danger btn-space" value="Cancel" (click)="cancelEntry()"> -->
+
+          <button type="submit" class="btn btn-primary btn-space">
+            <span *ngIf="this.isLoadingSubmit" class="spinner-border spinner-border-sm"></span>
+            Submit
+          </button>
+
+          <button type="button" (click)="cancelEntry()" class="btn btn-danger btn-space ">Cancel</button>
+          <!-- <button type="button" (click)="cancelEntry()" class="btn btn-primary">Cancel</button> -->
+
+          <!-- <input type="button" class="btn btn-link " value="Add to Grid" (click)="addToGrid()"> -->
+          <!-- <button type="button" class="btn btn-primary">Primary</button>
+          <button type="button" class="btn btn-secondary">Secondary</button>
+          <button type="button" class="btn btn-success">Success</button>
+          <button type="button" class="btn btn-danger">Danger</button>
+          <button type="button" class="btn btn-warning">Warning</button>
+          <button type="button" class="btn btn-info">Info</button>
+          <button type="button" class="btn btn-light">Light</button>
+          <button type="button" class="btn btn-dark">Dark</button>
+          <button type="button" class="btn btn-link">Link</button> -->
       </div>
 
       <!-- <div class="alert alert-info"  *ngIf="showSuccessMessage">
