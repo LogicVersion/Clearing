@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  versionCheckURL: 'http://sapidholdingsonline.com/clearing/version.json',
   apiURL_Admin: 'http://sapidholdingsonline.com/apix/api/authenticate', // /api/authenticate', //AuthAPI
   appURL: 'http://sapidholdingsonline.com/sapi/api/clearing', //billingAPI
   reportServer: 'http://sapidholdingsonline.com/crystalapi/api/reports', //billingAPI

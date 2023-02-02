@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 import { HttpClient } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { concatMap } from 'rxjs/operators';
 import { LoadingService } from './shared/loading.service';
 import { Router } from '@angular/router';
 import { UserService } from './auth/shared/user.service';
+import { VersionCheckService } from './version-check.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { UserService } from './auth/shared/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Clearing';
   coyID = environment.coyID;
   loading$ = this.loader.loading$;
@@ -22,8 +23,13 @@ export class AppComponent {
     public loader: LoadingService,
     private router: Router,
     private http: HttpClient,
-    public service: UserService
+    public service: UserService,
+    private versionCheckService: VersionCheckService
   ) {}
+
+  ngOnInit(): void {
+    this.versionCheckService.initVersionCheck(environment.versionCheckURL);
+  }
 
   CreateUser() {
     // localStorage.removeItem('userToken');

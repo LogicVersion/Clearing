@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  versionCheckURL: '../../dist/clearing/version.json',
   // appURL: 'http://sapidholdingsonline.com/sapi/api/clearing', //billingAPI
   appURL: 'http://localhost:8081/api/clearing',
   // appURL: 'https://localhost:7118/api/clearing',
