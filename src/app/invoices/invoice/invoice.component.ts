@@ -80,6 +80,8 @@ export class InvoiceComponent implements OnInit {
 
   ngAfterViewInit(): void {
     this.utilSvc.setButtons(true);
+    // this.service.reLoadData();
+
   }
 
   /*
@@ -251,6 +253,9 @@ export class InvoiceComponent implements OnInit {
                 //   .insertRecord(this.service.formData.value) //,this,1)
                 //   .subscribe(
                 (res) => {
+                  console.log(res);
+                  this.service.invoiceList = [];
+                  this.service.invoiceList = res as Invoice[];
                   this.resetForm();
                   this.notifyForm('update');
                   //this.dialogRef.close();
@@ -269,6 +274,9 @@ export class InvoiceComponent implements OnInit {
                 .insertRecord(this.service.form.value) //,this,1)
                 .subscribe(
                   (res) => {
+                    console.log(res);
+                    this.service.invoiceList = [];
+                    this.service.invoiceList = res as Invoice[] ;
                     this.resetForm();
                     this.notifyForm('insert');
                     // this.isLoadingSubmit = false;
@@ -317,8 +325,8 @@ export class InvoiceComponent implements OnInit {
     this.utilSvc.setButtons(true);
     this.service.enableFields(false);
     this.service.flgEdit = false;
-    this.childRef?.reLoadData();
-    // this.service.reLoadData();
+    // this.childRef?.reLoadData(true);
+    this.service.reLoadData(true);
   }
 
   resetForm() {

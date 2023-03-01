@@ -32,6 +32,8 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
     this.customerGroupService
       .getListCombo()
       .then((res) => (this.itemList = res as CustomerGroup[]));
+          // console.log(this.itemList);
+
   }
 
   @ViewChild(ConsigneeListComponent) childRef?: ConsigneeListComponent;

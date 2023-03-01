@@ -8,7 +8,8 @@ import { first } from 'rxjs/operators';
 })
 export class VersionCheckService {
   // this will be replaced by actual hash post-build.js
-  private currentHash = '{{POST_BUILD_ENTERS_HASH_HERE}}';
+  private currentHash = 'xxx'; //'{{POST_BUILD_ENTERS_HASH_HERE}}';
+  private POST_BUILD_ENTERS_HASH_HERE = 'xxx';
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +19,7 @@ export class VersionCheckService {
    * @param {number} frequency - in milliseconds, defaults to 30 minutes
    */
   public initVersionCheck(url: string, frequency = 1000 * 60 * 30) {
-    setInterval(() => {
+    setTimeout(() => {
       this.checkVersion(url);
     }, 1000);
   }
@@ -61,7 +62,7 @@ export class VersionCheckService {
    * @returns {boolean}
    */
   private hasHashChanged(currentHash: string, newHash: string) {
-    if (!currentHash || currentHash === '{{POST_BUILD_ENTERS_HASH_HERE}}') {
+    if (!currentHash || currentHash === this.POST_BUILD_ENTERS_HASH_HERE) {
       return false;
     }
 

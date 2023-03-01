@@ -9,7 +9,7 @@ const writeFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
 console.log("\nRunning post-build tasks");
 // our version.json will be in the dist folder
-const versionFilePath = path.join(__dirname + "/../dist/clearing/version.json");
+const versionFilePath = path.join(__dirname + "/../src/assets/version.json");
 let mainHash = "";
 let mainBundleFile = "";
 // RegExp to find main.bundle.js, even if it doesn't include a hash in it's name (dev build)

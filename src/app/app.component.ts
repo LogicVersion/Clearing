@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // location.reload();
     this.versionCheckService.initVersionCheck(environment.versionCheckURL);
   }
 

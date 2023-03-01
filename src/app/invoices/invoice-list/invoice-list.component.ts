@@ -37,7 +37,7 @@ export class InvoiceListComponent implements OnInit {
   //@ViewChild(MatTable) table!: MatTable<DatatableItem>;
   //dataSource: DatatableDataSource;
   //dataSource= this.service.customerList; //this.service.customerList; //ELEMENT_DATA;
-  // dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
+  dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey: string='';
 
   constructor(
@@ -49,20 +49,32 @@ export class InvoiceListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.reLoadData();
+      this.service.reLoadData();
+    // this.reLoadData();
     // this.dataSource.sort = this.sort;
     // this.dataSource.paginator = this.paginator;
   }
 
-  reLoadData(): void {
-    // this.service.getList().subscribe((res) => {
-    //   this.service.invoiceList = res as Invoice[];
-    //   this.dataSource = new MatTableDataSource(this.service.invoiceList); //ELEMENT_DATA;
-    //   this.dataSource.sort = this.sort;
-    //   this.dataSource.paginator = this.paginator;
-    // });
+  reLoadData(isSubmit: boolean = false): void {
+    // if (isSubmit) {
+    //   // this.service.getList().subscribe((res) => {
+    //   //   this.service.invoiceList = res as Invoice[];
+    //   //   this.dataSource = new MatTableDataSource(this.service.invoiceList); //ELEMENT_DATA;
+    //   //   this.dataSource.sort = this.sort;
+    //   //   this.dataSource.paginator = this.paginator;
+    //   // });
 
-    this.service.reLoadData();
+    //     this.dataSource = new MatTableDataSource(this.service.invoiceList); //ELEMENT_DATA;
+    //     this.service.dataSource = this.dataSource; // ok here
+    //     this.dataSource.sort = this.sort;
+    //     this.dataSource.paginator = this.paginator;
+
+    // }
+
+    // else {
+    //   this.service.reLoadData();
+    // }
+
 
   }
 

@@ -265,9 +265,9 @@ export class InvoiceService {
     // console.log(this.invoiceByIdList);
   }
 
-  getList() {
-    return this.http.get(this.appURL);
-    //.pipe(retry(1), catchError(this.handleError));
+  getList() : Observable<Invoice[]> {
+    return this.http.get<Invoice[]>(this.appURL);
+    // .pipe(retry(1), catchError(this.handleError));
 
     // this.http.get(this.appURL);
     // .toPromise()
@@ -305,12 +305,16 @@ export class InvoiceService {
     });
   }
 
-  reLoadData(): void {
+  reLoadData(isSubmit = false): void {
     this.getList().subscribe((res) => {
-      this.invoiceList = res as Invoice[];
+      if (!isSubmit) {
+        this.invoiceList = [];
+        this.invoiceList = res as Invoice[];
+      }
       this.dataSource = new MatTableDataSource(this.invoiceList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      console.log(this.invoiceList);
     });
   }
 
@@ -340,7 +344,7 @@ export class InvoiceService {
   //   //console.log(this.customerGroupList);
   // }
 
-  insertRecord(formData: Invoice): Observable<Invoice> {
+  insertRecord(formData: Invoice): Observable<Invoice[]> {
     const clientID = formData.pNo;
     const bDate = this.formatDateToString(formData.bDate);
     const JobStartDate = this.formatDateToString(formData.JobStartDate);
@@ -397,7 +401,7 @@ export class InvoiceService {
     console.log(formDataNew);
     console.log(body);
 
-    return this.http.post<Invoice>(this.appURL, body, {
+    return this.http.post<Invoice[]>(this.appURL, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
