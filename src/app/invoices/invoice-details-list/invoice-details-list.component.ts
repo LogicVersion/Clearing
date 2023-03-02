@@ -70,9 +70,11 @@ export class InvoiceDetailsListComponent implements OnInit {
     // this.dataSource.paginator = this.paginator;
   }
 
-  reLoadData(): void {
+  reLoadData(isSubmit: boolean = false): void {
     this.service.getList(this.billNoChild).subscribe((res: any) => {
+    if (!isSubmit) {
       this.service.InvoiceDetailsList = res as InvoiceDetailsList[];
+    }
       this.dataSource = new MatTableDataSource(this.service.InvoiceDetailsList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

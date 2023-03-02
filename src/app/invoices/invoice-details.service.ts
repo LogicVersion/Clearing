@@ -218,7 +218,7 @@ export class InvoiceDetailsService {
   //   return this.employeeList.snapshotChanges();
   // }
 
-  insertRecord(formVal: InvoiceDetails): Observable<InvoiceDetails> {
+  insertRecord(formVal: InvoiceDetails): Observable<InvoiceDetailsList[]> {
     const dtDate = this.formatDateToString(formVal.dtDate);
     formVal.dtDate = dtDate;
 
@@ -266,7 +266,7 @@ export class InvoiceDetailsService {
     console.log(formValX);
     console.log(body); //json
 
-    return this.http.post<InvoiceDetails>(this.appURL, body, {
+    return this.http.post<InvoiceDetailsList[]>(this.appURL, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),

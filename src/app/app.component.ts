@@ -15,7 +15,7 @@ import { VersionCheckService } from './version-check.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  title = 'Clearing';
+  title = 'Clearing Online App';
   coyID = environment.coyID;
   loading$ = this.loader.loading$;
 

@@ -256,6 +256,7 @@ export class InvoiceDetailsComponent implements OnInit {
                 .insertRecord(this.service.formData.value) //,this,1)
                 .subscribe(
                   (res) => {
+                    this.service.InvoiceDetailsList = res as InvoiceDetailsList[];
                     this.resetForm();
                     this.notifyForm('update');
                     //this.dialogRef.close();
@@ -274,6 +275,8 @@ export class InvoiceDetailsComponent implements OnInit {
                 .insertRecord(this.service.formData.value) //,this,1)
                 .subscribe(
                   (res) => {
+                    this.service.InvoiceDetailsList =
+                      res as InvoiceDetailsList[];
                     this.resetForm();
                     this.notifyForm('insert');
                     this.isLoadingSubmit = false;
@@ -308,7 +311,9 @@ export class InvoiceDetailsComponent implements OnInit {
     //this.utilSvc.setButtons(true);
     //this.service.enableFields(false);
     this.service.flgEdit = false;
-    this.childRef?.reLoadData();
+
+    this.childRef?.reLoadData(true);
+
     // this.service.reLoadData();
     //this.service.updateTotal();
   }
