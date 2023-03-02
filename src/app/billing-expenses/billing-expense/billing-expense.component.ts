@@ -253,6 +253,7 @@ export class BillingExpenseComponent implements OnInit {
               //   .insertRecord(this.service.formData.value) //,this,1)
               //   .subscribe(
                   (res) => {
+                    this.service.billingExpenseList = res as BillingExpense[];
                     this.resetForm();
                     this.notifyForm('update');
                     //this.dialogRef.close();
@@ -271,6 +272,8 @@ export class BillingExpenseComponent implements OnInit {
                 .insertRecord(this.service.formData.value) //,this,1)
                 .subscribe(
                   (res) => {
+                    this.service.billingExpenseList =
+                      res as BillingExpense[];
                     this.resetForm();
                     this.notifyForm('insert');
                     this.isLoadingSubmit = false;
@@ -307,7 +310,7 @@ export class BillingExpenseComponent implements OnInit {
     //this.utilSvc.setButtons(true);
     //this.service.enableFields(false);
     this.service.flgEdit = false;
-    this.childRef?.reLoadData();
+    this.childRef?.reLoadData(true);
     //this.service.updateTotal();
   }
 
