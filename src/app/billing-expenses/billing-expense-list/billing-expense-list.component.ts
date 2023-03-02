@@ -76,9 +76,11 @@ export class BillingExpenseListComponent implements OnInit {
     // this.dataSource.paginator = this.paginator;
   }
 
-  reLoadData(): void {
+  reLoadData(isSubmit: boolean = false): void {
     this.service.getList(this.billNoChild).subscribe((res: any) => {
-      this.service.billingExpenseList = res as BillingExpense[];
+      if (!isSubmit) {
+        this.service.billingExpenseList = res as BillingExpense[];
+      }
       this.dataSource = new MatTableDataSource(this.service.billingExpenseList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
