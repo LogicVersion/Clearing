@@ -163,7 +163,7 @@ export class BillingExpenseService {
     return this.http.get(this.appURL + '/' + billNoX);
   }
 
-  insertRecord(formVal: BillingExpense): Observable<BillingExpense> {
+  insertRecord(formVal: BillingExpense): Observable<BillingExpense[]> {
     const dtDate = this.formatDateToString(formVal.dtDate);
     formVal.dtDate = dtDate;
 
@@ -185,7 +185,7 @@ export class BillingExpenseService {
     console.log(formVal);
     console.log(body); //json
 
-    return this.http.post<BillingExpense>(this.appURL, body, {
+    return this.http.post<BillingExpense[]>(this.appURL, body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
