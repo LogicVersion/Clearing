@@ -170,11 +170,12 @@ export class BillingExpenseListComponent implements OnInit {
           if (res) {
             this.isLoadingDel = true;
             this.service.deleteRecord(id).subscribe((res: any) => {
+              this.service.billingExpenseList = res as BillingExpense[];
               this.utilSvc.setButtons(true);
               this.service.enableFields(true);
               this.service.flgEdit = false;
               this.isLoadingDel = false;
-              this.reLoadData();
+              this.reLoadData(true);
               // this.service.updateTotal(this.billNoChild);
               // const index = this.dataSource.indexOf(row, 0);
               // if (index > -1) {

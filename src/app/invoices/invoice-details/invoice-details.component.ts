@@ -4,6 +4,7 @@ import {
   ViewChild,
   AfterViewInit,
   Inject,
+  OnDestroy,
 } from '@angular/core';
 import { InvoiceService } from '../invoice.service';
 import { FormArray, FormGroup } from '@angular/forms';
@@ -18,18 +19,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ClearingItem } from 'src/app/shared/bill-item.model';
 import { InvoiceDetailsService } from '../invoice-details.service';
 import { InvoiceDetailsListComponent } from '../invoice-details-list/invoice-details-list.component';
+import { environment } from 'src/environments/environment';
 
 import { formatNumber } from '@angular/common';
 import {LOCALE_ID } from '@angular/core';
 import { LoadingService } from 'src/app/loading/loading.service';
 import { DialogService } from 'src/app/shared/dialog.service';
-
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'app-invoice-details',
   templateUrl: './invoice-details.component.html',
   styleUrls: ['./invoice-details.component.css'],
 })
-export class InvoiceDetailsComponent implements OnInit {
+export class InvoiceDetailsComponent implements OnInit, OnDestroy {
   isLoadingSubmit: boolean = false;
   isLoadingDel: boolean = false;
 
@@ -43,7 +47,9 @@ export class InvoiceDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     @Inject(LOCALE_ID) public locale: string,
     public loadingService: LoadingService, // accessed from the template
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private router: Router,
+    private httpClient: HttpClient
   ) {}
 
   isValid: boolean = true;
@@ -256,7 +262,8 @@ export class InvoiceDetailsComponent implements OnInit {
                 .insertRecord(this.service.formData.value) //,this,1)
                 .subscribe(
                   (res) => {
-                    this.service.InvoiceDetailsList = res as InvoiceDetailsList[];
+                    this.service.InvoiceDetailsList =
+                      res as InvoiceDetailsList[];
                     this.resetForm();
                     this.notifyForm('update');
                     //this.dialogRef.close();
@@ -378,6 +385,8 @@ export class InvoiceDetailsComponent implements OnInit {
   }
 
   @ViewChild(InvoiceListComponent) invListChildRef?: InvoiceListComponent;
+  private subscription?: Subscription = undefined;
+  readonly appURL = environment.appURL + '/invoices';
 
   onClose() {
     this.service.formData.reset();
@@ -387,9 +396,17 @@ export class InvoiceDetailsComponent implements OnInit {
     if (this.invoiceService.form) this.invoiceService.form.reset();
     this.invoiceService.clearFields();
     this.utilSvc.setButtons(true);
+    // this.subscription = this.httpClient.get(this.appURL).subscribe((res) => {
+    //   this.invoiceService.invoiceList = [];
+    //   this.invoiceService.invoiceList = res as Invoice[];
+    //   this.invoiceService.reLoadData(true);
+    // });
+
+    // this.router.navigateByUrl('/DataEntry');
+    // this.router.navigate(['/DataEntry']);
     // this.invListChildRef?.reLoadData();
-    this.invoiceService.reLoadData();
     this.dialogRef.close();
+    location.reload();
 
     // this.invoiceService.updateTotal(this.billNoParam);
     // this.service.flgEdit = false;
@@ -398,6 +415,10 @@ export class InvoiceDetailsComponent implements OnInit {
     // this.service.formData.controls['billNO'].value
     // this.billNoParam = this.data.billNO;
   }
+
+ngOnDestroy(){
+  this.subscription?.unsubscribe();
+}
 
   addToGrid() {
     // const dialogConfig = new MatDialogConfig();

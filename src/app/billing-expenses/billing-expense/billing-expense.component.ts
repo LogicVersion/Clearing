@@ -381,6 +381,7 @@ export class BillingExpenseComponent implements OnInit {
     // this.invListChildRef?.reLoadData();
     // this.invoiceService.reLoadData();
     this.dialogRef.close();
+    location.reload();
 
     // this.invoiceService.updateTotal(this.billNoParam);
     // this.service.flgEdit = false;

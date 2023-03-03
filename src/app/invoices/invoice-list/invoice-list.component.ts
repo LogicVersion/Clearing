@@ -55,7 +55,7 @@ export class InvoiceListComponent implements OnInit {
     // this.dataSource.paginator = this.paginator;
   }
 
-  reLoadData(isSubmit: boolean = false): void {
+  reLoadData2(isSubmit: boolean = false): void {
     // if (isSubmit) {
     //   // this.service.getList().subscribe((res) => {
     //   //   this.service.invoiceList = res as Invoice[];
@@ -164,7 +164,7 @@ export class InvoiceListComponent implements OnInit {
           this.utilSvc.setButtons(true);
           this.service.enableFields(false);
           this.service.flgEdit = false;
-          this.reLoadData();
+          this.service.reLoadData();
           // const index = this.dataSource.indexOf(row, 0);
           // if (index > -1) {
           //   this.dataSource.splice(index, 1);

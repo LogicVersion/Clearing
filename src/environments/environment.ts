@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   versionCheckURL: 'assets/version.json',
   // appURL: 'http://sapidholdingsonline.com/sapi/api/clearing', //billingAPI
-  // appURL: 'http://localhost:8081/api/clearing',
-  appURL: 'https://localhost:7118/api/clearing',
+  appURL: 'http://localhost:8081/api/clearing',
+  // appURL: 'https://localhost:7118/api/clearing',
   // appURL: 'http://sapidholdingsonline.com/testingapi/api/clearing', //billingAPI
   // apiURL_Admin: 'http://localhost:5000/api/authenticate', //http://localhost:5000/api',
   apiURL_Admin: 'http://localhost:8082/api/authenticate', //http://localhost:5000/api',
