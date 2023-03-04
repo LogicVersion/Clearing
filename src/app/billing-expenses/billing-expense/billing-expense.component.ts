@@ -1,4 +1,4 @@
-import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, LOCALE_ID, OnInit,OnDestroy, ViewChild } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -11,14 +11,19 @@ import { DialogService } from 'src/app/shared/dialog.service';
 import { UtilityService } from 'src/app/shared/utility.service';
 import { BillingExpenseListComponent } from '../billing-expense-list/billing-expense-list.component';
 import { BillingExpenseService } from '../billing-expense.service';
+import { Observable, Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-billing-expense',
   templateUrl: './billing-expense.component.html',
   styleUrls: ['./billing-expense.component.css'],
 })
-export class BillingExpenseComponent implements OnInit {
+export class BillingExpenseComponent implements OnInit , OnDestroy {
   isLoadingSubmit: boolean = false;
+
+  private subscription?: Subscription = undefined;
+  readonly appURL = environment.appURL + '/invoices';
 
   constructor(
     public utilSvc: UtilityService,
@@ -65,6 +70,10 @@ export class BillingExpenseComponent implements OnInit {
         .then((res) => (this.itemList = res as ClearingItem[]));
     }
   }
+
+ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+}
 
   @ViewChild(BillingExpenseListComponent)
   childRef?: BillingExpenseListComponent;
@@ -228,7 +237,7 @@ export class BillingExpenseComponent implements OnInit {
       this.service.formData.patchValue({ Total: balance });
 
       // if (!confirm('Do you want to save Bill Item')) return;
-      this.dialogService
+      this.subscription = this.dialogService
         .openConfirmDialog('Are you sure to save this record ?')
         .afterClosed()
         .subscribe((res) => {
@@ -245,13 +254,13 @@ export class BillingExpenseComponent implements OnInit {
             this.isLoadingSubmit = true;
 
             if (this.service.flgEdit) {
-              this.service
-              .updateRecord(this.service.formData.value)
-              .subscribe(
-              // this.loadingService.doLoading(
-              // this.service
-              //   .insertRecord(this.service.formData.value) //,this,1)
-              //   .subscribe(
+              this.subscription = this.service
+                .updateRecord(this.service.formData.value)
+                .subscribe(
+                  // this.loadingService.doLoading(
+                  // this.service
+                  //   .insertRecord(this.service.formData.value) //,this,1)
+                  //   .subscribe(
                   (res) => {
                     this.service.billingExpenseList = res as BillingExpense[];
                     this.resetForm();
@@ -268,12 +277,11 @@ export class BillingExpenseComponent implements OnInit {
             } else {
               //form.get('SNo')!.value == 0
               // this.loadingService.doLoading(
-              this.service
+              this.subscription = this.service
                 .insertRecord(this.service.formData.value) //,this,1)
                 .subscribe(
                   (res) => {
-                    this.service.billingExpenseList =
-                      res as BillingExpense[];
+                    this.service.billingExpenseList = res as BillingExpense[];
                     this.resetForm();
                     this.notifyForm('insert');
                     this.isLoadingSubmit = false;
@@ -287,8 +295,6 @@ export class BillingExpenseComponent implements OnInit {
             }
           }
         });
-
-
     }
   }
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Customer } from 'src/app/models/customer.model';
 import { ConsigneeService } from 'src/app/shared/consignee.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup } from '@angular/forms';
-import { identity } from 'rxjs';
+import { identity, Subscription } from 'rxjs';
 import {
   DatatableDataSource,
   DatatableItem,
@@ -26,7 +26,7 @@ import { DialogService } from 'src/app/shared/dialog.service';
   templateUrl: './invoice-details-list.component.html',
   styleUrls: ['./invoice-details-list.component.css'],
 })
-export class InvoiceDetailsListComponent implements OnInit {
+export class InvoiceDetailsListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     // 'PK_SNo',
     'Serial',
@@ -40,6 +40,8 @@ export class InvoiceDetailsListComponent implements OnInit {
     'Total',
     'actions',
   ];
+
+  subscription?: Subscription = undefined;
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -70,8 +72,12 @@ export class InvoiceDetailsListComponent implements OnInit {
     // this.dataSource.paginator = this.paginator;
   }
 
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
+
   reLoadData(isSubmit: boolean = false): void {
-    this.service.getList(this.billNoChild).subscribe((res: any) => {
+    this.subscription = this.service.getList(this.billNoChild).subscribe((res: any) => {
     if (!isSubmit) {
       this.service.InvoiceDetailsList = res as InvoiceDetailsList[];
     }
@@ -157,27 +163,30 @@ export class InvoiceDetailsListComponent implements OnInit {
     // console.log(`id is: ${id}`);
     const id = row.PK_SNo;
     if (id != 0) {
-      this.dialogService
+      this.subscription = this.dialogService
         .openConfirmDialog('Are you sure to delete this record ?')
         .afterClosed()
         .subscribe((res) => {
           if (res) {
-          this.isLoadingDel = true;
-          this.service.deleteRecord(id).subscribe((res: any) => {
-          this.service.InvoiceDetailsList =  res as InvoiceDetailsList[];
-            this.utilSvc.setButtons(true);
-            this.service.enableFields(true);
-            this.service.flgEdit = false;
-            this.isLoadingDel = false;
-            this.reLoadData(true);
-            // this.service.updateTotal(this.billNoChild);
-            // const index = this.dataSource.indexOf(row, 0);
-            // if (index > -1) {
-            //   this.dataSource.splice(index, 1);
-            // }
-            //this.table.renderRows();
-            this.toastr.warning('Deleted successfully', 'Clearing');
-          });          }
+            this.isLoadingDel = true;
+            this.subscription = this.service
+              .deleteRecord(id)
+              .subscribe((res: any) => {
+                this.service.InvoiceDetailsList = res as InvoiceDetailsList[];
+                this.utilSvc.setButtons(true);
+                this.service.enableFields(true);
+                this.service.flgEdit = false;
+                this.isLoadingDel = false;
+                this.reLoadData(true);
+                // this.service.updateTotal(this.billNoChild);
+                // const index = this.dataSource.indexOf(row, 0);
+                // if (index > -1) {
+                //   this.dataSource.splice(index, 1);
+                // }
+                //this.table.renderRows();
+                this.toastr.warning('Deleted successfully', 'Clearing');
+              });
+          }
         });
 
       // if (confirm('Are you sure to delete this record?')) {

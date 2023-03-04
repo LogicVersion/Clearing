@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   Input,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -13,7 +14,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup } from '@angular/forms';
-import { identity } from 'rxjs';
+import { identity, Subscription } from 'rxjs';
 import {
   DatatableDataSource,
   DatatableItem,
@@ -32,7 +33,7 @@ import { DialogService } from 'src/app/shared/dialog.service';
   templateUrl: './billing-expense-list.component.html',
   styleUrls: ['./billing-expense-list.component.css'],
 })
-export class BillingExpenseListComponent implements OnInit {
+export class BillingExpenseListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     // 'PK_SNo',
     // 'Serial',
@@ -57,6 +58,7 @@ export class BillingExpenseListComponent implements OnInit {
   searchKey?: string;
   @Input() billNoChild: string = '';
   isLoadingDel: boolean = false;
+  subscription?: Subscription;
 
   constructor(
     private utilSvc: UtilityService,
@@ -65,6 +67,10 @@ export class BillingExpenseListComponent implements OnInit {
     private dialogService: DialogService
   ) {
     //this.dataSource = new DatatableDataSource();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -77,7 +83,7 @@ export class BillingExpenseListComponent implements OnInit {
   }
 
   reLoadData(isSubmit: boolean = false): void {
-    this.service.getList(this.billNoChild).subscribe((res: any) => {
+    this.subscription = this.service.getList(this.billNoChild).subscribe((res: any) => {
       if (!isSubmit) {
         this.service.billingExpenseList = res as BillingExpense[];
       }
@@ -163,27 +169,29 @@ export class BillingExpenseListComponent implements OnInit {
     // console.log(`id is: ${id}`);
     const id = row.SNO;
     if (id != 0) {
-      this.dialogService
+      this.subscription = this.dialogService
         .openConfirmDialog('Are you sure to delete this record ?')
         .afterClosed()
         .subscribe((res) => {
           if (res) {
             this.isLoadingDel = true;
-            this.service.deleteRecord(id).subscribe((res: any) => {
-              this.service.billingExpenseList = res as BillingExpense[];
-              this.utilSvc.setButtons(true);
-              this.service.enableFields(true);
-              this.service.flgEdit = false;
-              this.isLoadingDel = false;
-              this.reLoadData(true);
-              // this.service.updateTotal(this.billNoChild);
-              // const index = this.dataSource.indexOf(row, 0);
-              // if (index > -1) {
-              //   this.dataSource.splice(index, 1);
-              // }
-              //this.table.renderRows();
-              this.toastr.warning('Deleted successfully', 'Clearing');
-            });
+            this.subscription = this.service
+              .deleteRecord(id)
+              .subscribe((res: any) => {
+                this.service.billingExpenseList = res as BillingExpense[];
+                this.utilSvc.setButtons(true);
+                this.service.enableFields(true);
+                this.service.flgEdit = false;
+                this.isLoadingDel = false;
+                this.reLoadData(true);
+                // this.service.updateTotal(this.billNoChild);
+                // const index = this.dataSource.indexOf(row, 0);
+                // if (index > -1) {
+                //   this.dataSource.splice(index, 1);
+                // }
+                //this.table.renderRows();
+                this.toastr.warning('Deleted successfully', 'Clearing');
+              });
           }
         });
 

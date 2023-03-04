@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Customer } from 'src/app/models/customer.model';
 import { ConsigneeService } from 'src/app/shared/consignee.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup } from '@angular/forms';
-import { identity } from 'rxjs';
+import { identity, Subscription } from 'rxjs';
 import { DatatableDataSource, DatatableItem } from 'src/app/datatable/datatable-datasource';
 import { UtilityService } from 'src/app/shared/utility.service';
 import { InvoiceService } from '../invoice.service';
@@ -19,7 +19,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './invoice-list.component.html',
   styleUrls: ['./invoice-list.component.css'],
 })
-export class InvoiceListComponent implements OnInit {
+export class InvoiceListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     // 'ID',
     'bDate',
@@ -40,12 +40,17 @@ export class InvoiceListComponent implements OnInit {
   dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey: string='';
 
+  subscription?: Subscription;
+
   constructor(
     private utilSvc: UtilityService,
     public service: InvoiceService,
     private toastr: ToastrService
   ) {
     //this.dataSource = new DatatableDataSource();
+  }
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -160,7 +165,7 @@ export class InvoiceListComponent implements OnInit {
     const id = row.billNO;
     if (id != null) {
       if (confirm('Are you sure to delete this record?')) {
-        this.service.deleteRecord(id).subscribe((res) => {
+        this.subscription = this.service.deleteRecord(id).subscribe((res) => {
           this.utilSvc.setButtons(true);
           this.service.enableFields(false);
           this.service.flgEdit = false;

@@ -37,6 +37,9 @@ export class InvoiceDetailsComponent implements OnInit, OnDestroy {
   isLoadingSubmit: boolean = false;
   isLoadingDel: boolean = false;
 
+  private subscription?: Subscription = undefined;
+  readonly appURL = environment.appURL + '/invoices';
+
   constructor(
     public utilSvc: UtilityService,
     public service: InvoiceDetailsService,
@@ -239,7 +242,7 @@ export class InvoiceDetailsComponent implements OnInit, OnDestroy {
 
       // if (!confirm('Do you want to save Bill Item')) return;
 
-      this.dialogService
+      this.subscription = this.dialogService
         .openConfirmDialog('Are you sure to save this record ?')
         .afterClosed()
         .subscribe((res) => {
@@ -385,8 +388,6 @@ export class InvoiceDetailsComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild(InvoiceListComponent) invListChildRef?: InvoiceListComponent;
-  private subscription?: Subscription = undefined;
-  readonly appURL = environment.appURL + '/invoices';
 
   onClose() {
     this.service.formData.reset();
@@ -416,9 +417,9 @@ export class InvoiceDetailsComponent implements OnInit, OnDestroy {
     // this.billNoParam = this.data.billNO;
   }
 
-ngOnDestroy(){
-  this.subscription?.unsubscribe();
-}
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
 
   addToGrid() {
     // const dialogConfig = new MatDialogConfig();

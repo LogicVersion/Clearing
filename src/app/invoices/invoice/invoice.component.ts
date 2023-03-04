@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,AfterViewInit } from '@angular/core';
+import { Component, OnInit,ViewChild,AfterViewInit, OnDestroy } from '@angular/core';
 import { InvoiceService } from '../invoice.service';
 import {FormArray, FormGroup } from '@angular/forms';
 import { ConsigneeService } from '../../shared/consignee.service';
@@ -12,15 +12,19 @@ import { InvoiceDetailsComponent } from '../invoice-details/invoice-details.comp
 import { MatTableDataSource } from '@angular/material/table';
 import { BillingExpenseComponent } from 'src/app/billing-expenses/billing-expense/billing-expense.component';
 import { DialogService } from 'src/app/shared/dialog.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-invoice',
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.css'],
 })
-export class InvoiceComponent implements OnInit {
+export class InvoiceComponent implements OnInit, OnDestroy {
   paginator: any;
   sort: any;
+
+  subscription?: Subscription = undefined;
+
   constructor(
     public utilSvc: UtilityService,
     public service: InvoiceService,
@@ -29,6 +33,10 @@ export class InvoiceComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService
   ) {}
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
   public formControls = this.service.form.controls;
@@ -129,21 +137,23 @@ export class InvoiceComponent implements OnInit {
     if (this.service.flgEdit == false) {
       const searchKey = this.service.form.controls['JobCode'].value.trim();
       this.service.invoiceList = [];
-      this.service.getSearchList(searchKey).subscribe((res) => {
-        this.service.invoiceList = res as Invoice[];
-        this.service.dataSource = new MatTableDataSource(
-          this.service.invoiceList
-        ); //ELEMENT_DATA;
-        this.service.dataSource.sort = this.sort;
-        this.service.dataSource.paginator = this.paginator;
-        if (this.service.invoiceList.length > 0) {
-          this.toastr.warning(
-            `This JobCode already exists! \n ${searchKey} \n see table grid below`
-          );
-          this.service.form.patchValue({ JobCode: '' });
-          return;
-        }
-      });
+      this.subscription = this.service
+        .getSearchList(searchKey)
+        .subscribe((res) => {
+          this.service.invoiceList = res as Invoice[];
+          this.service.dataSource = new MatTableDataSource(
+            this.service.invoiceList
+          ); //ELEMENT_DATA;
+          this.service.dataSource.sort = this.sort;
+          this.service.dataSource.paginator = this.paginator;
+          if (this.service.invoiceList.length > 0) {
+            this.toastr.warning(
+              `This JobCode already exists! \n ${searchKey} \n see table grid below`
+            );
+            this.service.form.patchValue({ JobCode: '' });
+            return;
+          }
+        });
     }
   }
 
@@ -230,7 +240,7 @@ export class InvoiceComponent implements OnInit {
       }
 
       // if (!confirm('Do you want to save Bill Item')) return;
-      this.dialogService
+      this.subscription = this.dialogService
         .openConfirmDialog('Are you sure to save this record ?')
         .afterClosed()
         .subscribe((res) => {
@@ -247,36 +257,38 @@ export class InvoiceComponent implements OnInit {
             // this.isLoadingSubmit = true;
 
             if (this.service.flgEdit) {
-              this.service.updateRecord(this.service.form.value).subscribe(
-                // this.loadingService.doLoading(
-                // this.service
-                //   .insertRecord(this.service.formData.value) //,this,1)
-                //   .subscribe(
-                (res) => {
-                  console.log(res);
-                  this.service.invoiceList = [];
-                  this.service.invoiceList = res as Invoice[];
-                  this.resetForm();
-                  this.notifyForm('update');
-                  //this.dialogRef.close();
-                  // this.isLoadingSubmit = false;
-                },
-                (err) => {
-                  // this.handleErrors(err);
-                  this.toastr.error(err, 'Clearing');
-                  // this.isLoadingSubmit = false;
-                }
-              );
+              this.subscription = this.service
+                .updateRecord(this.service.form.value)
+                .subscribe(
+                  // this.loadingService.doLoading(
+                  // this.service
+                  //   .insertRecord(this.service.formData.value) //,this,1)
+                  //   .subscribe(
+                  (res) => {
+                    console.log(res);
+                    this.service.invoiceList = [];
+                    this.service.invoiceList = res as Invoice[];
+                    this.resetForm();
+                    this.notifyForm('update');
+                    //this.dialogRef.close();
+                    // this.isLoadingSubmit = false;
+                  },
+                  (err) => {
+                    // this.handleErrors(err);
+                    this.toastr.error(err, 'Clearing');
+                    // this.isLoadingSubmit = false;
+                  }
+                );
             } else {
               //form.get('SNo')!.value == 0
               // this.loadingService.doLoading(
-              this.service
+              this.subscription = this.service
                 .insertRecord(this.service.form.value) //,this,1)
                 .subscribe(
                   (res) => {
                     console.log(res);
                     this.service.invoiceList = [];
-                    this.service.invoiceList = res as Invoice[] ;
+                    this.service.invoiceList = res as Invoice[];
                     this.resetForm();
                     this.notifyForm('insert');
                     // this.isLoadingSubmit = false;
