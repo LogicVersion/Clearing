@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bill-item-list',
@@ -56,10 +57,13 @@ export class ClearingItemListComponent implements OnInit, OnDestroy {
 
   }
 
+  subscription?: Subscription = undefined;
+
   ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    // no need for unsubscribe cos res has been cast as ClearingItem[]
+    // no need for unsubscribe cos res (the observable) has been cast as ClearingItem[]
     // this.destroy$.next();  // trigger the unsubscribe
     // this.destroy$.complete(); // finalize & clean up the subject stream
   }
@@ -72,7 +76,7 @@ export class ClearingItemListComponent implements OnInit, OnDestroy {
     const id = row.SNo;
     if (id != 0) {
       if (confirm('Are you sure to delete this record?')) {
-        this.service.deleteItem(id).subscribe((res) => {
+        this.subscription = this.subscription = this.service.deleteItem(id).subscribe((res) => {
           this.service.reloadList();
           this.reLoadData();
           this.toastr.warning('Deleted successfully', 'ClearingItem');
@@ -82,12 +86,12 @@ export class ClearingItemListComponent implements OnInit, OnDestroy {
   }
 
     reLoadData(): void {
-      this.service.reloadList().subscribe((res) => {
-      this.service.list = res as ClearingItem[];
-      this.dataSource = new MatTableDataSource(this.service.list); //ELEMENT_DATA;
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
+      this.subscription = this.service.reloadList().subscribe((res) => {
+        this.service.list = res as ClearingItem[];
+        this.dataSource = new MatTableDataSource(this.service.list); //ELEMENT_DATA;
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
 
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,AfterViewInit } from '@angular/core';
+import { Component, OnInit,ViewChild,AfterViewInit, OnDestroy } from '@angular/core';
 import { ConsigneeService } from '../shared/consignee.service';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ConsigneeGroupService } from '../shared/consignee-group.service';
@@ -6,19 +6,28 @@ import { CustomerGroup } from '../models/customer.model';
 import { ToastrService } from 'ngx-toastr';
 import { ConsigneeListComponent } from './consignee-list/consignee-list.component';
 import { UtilityService } from '../shared/utility.service';
+import { Subscription } from 'rxjs';
 //import { CustomerGroup } from 'src - Copy/app/models/customer.model';
 @Component({
   selector: 'app-consignee',
   templateUrl: './consignee.component.html',
   styleUrls: ['./consignee.component.css'],
 })
-export class ConsigneeComponent implements OnInit, AfterViewInit {
+export class ConsigneeComponent implements OnInit, OnDestroy,AfterViewInit {
+
+  subscription?: Subscription
+
   constructor(
     public utilSvc: UtilityService,
     public service: ConsigneeService,
     private customerGroupService: ConsigneeGroupService,
     private toastr: ToastrService
   ) {}
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    // throw new Error('Method not implemented.');
+  }
   submitted: boolean = false;
   showSuccessMessage: boolean = false;
   public formControls = this.service.form.controls;
@@ -104,28 +113,32 @@ export class ConsigneeComponent implements OnInit, AfterViewInit {
 
 
       if (this.service.flgEdit) {
-        this.service.updateRecord(this.service.form.value).subscribe(
-          (res) => {
-            this.resetForm();
-            this.notifyForm('update');
-          },
-          (err) => {
-            // this.handleErrors(err);
-            this.toastr.error(err, 'Clearing');
-          }
-        );
+        this.subscription = this.service
+          .updateRecord(this.service.form.value)
+          .subscribe(
+            (res) => {
+              this.resetForm();
+              this.notifyForm('update');
+            },
+            (err) => {
+              // this.handleErrors(err);
+              this.toastr.error(err, 'Clearing');
+            }
+          );
       } else {
         //form.get('SNo')!.value == 0
-        this.service.insertRecord(this.service.form.value).subscribe(
-          (res) => {
-            this.resetForm();
-            this.notifyForm('insert');
-          },
-          (err) => {
-            // this.handleErrors(err);
-            this.toastr.error(err, 'Clearing');
-          }
-        );
+        this.subscription = this.service
+          .insertRecord(this.service.form.value)
+          .subscribe(
+            (res) => {
+              this.resetForm();
+              this.notifyForm('insert');
+            },
+            (err) => {
+              // this.handleErrors(err);
+              this.toastr.error(err, 'Clearing');
+            }
+          );
       }
     }
   }

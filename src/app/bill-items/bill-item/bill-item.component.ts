@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { ClearingItemService } from 'src/app/shared/bill-item.service';
 import { ClearingItemListComponent } from '../bill-item-list/bill-item-list.component';
 
@@ -9,11 +10,16 @@ import { ClearingItemListComponent } from '../bill-item-list/bill-item-list.comp
   templateUrl: './bill-item.component.html',
   styleUrls: ['./bill-item.component.css'],
 })
-export class ClearingItemComponent implements OnInit {
+export class ClearingItemComponent implements OnInit, OnDestroy {
   constructor(
     public service: ClearingItemService,
     private toastr: ToastrService
   ) {}
+  subscription?: Subscription;
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    // throw new Error('Method not implemented.');
+  }
 
   @ViewChild(ClearingItemListComponent)
   childRef?: ClearingItemListComponent;
@@ -48,7 +54,7 @@ export class ClearingItemComponent implements OnInit {
   }
 
   insertRecord(form: NgForm) {
-    this.service.postItem(form.value).subscribe((res) => {
+    this.subscription = this.service.postItem(form.value).subscribe((res) => {
       this.toastr.success('Inserted successfully', 'Bill Item');
       this.resetForm(form);
       this.service.reloadList();
@@ -57,18 +63,15 @@ export class ClearingItemComponent implements OnInit {
   }
 
   updateRecord(form: NgForm) {
-    this.service.putItem(form.value).subscribe((res) => {
+    this.subscription = this.service.putItem(form.value).subscribe((res) => {
       this.service.reloadList();
       this.notifyForm();
       this.toastr.info('Updated successfully', 'Bill Items');
       this.resetForm(form);
-
     });
   }
   notifyForm() {
     this.childRef?.reLoadData(); //.reLoadData()
   }
-
-
 }
 

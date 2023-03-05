@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Customer } from 'src/app/models/customer.model';
 import { ConsigneeService } from 'src/app/shared/consignee.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -7,7 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup } from '@angular/forms';
-import { identity } from 'rxjs';
+import { identity, Subscription } from 'rxjs';
 import { DatatableDataSource, DatatableItem } from 'src/app/datatable/datatable-datasource';
 import { UtilityService } from 'src/app/shared/utility.service';
 
@@ -16,7 +16,7 @@ import { UtilityService } from 'src/app/shared/utility.service';
   templateUrl: './consignee-list.component.html',
   styleUrls: ['./consignee-list.component.css'],
 })
-export class   ConsigneeListComponent implements OnInit, AfterViewInit {
+export class   ConsigneeListComponent implements OnInit,OnDestroy,AfterViewInit {
   displayedColumns: string[] = [
     // 'SNo',
     'ConsigneeCode',
@@ -36,12 +36,18 @@ export class   ConsigneeListComponent implements OnInit, AfterViewInit {
   dataSource!: MatTableDataSource<any>; // new MatTableDataSource(this.dataSource);
   searchKey?: string;
 
+  subscription?: Subscription
+
   constructor(
     private utilSvc: UtilityService,
     private service: ConsigneeService,
     private toastr: ToastrService
   ) {
     //this.dataSource = new DatatableDataSource();
+  }
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    // throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {
@@ -51,7 +57,7 @@ export class   ConsigneeListComponent implements OnInit, AfterViewInit {
   }
 
   reLoadData(): void {
-    this.service.getList().subscribe((res) => {
+    this.subscription = this.service.getList().subscribe((res) => {
       this.service.customerList = res as Customer[];
       this.dataSource = new MatTableDataSource(this.service.customerList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
@@ -122,7 +128,7 @@ export class   ConsigneeListComponent implements OnInit, AfterViewInit {
     const id = row.ConsigneeCode;
     if (id != null) {
       if (confirm('Are you sure to delete this record?')) {
-        this.service.deleteRecord(id).subscribe((res) => {
+        this.subscription = this.service.deleteRecord(id).subscribe((res) => {
           this.utilSvc.setButtons(true);
           this.service.enableFields(false);
           this.service.flgEdit = false;

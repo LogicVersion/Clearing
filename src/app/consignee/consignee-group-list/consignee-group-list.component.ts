@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CustomerGroup } from 'src/app/models/customer.model';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup } from '@angular/forms';
-import { identity } from 'rxjs';
+import { identity, Subscription } from 'rxjs';
 import {
   DatatableDataSource,
   DatatableItem,
@@ -19,7 +19,7 @@ import { UtilityService } from 'src/app/shared/utility.service';
   templateUrl: './consignee-group-list.component.html',
   styleUrls: ['./consignee-group-list.component.css'],
 })
-export class ConsigneeGroupListComponent implements OnInit {
+export class ConsigneeGroupListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['ID', 'GroupName', 'actions'];
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -35,6 +35,13 @@ export class ConsigneeGroupListComponent implements OnInit {
     //this.dataSource = new DatatableDataSource();
   }
 
+  subscription? : Subscription = undefined
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    // throw new Error('Method not implemented.');
+  }
+
   ngOnInit(): void {
     this.reLoadData();
     // this.dataSource.sort = this.sort;
@@ -42,7 +49,7 @@ export class ConsigneeGroupListComponent implements OnInit {
   }
 
   reLoadData(): void {
-    this.service.getList().subscribe((res) => {
+    this.subscription = this.service.getList().subscribe((res) => {
       this.service.customerGroupList = res as CustomerGroup[];
       this.dataSource = new MatTableDataSource(this.service.customerGroupList); //ELEMENT_DATA;
       this.dataSource.sort = this.sort;
@@ -105,7 +112,7 @@ export class ConsigneeGroupListComponent implements OnInit {
     const id = row.ID;
     if (id != null) {
       if (confirm('Are you sure to delete this record?')) {
-        this.service.deleteRecord(id).subscribe((res) => {
+        this.subscription = this.service.deleteRecord(id).subscribe((res) => {
           this.reLoadData();
           // const index = this.dataSource.indexOf(row, 0);
           // if (index > -1) {
