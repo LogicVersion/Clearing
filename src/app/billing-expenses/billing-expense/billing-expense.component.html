@@ -69,7 +69,7 @@
       <div class="row">
         <div class="form-group col-md-3 mb-3">
           <label for="Qty">Qty</label>
-          <input id="Qty" formControlName="Qty" type="text" #qty (blur)="updateSubTotal(+qty.value,+price.value)"   class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
+          <input id="Qty" formControlName="Qty" type="text" #qty (blur)="updateSubTotal(qty.value,price.value)"   class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Qty'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Qty'].errors">
             <label *ngIf="formControls['Qty'].errors['required']">This field is required.</label>
           </div>
@@ -77,7 +77,7 @@
 
         <div class="form-group col-md-5 mb-3">
           <label for="Price">Rate</label>
-          <input id="Price"  formControlName="Price" type="text" (blur)="service.PerformAddition()" #price (blur)="updateSubTotal(+qty.value,+price.value)"  class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
+          <input id="Price"  formControlName="Price" type="text" (blur)="service.PerformAddition()" #price (blur)="updateSubTotal(qty.value,price.value)"  class="form-control" [ngClass]="{'is-invalid':submitted && formControls['Price'].errors}">
           <div class="invalid-feedback" *ngIf="submitted && formControls['Price'].errors">
             <label *ngIf="formControls['Price'].errors['required']">This field is required.</label>
           </div>
@@ -242,7 +242,7 @@
 
           <button type="button" (click)="cancelEntry()" class="btn btn-danger btn-space ">Cancel</button>
 
-          
+
         <!-- <input type="button" class="btn btn-link " value="Add to Grid" (click)="addToGrid()"> -->
         <!-- <button type="button" class="btn btn-primary">Primary</button>
         <button type="button" class="btn btn-secondary">Secondary</button>

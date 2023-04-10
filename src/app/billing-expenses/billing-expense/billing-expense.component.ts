@@ -19,7 +19,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './billing-expense.component.html',
   styleUrls: ['./billing-expense.component.css'],
 })
-export class BillingExpenseComponent implements OnInit , OnDestroy {
+export class BillingExpenseComponent implements OnInit, OnDestroy {
   isLoadingSubmit: boolean = false;
 
   private subscription?: Subscription = undefined;
@@ -71,9 +71,9 @@ export class BillingExpenseComponent implements OnInit , OnDestroy {
     }
   }
 
-ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.subscription?.unsubscribe();
-}
+  }
 
   @ViewChild(BillingExpenseListComponent)
   childRef?: BillingExpenseListComponent;
@@ -220,8 +220,8 @@ ngOnDestroy(): void {
       }
 
       this.updateSubTotal(
-        +this.service.formData.controls['Qty'].value,
-        +this.service.formData.controls['Price'].value
+        this.service.formData.controls['Qty'].value,
+        this.service.formData.controls['Price'].value
       );
 
       const balance = this.updateTotal(
@@ -448,18 +448,34 @@ ngOnDestroy(): void {
     }
   }
 
-  updateSubTotal(qty: number, price: number) {
-    if (qty == 0 || price == 0) {
+  updateSubTotal(qty: string, price: string) {
+    const floatQty = parseFloat(qty);
+    const floatPrice = parseFloat(price);
+
+    if (isNaN(floatQty) || isNaN(floatPrice)) {
       this.service.formData.patchValue({
         subTotal: 0,
+        Price: 0,
+        Qty: 0,
         //Total: 0,
       });
-    } else {
-      this.service.formData.patchValue({
-        subTotal: qty * price,
-      });
-      //this.service.updateTotal();
+      return;
     }
+
+    if (qty == '0' || price == '0') {
+      this.service.formData.patchValue({
+        subTotal: 0,
+        price: 0,
+        qty: 0,
+        //Total: 0,
+      });
+      return;
+    }
+
+    this.service.formData.patchValue({
+      subTotal: +qty * +price, //.toLocaleString('en')
+    });
+    //this.service.updateTotal();
   }
 
   updateTotal(
